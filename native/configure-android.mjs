@@ -22,6 +22,11 @@ function copyTree(from, to) {
   }
 }
 
+// 0. The Java package must be the app id, or the code can't see R (the app's resources).
+const appId = JSON.parse(read(path.join(here, 'capacitor.config.json'))).appId;
+must(appId === 'com.wsqm1990.fornow', `use appId com.wsqm1990.fornow in capacitor.config.json (found ${appId})`);
+must(/namespace\s*=?\s*["']com\.wsqm1990\.fornow["']/.test(read(path.join(app, 'build.gradle'))), 'find namespace com.wsqm1990.fornow in app/build.gradle');
+
 // 1. Java: plugin, services, receivers, alarm screen, tile and widget (MainActivity replaces Capacitor's).
 fs.mkdirSync(pkgDir, { recursive: true });
 for (const f of fs.readdirSync(path.join(here, 'android-src', 'java'))) fs.copyFileSync(path.join(here, 'android-src', 'java', f), path.join(pkgDir, f));
