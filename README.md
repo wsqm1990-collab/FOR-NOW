@@ -45,7 +45,11 @@ Each exercise has a "Why this exercise?" card with its source, what was adapted 
 - Signing: every build derives the signing key from the `FN_KEY_PASS` repository secret
   (`native/ci/signing-key.py`). Keep that secret as it is: it is what lets a new APK install over
   the old one.
-- Test locally: `node tools/build.mjs && python3 test/run-local.py . test/shots`.
+- Updates: `version.json` carries a fingerprint of the native files (`native/android-src`, the
+  configure script, the Capacitor config and versions). A phone whose APK was built from other
+  native files is never given the page update; it shows a card to install the new `ForNow.apk`.
+- Test locally: `node tools/build.mjs && python3 test/run-local.py . test/shots && python3 test/narrow.py . test/shots`
+  (the second one checks a small screen with the largest text in the three languages).
 
 ## Privacy
 

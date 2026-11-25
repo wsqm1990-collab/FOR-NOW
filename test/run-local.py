@@ -241,6 +241,18 @@ async def main():
         check('update not applied with a session running', await page.evaluate("window.__switched") is None)
         await page.evaluate("Sessao.sair()")
 
+        # ---- an update made for other native files asks for the new APK and is never loaded
+        await page.evaluate("(() => { window.FN_BUILD = 5; LS.del('staged'); S.precisaApk = false; window.__mock.novoShell = 'zzz999'; })()")
+        antes = len(achar(await calls(), 'fetchBundle'))
+        r = await page.evaluate("checarAtualizacao(true)")
+        check('an update for other native files asks for the APK instead', r == 'apk' and len(achar(await calls(), 'fetchBundle')) == antes and await page.evaluate("LS.get('staged')") is None, r)
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+        check('home shows the install-the-new-version card', await page.locator(A('baixarApk')).count() == 1)
+        await page.evaluate("(() => { window.__mock.novoShell = null; S.precisaApk = false; })()")
+        r = await page.evaluate("checarAtualizacao(true)")
+        check('same native files: the page update is downloaded', r in ('staged', 'applied') and len(achar(await calls(), 'fetchBundle')) == antes + 1, r)
+        await page.evaluate("(() => { window.FN_BUILD = 0; LS.del('staged'); LS.del('trying'); LS.del('trying_path'); })()")
+
         check('no page errors', not errs, errs[:5])
         await b.close()
     falhas = [n for n, ok in resultados if not ok]

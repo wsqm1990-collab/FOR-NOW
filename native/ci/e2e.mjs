@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 const OUT = process.argv[2] || 'test-out';
 const PKG = process.argv[3] || 'com.wsqm1990.fornow';
 const UP = Number(process.argv[4] || 0);
+const SHELL_ID = process.argv[5] || '';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const adb = (...a) => (spawnSync('adb', a, { encoding: 'utf8', maxBuffer: 64 << 20 }).stdout || '');
 const results = [];
@@ -82,13 +83,26 @@ async function waitFor(expr, ms = 15000) {
 const A = (a, extra = '') => `[data-a="${a}"]${extra}`;
 const pronto = () => waitFor(`typeof window.FN_BUILD === 'number' && typeof Sessao === 'object' && !!document.querySelector('#app section')`, 40000);
 const estadoGuia = () => ev(`Nat.call('guiaState')`);
+// every button stays on screen with its words inside (the emulator screen is small, like a phone
+// with a big display-size setting)
+const FORA = `(() => { const W = innerWidth, out = [];
+  if (document.documentElement.scrollWidth > W + 1) out.push('page scrolls sideways');
+  for (const el of document.querySelectorAll('button, .btn, .chip, a')) {
+    const r = el.getBoundingClientRect(); if (!r.width) continue;
+    const n = (el.dataset.a || el.tagName) + ' ' + el.textContent.trim().slice(0, 24);
+    if (r.left < -1 || r.right > W + 1) out.push(n + ' off screen'); else if (el.scrollWidth > el.clientWidth + 2) out.push(n + ' cut');
+  } return out; })()`;
+async function cabe(nome) { const r = await ev(FORA); check(`${nome}: every button fits on screen`, r.length === 0, r); }
 
 async function main() {
   await connect();
   check('app opens to the home screen', await pronto() && await waitFor(`!!document.querySelector('[data-a="pico"]')`, 20000));
   check('native bridge is on', await ev('Nat.on'), await ev('({ build: window.FN_BUILD, lang: LANG, ua: navigator.userAgent })'));
+  const info = await ev(`Nat.call('info')`);
+  check('the APK carries the same native fingerprint as version.json (so page updates reach it)', info && info.shellId && info.shellId === SHELL_ID, { app: info && info.shellId, release: SHELL_ID });
   check('English is the main language', (await ev(`document.querySelector('[data-a="pico"]').textContent.trim()`)) === "It's hard right now");
-  check('page fits the screen without sideways scroll', await ev('document.documentElement.scrollWidth <= innerWidth + 1'));
+  check('screen size', true, await ev('({ w: innerWidth, h: innerHeight, dpr: devicePixelRatio })'));
+  await cabe('home');
   screen('01-home');
 
   // ---- spike: one tap, the first sentence right away, the service keeps the timeline
@@ -98,6 +112,7 @@ async function main() {
   check('spike shows the first sentence within 3 s of the tap', primeira, Date.now() - t0);
   const st1 = await (async () => { for (let i = 0; i < 20; i++) { const s = await estadoGuia(); if (s && s.running) return s; await sleep(250); } return await estadoGuia(); })();
   check('the session runs in the Android service', st1 && st1.running, st1);
+  await cabe('spike');
   screen('02-spike');
   adb('shell', 'cmd', 'statusbar', 'expand-notifications'); await sleep(1500); screen('03-spike-notification'); adb('shell', 'cmd', 'statusbar', 'collapse'); await sleep(500);
   const notifs = adb('shell', 'dumpsys', 'notification', '--noredact');
@@ -138,6 +153,7 @@ async function main() {
   await click(A('sPausar'), 800);
   const p1 = await estadoGuia();
   check('pause reaches the phone', p1 && p1.pausadoEm > 0, p1);
+  await cabe('peace, paused');
   await click(A('sContinuar'), 800);
   const p2 = await estadoGuia();
   check('resume reaches the phone', p2 && p2.running && p2.pausadoEm === 0, p2);
@@ -148,6 +164,7 @@ async function main() {
   await click(A('cochilo'), 1500);
   const semPermissao = await ev(`!!document.querySelector('[data-a="cochiloAutorizar"]') || !!document.querySelector('[data-a="cochiloComecar"]')`);
   check('nap screen shows either Start or the honest "not guaranteed" panel', semPermissao);
+  await cabe('nap');
   screen('06-nap-before');
   adb('shell', 'appops', 'set', PKG, 'SCHEDULE_EXACT_ALARM', 'allow');
   adb('shell', 'pm', 'grant', PKG, 'android.permission.POST_NOTIFICATIONS');
@@ -204,12 +221,14 @@ async function main() {
   // ---- night: dark and dim, no questions
   await click(A('madrugada'), 1200);
   check('night screen is dark', (await ev(`document.documentElement.dataset.noite`)) === '1');
+  await cabe('night');
   screen('10-night');
   await click(A('madVoltar'), 600);
 
   // ---- languages
   await click(A('ajustes'), 600); await click(A('ajLang', '[data-v="pt"]'), 600); await click(A('voltar'), 400);
   check('Portuguese works', (await ev(`document.querySelector('[data-a="pico"]').textContent.trim()`)) === 'Está difícil agora');
+  await cabe('Portuguese home');
   screen('11-home-pt');
   await click(A('ajustes'), 600); await click(A('ajLang', '[data-v="en"]'), 600); await click(A('voltar'), 400);
 

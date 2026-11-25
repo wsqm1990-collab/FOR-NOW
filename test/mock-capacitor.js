@@ -30,8 +30,8 @@ window.__mock = {
       if (m === 'askNotif') return Promise.resolve({ granted: true });
       if (m === 'launchAction') { const a = M.acao; M.acao = ''; return Promise.resolve({ acao: a }); }
       if (m === 'vozStatus') return Promise.resolve({ status: 'ok', motor: 'com.google.android.tts' });
-      if (m === 'info') return Promise.resolve({ shell: 1, versionCode: 7, installer: '', sdk: 35, maker: 'Xiaomi', model: 'POCO', talkback: M.talkback });
-      if (m === 'fetchText') return Promise.resolve({ text: JSON.stringify({ build: 999, zip: 'https://example.invalid/web.zip', sha256: '', minShell: 1 }) });
+      if (m === 'info') return Promise.resolve({ shell: 2, shellId: M.shellId || 'abc123', versionCode: 7, installer: '', sdk: 35, maker: 'Xiaomi', model: 'POCO', talkback: M.talkback });
+      if (m === 'fetchText') return Promise.resolve({ text: JSON.stringify({ build: 999, zip: 'https://example.invalid/web.zip', sha256: '', minShell: 2, shellId: M.novoShell || 'abc123' }) });
       if (m === 'fetchBundle') return Promise.resolve({ path: '/data/bundles/999' });
       return Promise.resolve({});
     }

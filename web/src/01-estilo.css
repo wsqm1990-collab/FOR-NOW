@@ -25,7 +25,8 @@ button { font: inherit; color: inherit; }
 a { color: var(--accent); }
 .tela { max-width: 34rem; margin: 0 auto; padding: 1rem 1rem 2rem; min-height: 100vh; display: flex; flex-direction: column; gap: 0.9rem; }
 .topo { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; min-height: 3rem; }
-.marca { font-weight: 600; letter-spacing: 0.01em; color: var(--muted); font-size: 0.95rem; }
+.marca { font-weight: 600; letter-spacing: 0.01em; color: var(--muted); font-size: 0.95rem; min-width: 0; text-align: center; overflow-wrap: anywhere; }
+.topo > .icone, .topo > .chip { flex-shrink: 0; white-space: nowrap; }
 .titulo { font-size: 1.45rem; font-weight: 650; margin: 0.2rem 0; line-height: 1.25; }
 .sub { color: var(--muted); margin: 0; }
 .pequeno { font-size: 0.86rem; color: var(--muted); }
@@ -48,7 +49,7 @@ a { color: var(--accent); }
 .btn.esq { justify-content: flex-start; text-align: left; }
 .pilha { display: flex; flex-direction: column; gap: 0.7rem; }
 .linha { display: flex; gap: 0.6rem; }
-.linha > * { flex: 1; }
+.linha > * { flex: 1 1 0; min-width: 0; overflow-wrap: anywhere; }
 
 /* início */
 .pico {
@@ -70,7 +71,7 @@ a { color: var(--accent); }
 .instr.calado { color: var(--muted); }
 .estado { text-align: center; color: var(--muted); min-height: 1.6rem; font-size: 0.95rem; }
 .barra { display: flex; gap: 0.6rem; padding-top: 0.6rem; }
-.barra .btn { min-height: 3.8rem; }
+.barra .btn { min-height: 3.8rem; flex: 1 1 0; min-width: 0; padding-left: 0.35rem; padding-right: 0.35rem; overflow-wrap: anywhere; }
 .chip { border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 999px; min-height: 2.6rem; padding: 0 0.95rem; font-size: 0.92rem; }
 .chip[aria-pressed="true"] { background: var(--soft); color: var(--soft-fg); border-color: transparent; }
 .escolhas { display: flex; flex-direction: column; gap: 0.7rem; padding-bottom: 0.4rem; }

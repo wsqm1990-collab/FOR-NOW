@@ -28,7 +28,10 @@ async function checarAtualizacao(manual) {
     const ruins = LS.get('bad') || [];
     if (!(Number(v.build) > buildAtual()) || ruins.includes(Number(v.build))) return res;
     const info = await Nat.safe('info');
-    if (v.minShell && (!info || (info.shell || 1) < v.minShell)) { S.precisaApk = v.apk || true; render(); return (res = 'apk'); }
+    /* a page made for other native files needs the new APK first (never loaded into this one) */
+    const shellVelho = v.minShell && (!info || (info.shell || 1) < v.minShell);
+    const shellOutro = v.shellId && (!info || info.shellId !== v.shellId);
+    if (shellVelho || shellOutro) { S.precisaApk = v.apk || true; render(); return (res = 'apk'); }
     const b = await Nat.call('fetchBundle', { url: v.zip, build: String(v.build), sha256: v.sha256 || '' });
     LS.set('staged', { build: Number(v.build), path: b.path });
     res = 'staged';

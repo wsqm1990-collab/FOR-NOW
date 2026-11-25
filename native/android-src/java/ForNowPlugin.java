@@ -432,7 +432,13 @@ public class ForNowPlugin extends Plugin {
             else inst = pm.getInstallerPackageName(ctx.getPackageName());
         } catch (Exception ignored) { }
         r.put("installer", inst == null ? "" : inst);
-        r.put("shell", 1);
+        // "shell" goes up by hand only for old installs; "shellId" is the fingerprint of the native
+        // files this APK was built from (the build fills it in). A web update made for other native
+        // files asks for the new APK instead of loading into this one.
+        r.put("shell", 2);
+        String shellId = "";
+        try { shellId = ctx.getString(R.string.fn_shell_id); } catch (Exception ignored) { }
+        r.put("shellId", shellId);
         r.put("sdk", Build.VERSION.SDK_INT);
         r.put("maker", Build.MANUFACTURER);
         r.put("model", Build.MODEL);

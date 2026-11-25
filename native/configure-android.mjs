@@ -38,6 +38,10 @@ for (const d of fs.readdirSync(res)) {
   if (d.startsWith('drawable') && fs.existsSync(f)) fs.rmSync(f);
 }
 copyTree(path.join(here, 'android-src', 'res'), res);
+/* fingerprint of the native files (computed by the workflow); web updates for other native files ask for the APK */
+const shellId = String(process.env.SHELL_ID || 'dev').replace(/[^0-9a-z]/gi, '');
+write(path.join(res, 'values', 'fn_shell.xml'), `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string name="fn_shell_id" translatable="false">${shellId}</string>\n</resources>\n`);
+console.log('shell id:', shellId);
 
 // 3. Manifest.
 const mf = path.join(main, 'AndroidManifest.xml');

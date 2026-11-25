@@ -30,7 +30,8 @@ echo "$UP" > "$OUT/update-build.txt"
 adb shell am start -W -n $PKG/.MainActivity > "$OUT/start.txt" 2>&1
 sleep 6
 
-node native/ci/e2e.mjs "$OUT" "$PKG" "$UP"
+SHELL_ID=$(grep -o '"shellId":"[0-9a-z]*"' rel/version.json | cut -d'"' -f4)
+node native/ci/e2e.mjs "$OUT" "$PKG" "$UP" "$SHELL_ID"
 RC=$?
 
 adb logcat -d > "$OUT/logcat-all.txt" 2>&1
