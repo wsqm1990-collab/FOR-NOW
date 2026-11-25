@@ -216,7 +216,45 @@ function executarAcao(acao) {
   else if (acao === 'paz') { if (!Sessao.ativa) { S.tela = 'paz'; render(); } }
   else if (acao === 'cochilo') { if (Sessao.ativa && Sessao.modo === 'cochilo') { S.tela = 'cochiloSessao'; render(); } else if (!Sessao.ativa) Coch.abrir(); }
   else if (acao === 'madrugada') { if (!Sessao.ativa) abrirMadrugada(); }
-  else if (acao === 'alarme') { S.alarmeTocando = true; S.tela = 'alarme'; render(); }
+  else if (acao === 'alarme') {
+    /* only if it is still ringing: the action may be picked up a little late */
+    Promise.resolve(Nat.on ? Nat.safe('alarmeStatus') : { tocando: true }).then(st => {
+      if (st && st.tocando) { S.alarmeTocando = true; S.tela = 'alarme'; render(); }
+    });
+  }
+}
+
+/* ---------- o Android avisa por eventos, mas um evento pode se perder (a página recarregando,
+   o app em segundo plano). Por isso a página também pergunta o estado: ao abrir e sempre que
+   volta para a frente. ---------- */
+async function pegarAcao() {
+  if (!Nat.on) return null;
+  const r = await Nat.safe('launchAction');
+  return (r && r.acao) || null;
+}
+async function sincronizarSessao() {
+  const g = Guia.g;
+  if (!Nat.on || !g) return;
+  const st = await Nat.safe('guiaState');
+  if (!st || st.id !== g.id || Guia.g !== g) return;
+  if (st.running) Guia.evento(Object.assign({}, st, { type: 'state' }));
+  else if (st.ended && !st.complete) Guia.evento({ type: 'stopped', id: g.id, by: 'notification' });
+  else Guia.tick();
+}
+async function sincronizarAlarme() {
+  if (!Nat.on) return;
+  const st = await Nat.safe('alarmeStatus');
+  if (!st) return;
+  if (st.tocando && S.tela !== 'alarme') { S.alarmeTocando = true; S.tela = 'alarme'; render(); }
+  else if (!st.tocando && S.alarmeTocando) Coch.evento({ type: 'parou', tipo: Sessao.ativa && Sessao.modo === 'cochilo' ? 'cochilo' : '' });
+}
+async function sincronizar() {
+  if (!Nat.on) return;
+  await Nat.garantirOuvintes();
+  const acao = await pegarAcao();
+  if (acao) { executarAcao(acao); return; }
+  await sincronizarSessao();
+  await sincronizarAlarme();
 }
 
 /* ---------- primeira vez ---------- */
@@ -230,6 +268,7 @@ async function primeiraVez() {
 
 /* ---------- a cada 15 segundos ---------- */
 function tique() {
+  if (Nat.on && document.visibilityState === 'visible') Nat.garantirOuvintes();
   if (S.tela === 'cochilo') { const el = $('#cochilo-hora'); if (el) el.innerHTML = t('wake_at', { h: hhmm(Coch.alvo()) }); }
   if (Sessao.ativa && Sessao.modo === 'cochilo' && Sessao.r.extra.alarme !== 'proprio') Coch.conferirAoVoltar();
 }
@@ -248,6 +287,7 @@ function onClick(e) {
 
 document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState !== 'visible') return;
+  await sincronizar();
   const escuroDeNoite = ['madrugada', 'madDesperto', 'madLado'].includes(S.tela) || (S.tela === 'sessao' && Sessao.modo === 'madrugada');
   if (Nat.on && !escuroDeNoite) Nat.safe('brilho', { nivel: -1 });
   if (S.tela === 'madLado') S.tela = 'inicio';
@@ -267,16 +307,16 @@ async function iniciar() {
   render();
   Nat.listen('guia', ev => Guia.evento(ev));
   Nat.listen('alarme', ev => Coch.evento(ev));
-  Nat.listen('launch', ev => executarAcao(ev && ev.acao));
+  Nat.listen('launch', async () => executarAcao(await pegarAcao()));
   Nat.listen('backButton', () => voltar(), 'App');
   const restaurou = await Sessao.restaurar();
-  let acao = null;
-  if (Nat.on) { const r = await Nat.safe('launchAction'); acao = r && r.acao; }
-  else acao = (location.hash || '').replace('#', '') || null;
+  const acao = Nat.on ? await pegarAcao() : ((location.hash || '').replace('#', '') || null);
   if (acao) executarAcao(acao);
   else if (restaurou) render();
   if (Sessao.ativa && Sessao.modo === 'cochilo') await Coch.conferirAoVoltar();
-  if (Nat.on) { const st = await Nat.safe('alarmeStatus'); if (st && st.tocando && S.tela !== 'alarme') { S.alarmeTocando = true; S.tela = 'alarme'; render(); } }
+  await sincronizarAlarme();
+  /* the listeners may have been dropped by a page start that ran late; check again shortly */
+  if (Nat.on) { setTimeout(() => sincronizar(), 1500); setTimeout(() => sincronizar(), 5000); }
   window.__fnOk = true;
   confirmarVersao();
   if (Nat.on) { enviarRotulos(); primeiraVez(); }

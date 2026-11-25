@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.AlarmClock;
 import android.provider.Settings;
 import android.util.Log;
@@ -55,21 +56,40 @@ public class ForNowPlugin extends Plugin {
     static final String BUNDLE_PREFS = "fn_bundle";
     private static volatile ForNowPlugin current;
     private static volatile String acaoPendente = null;
+    private static volatile long acaoEm = 0;
+    /** an action not picked up within this time (the page wasn't there) is dropped, never run later */
+    private static final long ACAO_VALIDA_MS = 120000;
 
     @Override
     public void load() {
         current = this;
+        Log.i(TAG, "plugin load " + Integer.toHexString(System.identityHashCode(this)));
     }
 
-    /** Called from any thread (services). Kept until the page listens, if it isn't listening yet. */
+    /**
+     * Called from any thread (services). Never kept for later: Capacitor drops a page's listeners
+     * whenever a page starts loading, so a kept event could replay long after it happened. The page
+     * asks for the current state itself when it starts and whenever it comes back (pull), and
+     * these events only make it react sooner.
+     */
     static void emit(String evento, JSONObject data) {
         ForNowPlugin p = current;
         if (p == null || data == null) return;
         try {
-            p.notifyListeners(evento, new JSObject(data.toString()), true);
+            p.notifyListeners(evento, new JSObject(data.toString()), false);
         } catch (Exception e) {
             Log.w(TAG, "emit failed", e);
         }
+    }
+
+    /** Which of our events the page is listening to right now (the page adds back any that went missing). */
+    @PluginMethod
+    public void ouvintes(PluginCall call) {
+        JSObject r = new JSObject();
+        r.put("guia", hasListeners("guia"));
+        r.put("alarme", hasListeners("alarme"));
+        r.put("launch", hasListeners("launch"));
+        call.resolve(r);
     }
 
     // ------------------------------------------------------------ what opened the app
@@ -80,24 +100,32 @@ public class ForNowPlugin extends Plugin {
         Uri d = i.getData();
         if (d != null && "fornow".equals(d.getScheme())) a = d.getHost();
         if (a == null) a = i.getStringExtra("fn_acao");
-        if (a != null && a.length() > 0) acaoPendente = a;
+        if (a != null && a.length() > 0) {
+            synchronized (ForNowPlugin.class) { acaoPendente = a; acaoEm = SystemClock.elapsedRealtime(); }
+            Log.i(TAG, "launch action " + a);
+        }
     }
 
+    /** Pokes the page; the page then takes the action with launchAction (only once). */
     static void avisarAcao() {
         ForNowPlugin p = current;
-        String a = acaoPendente;
-        if (p == null || a == null) return;
-        acaoPendente = null;
+        if (p == null || acaoPendente == null) return;
         JSObject o = new JSObject();
-        o.put("acao", a);
-        p.notifyListeners("launch", o, true);
+        o.put("pendente", true);
+        try { p.notifyListeners("launch", o, false); } catch (Exception e) { Log.w(TAG, "launch poke failed", e); }
     }
 
     @PluginMethod
     public void launchAction(PluginCall call) {
+        String a;
+        synchronized (ForNowPlugin.class) {
+            a = acaoPendente;
+            boolean velha = a != null && SystemClock.elapsedRealtime() - acaoEm > ACAO_VALIDA_MS;
+            acaoPendente = null;
+            if (velha) { Log.i(TAG, "launch action " + a + " expired"); a = null; }
+        }
         JSObject r = new JSObject();
-        r.put("acao", acaoPendente == null ? "" : acaoPendente);
-        acaoPendente = null;
+        r.put("acao", a == null ? "" : a);
         call.resolve(r);
     }
 

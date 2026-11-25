@@ -21,6 +21,9 @@ function screen(name) {
   if (r.stdout && r.stdout.length > 1000) fs.writeFileSync(`${OUT}/${name}.png`, r.stdout);
 }
 const logcat = () => adb('logcat', '-d', '-s', 'ForNow:*');
+let parte = 0;
+/* the full log is saved before every clear, so nothing is lost for diagnosis */
+function limparLog() { fs.writeFileSync(`${OUT}/logcat-part${++parte}.txt`, adb('logcat', '-d')); adb('logcat', '-c'); }
 
 class CDP {
   constructor(url) { this.url = url; this.id = 0; this.pending = new Map(); this.events = []; }
@@ -55,6 +58,8 @@ async function connect() {
       adb('forward', 'tcp:9222', `localabstract:webview_devtools_remote_${pid}`);
       try {
         const list = await (await fetch('http://127.0.0.1:9222/json')).json();
+        const paginas = list.filter(t => t.type === 'page');
+        if (paginas.length > 1) console.log('note: ' + paginas.length + ' pages in the app: ' + paginas.map(t => t.url).join(', '));
         const page = list.find(t => t.type === 'page' && /localhost/.test(t.url));
         if (page) {
           cdp = new CDP(page.webSocketDebuggerUrl);
@@ -100,6 +105,8 @@ async function main() {
   check('native bridge is on', await ev('Nat.on'), await ev('({ build: window.FN_BUILD, lang: LANG, ua: navigator.userAgent })'));
   const info = await ev(`Nat.call('info')`);
   check('the APK carries the same native fingerprint as version.json (so page updates reach it)', info && info.shellId && info.shellId === SHELL_ID, { app: info && info.shellId, release: SHELL_ID });
+  await sleep(6000);
+  check('the page is listening to Android\'s events', await waitFor(`Nat.call('ouvintes').then(o => o.guia && o.alarme && o.launch)`, 8000), await ev(`Nat.call('ouvintes')`));
   check('English is the main language', (await ev(`document.querySelector('[data-a="pico"]').textContent.trim()`)) === "It's hard right now");
   check('screen size', true, await ev('({ w: innerWidth, h: innerHeight, dpr: devicePixelRatio })'));
   await cabe('home');
@@ -119,7 +126,7 @@ async function main() {
   check('the session notification is neutral (no session details)', notifs.includes(PKG) && !/Feel where your feet/.test(notifs), null, false);
 
   // screen off: the voice keeps going from the service
-  adb('logcat', '-c');
+  limparLog();
   adb('shell', 'input', 'keyevent', 'KEYCODE_HOME'); await sleep(1500);
   adb('shell', 'input', 'keyevent', 'KEYCODE_POWER');
   await sleep(30000);
@@ -174,7 +181,7 @@ async function main() {
   await click(A('voltar'), 500);
 
   // the real alarm, with the screen off: rings on time, the Turn off screen comes up
-  adb('logcat', '-c');
+  limparLog();
   const alvo = Date.now() + 40000;
   const ag = await ev(`Nat.call('alarmeAgendar', { at: ${alvo}, tipo: 'teste' })`);
   check('Android confirmed the test alarm', ag && ag.ok && ag.confirmado, ag);
@@ -199,10 +206,13 @@ async function main() {
   adb('shell', 'wm', 'dismiss-keyguard'); await sleep(500);
   adb('shell', 'am', 'start', '-n', `${PKG}/.MainActivity`); await sleep(2500);
   await connect(); await pronto();
+  check('opening the app while it rings shows the Turn off screen', await waitFor(`S.tela === 'alarme'`, 6000), await ev('S.tela'));
+  screen('08b-alarm-in-app');
   const tocando = await ev(`Nat.call('alarmeStatus').then(s => s.tocando)`);
   check('the alarm is still ringing until it is turned off', tocando, null, false);
   await ev(`Nat.call('alarmeDesligar')`); await sleep(1500);
   check('Turn off stops the alarm', !(await ev(`Nat.call('alarmeStatus').then(s => s.tocando)`)));
+  check('the page left the alarm screen', await waitFor(`S.tela !== 'alarme' && !S.alarmeTocando`, 5000), await ev('S.tela'));
   const log = await ev(`Nat.call('alarmeLog').then(r => r.itens)`);
   check('the diagnostics log has predicted, rang and turned off', log && log.some(x => x.tipo === 'teste' && x.tocou && x.desligado), log && log.slice(-2));
   fs.writeFileSync(`${OUT}/logcat-alarm.txt`, logcat());

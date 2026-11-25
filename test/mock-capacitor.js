@@ -13,7 +13,7 @@ window.__mock = {
       if (m === 'guiaStart') { guia = { id: o.id, ini: o.ini, pausa: 0, pausadoEm: 0, running: true, passos: o.passos, som: o.som, voz: o.voz }; return Promise.resolve({}); }
       if (m === 'guiaUpdate') { if (guia && guia.running && guia.id === o.id) for (const k of ['pausa', 'pausadoEm', 'som', 'voz']) if (o[k] != null) guia[k] = o[k]; return Promise.resolve({}); }
       if (m === 'guiaStop') { if (guia && guia.id === o.id) { guia.running = false; guia.ended = true; } return Promise.resolve({}); }
-      if (m === 'guiaState') return Promise.resolve(guia ? { id: guia.id, ini: guia.ini, pausa: guia.pausa, pausadoEm: guia.pausadoEm, running: guia.running, complete: !!guia.complete } : {});
+      if (m === 'guiaState') return Promise.resolve(guia ? { id: guia.id, ini: guia.ini, pausa: guia.pausa, pausadoEm: guia.pausadoEm, running: guia.running, ended: !!guia.ended, complete: !!guia.complete } : {});
       if (m === 'alarmeStatus') return Promise.resolve({ exato: M.exato, notif: M.notif, telaCheia: M.telaCheia, bateria: M.bateria, volumeAlarme: M.volumeAlarme, volumeAlarmeMax: 7, naoPerturbe: 1, proximo: M.proximo, cochilo: M.cochilo, teste: 0, tocando: M.tocando, fabricante: M.fabricante });
       if (m === 'alarmeAgendar') {
         if (!M.exato) return Promise.resolve({ ok: false, erro: 'sem_permissao_exata' });
@@ -29,6 +29,7 @@ window.__mock = {
       if (m === 'abrirRelogio') return Promise.resolve({ ok: true });
       if (m === 'askNotif') return Promise.resolve({ granted: true });
       if (m === 'launchAction') { const a = M.acao; M.acao = ''; return Promise.resolve({ acao: a }); }
+      if (m === 'ouvintes') { const tem = e => (listeners['ForNow:' + e] || []).length > 0; return Promise.resolve({ guia: tem('guia'), alarme: tem('alarme'), launch: tem('launch') }); }
       if (m === 'vozStatus') return Promise.resolve({ status: 'ok', motor: 'com.google.android.tts' });
       if (m === 'info') return Promise.resolve({ shell: 2, shellId: M.shellId || 'abc123', versionCode: 7, installer: '', sdk: 35, maker: 'Xiaomi', model: 'POCO', talkback: M.talkback });
       if (m === 'fetchText') return Promise.resolve({ text: JSON.stringify({ build: 999, zip: 'https://example.invalid/web.zip', sha256: '', minShell: 2, shellId: M.novoShell || 'abc123' }) });
@@ -42,12 +43,19 @@ window.__mock = {
     return new Proxy({}, {
       get(_, m) {
         if (m === 'then') return undefined;
-        if (m === 'addListener') return (evt, fn) => { (listeners[name + ':' + evt] = listeners[name + ':' + evt] || []).push(fn); return Promise.resolve({ remove() {} }); };
+        if (m === 'addListener') return (evt, fn) => {
+          const k = name + ':' + evt;
+          (listeners[k] = listeners[k] || []).push(fn);
+          return Promise.resolve({ remove() { listeners[k] = (listeners[k] || []).filter(f => f !== fn); return Promise.resolve(); } });
+        };
         return o => { window.__calls.push([name, m, JSON.parse(JSON.stringify(o || {}))]); return impl(name, m, o || {}); };
       },
     });
   }
   window.__emit = (name, evt, data) => (listeners[name + ':' + evt] || []).forEach(f => f(data));
+  /* what Capacitor does when a page starts loading: every listener is dropped */
+  window.__resetListeners = () => { for (const k of Object.keys(listeners)) delete listeners[k]; };
+  window.__nListeners = () => Object.fromEntries(Object.entries(listeners).map(([k, v]) => [k, v.length]));
   window.__guia = () => guia;
   window.Capacitor = { isNativePlatform: () => true, getPlatform: () => 'android', registerPlugin: plugin, Plugins: {} };
 })();

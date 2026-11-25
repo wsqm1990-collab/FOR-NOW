@@ -34,7 +34,8 @@ SHELL_ID=$(grep -o '"shellId":"[0-9a-z]*"' rel/version.json | cut -d'"' -f4)
 node native/ci/e2e.mjs "$OUT" "$PKG" "$UP" "$SHELL_ID"
 RC=$?
 
-adb logcat -d > "$OUT/logcat-all.txt" 2>&1
+adb logcat -d > "$OUT/logcat-last.txt" 2>&1
+cat "$OUT"/logcat-part*.txt "$OUT/logcat-last.txt" > "$OUT/logcat-all.txt" 2>/dev/null || true
 grep -E "ForNow|Capacitor|chromium|AndroidRuntime|fornow|TextToSpeech|tts" "$OUT/logcat-all.txt" > "$OUT/logcat-app.txt" || true
 adb shell dumpsys notification --noredact > "$OUT/notifications.txt" 2>&1 || true
 adb shell dumpsys alarm > "$OUT/alarms.txt" 2>&1 || true
