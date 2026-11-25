@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fn_widget_padrao">Está difícil ahora</string>
+    <string name="fn_widget_desc">Un toque para empezar</string>
+</resources>

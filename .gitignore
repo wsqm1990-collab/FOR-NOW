@@ -1,0 +1,13 @@
+node_modules/
+native/android/
+native/www/
+native/node_modules/
+web/www/
+ci-out/
+apk/
+rel/
+upd/
+upd.zip
+native/keystore/
+test-out/
+test/shots/

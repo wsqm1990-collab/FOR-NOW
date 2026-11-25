@@ -1,0 +1,214 @@
+name: Android app
+
+# Every push to main builds the app, tests it on an Android emulator and, if it works,
+# publishes a release: ForNow.apk (install once) and web.zip (the automatic update).
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['README.md', 'store/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    outputs:
+      signed: ${{ steps.key.outputs.signed }}
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # The signing key keeps new versions installing over the old one (your data stays).
+      # It is derived from the FN_KEY_PASS repository secret on every build, so no key is stored.
+      - name: Signing key
+        id: key
+        env:
+          FN_KEY_PASS: ${{ secrets.FN_KEY_PASS }}
+        run: |
+          mkdir -p ci-out
+          if [ -z "$FN_KEY_PASS" ]; then
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::No FN_KEY_PASS secret yet, so only the test build is made (no release)."
+            exit 0
+          fi
+          python3 -m pip install --quiet --disable-pip-version-check cryptography
+          python3 native/ci/signing-key.py native/keystore/fornow.p12 | tee ci-out/signing.log
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Check the texts and build the app page
+        run: |
+          mkdir -p ci-out
+          node tools/verificar-textos.mjs | tee ci-out/textos.log
+          node tools/build.mjs | tee ci-out/web.log
+
+      - name: Create the Android project
+        working-directory: native
+        run: |
+          set -o pipefail
+          npm install --no-audit --no-fund 2>&1 | tail -n 20 | tee ../ci-out/npm.log
+          rm -rf www && cp -r ../web/www www
+          cp node_modules/@capacitor/core/dist/capacitor.js www/capacitor.js
+          npx cap add android 2>&1 | tee ../ci-out/cap-add.log
+          node configure-android.mjs > ../ci-out/configure.log 2>&1 || { cat ../ci-out/configure.log; exit 1; }
+          npx cap sync android 2>&1 | tee ../ci-out/cap-sync.log
+
+      - name: Build the APK
+        working-directory: native/android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon --stacktrace assembleRelease assembleDebug > ../../ci-out/gradle.log 2>&1 || { grep -n -B2 -A8 -E "error:|FAILED|What went wrong" ../../ci-out/gradle.log | head -n 200; exit 1; }
+          tail -n 30 ../../ci-out/gradle.log
+
+      - name: Sign the release APK
+        if: steps.key.outputs.signed == 'true'
+        env:
+          FN_KEY_PASS: ${{ secrets.FN_KEY_PASS }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          IN=native/android/app/build/outputs/apk/release/app-release-unsigned.apk
+          "$BT/zipalign" -p -f 4 "$IN" ci-out/aligned.apk
+          "$BT/apksigner" sign --ks native/keystore/fornow.p12 --ks-type PKCS12 --ks-key-alias fornow \
+            --ks-pass env:FN_KEY_PASS --key-pass env:FN_KEY_PASS --out ci-out/ForNow.apk ci-out/aligned.apk
+          "$BT/apksigner" verify --print-certs ci-out/ForNow.apk | grep -i "SHA-256" | head -n 1
+          rm -f ci-out/aligned.apk native/keystore/fornow.p12
+
+      - name: Check the APK permissions
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)
+          if [ -x "$BT/aapt" ]; then "$BT/aapt" dump permissions native/android/app/build/outputs/apk/debug/app-debug.apk | tee ci-out/permissions.log; else echo "aapt not found" | tee ci-out/permissions.log; fi
+
+      - name: Package the release files
+        run: |
+          N=${{ github.run_number }}
+          R="https://github.com/${{ github.repository }}/releases/download/v0.1.$N"
+          mkdir -p apk && cp native/android/app/build/outputs/apk/debug/app-debug.apk apk/ForNow-debug.apk
+          (cd native/www && zip -qr -X ../../ci-out/web.zip .)
+          SHA=$(sha256sum ci-out/web.zip | cut -d' ' -f1)
+          printf '{"build":%s,"zip":"%s/web.zip","sha256":"%s","minShell":1,"apk":"%s/ForNow.apk"}\n' "$N" "$R" "$SHA" "$R" > ci-out/version.json
+          cat ci-out/version.json
+          ls -la ci-out apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-files
+          if-no-files-found: ignore
+          path: |
+            ci-out/ForNow.apk
+            ci-out/web.zip
+            ci-out/version.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: apk
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-logs
+          path: ci-out/*.log
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: debug-apk
+          path: apk
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-files
+          path: rel
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run the app on an Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: bash native/ci/emulator-test.sh test-out
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-out
+          path: test-out
+
+  release:
+    needs: [build, test]
+    if: needs.build.outputs.signed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-files
+          path: rel
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          N=${{ github.run_number }}
+          gh release create "v0.1.$N" rel/ForNow.apk rel/web.zip rel/version.json \
+            --repo "${{ github.repository }}" --title "For Now 0.1.$N" --latest \
+            --notes "To install: open this page on your Android phone, tap ForNow.apk and open the download. After that the app updates itself. / Para instalar: abra esta página no celular, toque em ForNow.apk e abra o download. Depois o app se atualiza sozinho."
+
+  report:
+    needs: [build, test, release]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          path: all
+
+      - uses: actions/checkout@v4
+        with:
+          path: site
+
+      - name: Publish logs and screenshots to the ci-results branch
+        run: |
+          cd site
+          git checkout -q --orphan ci-results
+          git rm -rfq .
+          [ -d ../all/build-logs ] && cp -r ../all/build-logs build
+          [ -d ../all/test-out ] && cp -r ../all/test-out test
+          echo "run ${{ github.run_number }} (${{ github.sha }}): build=${{ needs.build.result }} signed=${{ needs.build.outputs.signed }} test=${{ needs.test.result }} release=${{ needs.release.result }}" > SUMMARY.txt
+          git add -A
+          git -c user.name="For Now build" -c user.email="build@users.noreply.github.com" commit -qm "Build ${{ github.run_number }}"
+          git push -qf origin ci-results

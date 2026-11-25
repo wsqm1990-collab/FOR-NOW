@@ -1,0 +1,12 @@
+{
+  "name": "por-agora-android",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Casca Android do Por Agora (o projeto Android é gerado no GitHub Actions, veja .github/workflows/android.yml)",
+  "dependencies": {
+    "@capacitor/android": "8.6.0",
+    "@capacitor/app": "8.1.2",
+    "@capacitor/cli": "8.6.0",
+    "@capacitor/core": "8.6.0"
+  }
+}

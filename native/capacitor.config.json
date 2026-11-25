@@ -1,0 +1,15 @@
+{
+  "appId": "com.wsqm1990.poragora",
+  "appName": "Por Agora",
+  "webDir": "www",
+  "backgroundColor": "#F4F1EC",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "native",
+      "style": "DEFAULT"
+    }
+  }
+}

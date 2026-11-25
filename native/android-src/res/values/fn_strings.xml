@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fn_widget_padrao">It\'s hard right now</string>
+    <string name="fn_widget_desc">One tap to start</string>
+    <string name="fn_tile">For Now</string>
+</resources>
