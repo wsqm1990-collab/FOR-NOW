@@ -2,7 +2,7 @@
 const S = { tela: 'inicio', de: null, ficha: null, filtro: 'todos', alarmeTocando: false, precisaApk: false, sug: null };
 
 const PAIS = {
-  paz: 'inicio', cochilo: 'inicio', apoio: 'inicio', historico: 'inicio', revisao: 'inicio', ajustes: 'inicio',
+  paz: 'inicio', cochilo: 'inicio', respirar: 'inicio', musica: 'inicio', apoio: 'inicio', historico: 'inicio', revisao: 'inicio', ajustes: 'inicio',
   tecnicas: 'ajustes', diagnostico: 'ajustes', privacidade: 'ajustes', acesso: 'ajustes', preparar: 'ajustes',
   contato: 'apoio', ficha: 'tecnicas',
 };
@@ -18,6 +18,8 @@ function render() {
   switch (S.tela) {
     case 'sessao': html = viewSessao(); break;
     case 'paz': html = viewPaz(); break;
+    case 'respirar': html = viewRespirar(); break;
+    case 'musica': html = viewMusica(); break;
     case 'cochilo': html = viewCochilo(); break;
     case 'cochiloSessao': html = viewCochiloSessao(); break;
     case 'alarme': html = viewAlarme(); break;
@@ -38,6 +40,7 @@ function render() {
     default: S.tela = 'inicio'; html = viewInicio();
   }
   app.innerHTML = html;
+  if (S.tela === 'sessao' && Sessao.modo === 'respirar') requestAnimationFrame(() => atualizarCirculo(true));
 }
 
 /* ----- início ----- */
@@ -63,7 +66,9 @@ function viewInicio() {
     <button class="btn pico" data-a="pico">${esc(rotuloPrincipal())}</button>
     ${cartoes.join('')}
     <div class="pilha">
+      ${item('respirar', t('breathe'), t('breathe_det'))}
       ${item('pazAbrir', t('peace'), t('peace_det'))}
+      ${item('musica', t('music'), t('music_det'))}
       ${item('cochilo', t('nap'), t('nap_det'))}
       ${item('madrugada', t('night'), t('night_det'))}
       ${item('apoio', t('support'), '', 'suave')}
@@ -93,6 +98,8 @@ function pendenteParaMostrar() {
 function viewSessao() {
   const m = Sessao.modo, f = Sessao.fase;
   if (!Sessao.r) { S.tela = 'inicio'; return viewInicio(); }
+  if (m === 'respirar') return viewRespSessao(Guia.g);
+  if (m === 'musica') return viewMusSessao(Guia.g);
   const titulo = m === 'pico' ? t('title_pico') : m === 'paz' ? t('peace') : '';
   const cab = `<div class="topo"><span class="marca">${esc(titulo)}</span></div>`;
   if (f === 'escolha') {
@@ -152,7 +159,7 @@ function viewPaz() {
   return `<section class="tela">${topo(t('peace'))}
     <p class="sub">${esc(t('peace_intro'))}</p>
     <div class="pilha">${Sessao.ordem('paz').map(x => `<button class="btn esq" data-a="paz" data-v="${x}"><span><span>${esc(tr(TEC[x].escolha))}</span><span class="det">${esc(tr(TEC[x].desc || ''))}</span></span></button>`).join('')}</div>
-    <div class="secao"><h2>${esc(t('sound'))}</h2>${chips('ajSom', p.som.paz, listaSons(), 'data-m="paz"')}</div>
+    <div class="secao"><h2>${esc(t('sound'))}</h2>${botaoSom('paz')}</div>
     <div class="secao"><h2>${esc(t('voice'))}</h2>${chips('ajVoz', String(p.voz.paz !== false), [['true', t('voice_on')], ['false', t('text_only')]], 'data-m="paz"')}</div>
   </section>`;
 }
@@ -186,7 +193,7 @@ function viewCochilo() {
     <p class="centro sub" id="cochilo-hora">${t('wake_at', { h: hhmm(alvo) })}</p>
     <div class="linha"><button class="btn" data-a="cochiloMenos" aria-label="${esc(t('less5'))}">− 5 min</button><button class="btn" data-a="cochiloMais" aria-label="${esc(t('more5'))}">+ 5 min</button></div>
     ${painel}
-    <div class="secao"><h2>${esc(t('sound_while_resting'))}</h2>${chips('ajSom', p.som.cochilo, listaSons(), 'data-m="cochilo"')}</div>
+    <div class="secao"><h2>${esc(t('sound_while_resting'))}</h2>${botaoSom('cochilo')}</div>
     <div class="secao"><h2>${esc(t('short_voice_start'))}</h2>${chips('ajCochiloVoz', String(!!p.cochiloVoz), [['true', t('with_voice')], ['false', t('no_voice')]])}</div>
     <div class="rodape-links">${botao('ficha', t('why'), 'discreto', 'style="width:auto" data-v="cochilo"')}${botao('preparar', t('prep_alarm'), 'discreto', 'style="width:auto"')}</div>
   </section>`;
@@ -318,6 +325,9 @@ function viewAjustes() {
   return `<section class="tela">${topo(t('settings'))}
     <div class="secao"><h2>${esc(t('language'))}</h2>${chips('ajLang', LANG, LANGS)}</div>
     <div class="secao"><h2>${esc(t('main_button'))}</h2>${chips('ajRotulo', p.rotulo, [['dificil', t('btn_dificil')], ['pico', t('btn_pico')]])}</div>
+    <div class="secao"><h2>${esc(t('voice_type'))}</h2>
+      ${chips('ajVozTipo', p.vozTipo, [['feminina', t('voice_female')], ['masculina', t('voice_male')], ['android', t('voice_phone')]])}
+      <p class="pequeno">${esc(t('voice_rec_note'))}</p></div>
     <div class="secao"><h2>${esc(t('voice'))}</h2>
       ${modos.map(m => `<div class="item"><div class="txt">${esc(nomeModo(m))}</div>${chips('ajVoz', String(p.voz[m] !== false), [['true', t('on')], ['false', t('text_only')]], `data-m="${m}"`)}</div>`).join('')}
       <div class="item"><div class="txt">${esc(t('speed'))}</div>${chips('ajVel', String(p.velocidade), [['0.8', t('slower')], ['0.9', t('calm')], ['1', t('normal')]])}</div>
@@ -325,8 +335,7 @@ function viewAjustes() {
       ${v && v.status === 'falta' ? `<p class="pequeno aviso">${esc(t('voice_missing'))}</p>` : ''}
       <p class="pequeno">${esc(t('voice_note'))}</p></div>
     <div class="secao"><h2>${esc(t('sounds'))}</h2>
-      ${[['pico', t('pico_sound')], ['paz', nomeModo('paz')], ['cochilo', nomeModo('cochilo')], ['madrugada', nomeModo('madrugada')]].map(([m, n]) => `<div class="pilha" style="gap:0.4rem"><span class="pequeno">${esc(n)}</span>${chips('ajSom', p.som[m], listaSons(), `data-m="${m}"`)}</div>`).join('')}
-      <div class="grupo">${listaSons().slice(1).map(([s, n]) => botao('ajOuvir', t('listen_x', { s: n.toLowerCase() }), 'discreto', `style="width:auto" data-v="${s}"`)).join('')}</div></div>
+      ${[['pico', t('pico_sound')], ['paz', nomeModo('paz')], ['cochilo', nomeModo('cochilo')], ['madrugada', nomeModo('madrugada')], ['respirar', t('breathe')]].map(([m, n]) => `<div class="item"><div class="txt">${esc(n)}</div>${botaoSom(m)}</div>`).join('')}</div>
     <div class="secao"><h2>${esc(t('look'))}</h2>
       ${chips('ajTema', p.tema, [['auto', t('theme_auto')], ['claro', t('light')], ['escuro', t('dark')]])}
       ${chips('ajTexto', String(p.texto), [['1', t('text_normal')], ['1.15', t('text_big')], ['1.3', t('text_bigger')]])}</div>
@@ -417,4 +426,97 @@ function viewAcesso() {
     <div class="cartao"><p><b>${esc(t('qa_tile'))}</b></p><p>${esc(t('qa_tile_txt'))}</p></div>
     <div class="cartao"><p><b>${esc(t('qa_shortcuts'))}</b></p><p>${esc(t('qa_shortcuts_txt'))}</p></div>
   </section>`;
+}
+
+/* ----- som de fundo: um botão que abre a lista, por categoria ----- */
+function botaoSom(modo) {
+  return `<button class="btn esq som-escolha" data-a="abrirSons" data-m="${modo}"><span><span>${esc(nomeSom(somReal(prefs().som[modo] || 'silencio')))}</span></span><span aria-hidden="true">›</span></button>`;
+}
+function folhaSons(modo, atual) {
+  atual = somReal(atual || 'silencio');
+  const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
+  const chip = f => `<button class="chip" data-a="escolherSom" data-m="${modo}" data-v="${esc(f.v)}" aria-pressed="${f.v === atual}">${esc(tr(f.n))}</button>`;
+  abrirFolha(`<p class="pergunta">${esc(t('choose_sound'))}</p>
+    <div class="grupo">${chip(FUNDOS[0])}</div>
+    ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="grupo">${l.map(chip).join('')}</div></div>`).join('')}
+    <button class="btn discreto" data-a="fecharFolha">${esc(t('back_word'))}</button>`);
+}
+
+/* ----- respirar ----- */
+function viewRespirar() {
+  const p = prefs(), r = p.respirar;
+  const det = ex => ex === 'livre' ? Resp.fasesDe('livre').map(([f, s]) => `${tr(RESP_ROTULO[f])} ${s}`).join(' · ') : tr(RESP[ex].det);
+  const item = ex => `<button class="btn esq${r.ex === ex ? ' marcado' : ''}" data-a="respComecar" data-v="${ex}"><span><span>${esc(tr(RESP[ex].nome))}</span><span class="det">${esc(det(ex))}</span></span><span class="ic-play" aria-hidden="true">▶</span></button>`;
+  const passo = campo => `<div class="item"><div class="txt">${esc(tr(RESP_ROTULO[campo]))}</div><div class="grupo passo">
+      <button class="chip" data-a="respLivre" data-v="${campo}" data-d="-1" aria-label="${esc(t('less'))}">−</button>
+      <span class="valor">${esc(t('sec_x', { n: r.livre[campo] }))}</span>
+      <button class="chip" data-a="respLivre" data-v="${campo}" data-d="1" aria-label="${esc(t('more_btn'))}">+</button></div></div>`;
+  return `<section class="tela">${topo(t('breathe'))}
+    <p class="sub">${esc(t('breathe_intro'))}</p>
+    <div class="pilha">${Object.keys(RESP).map(item).join('')}</div>
+    <div class="secao"><h2>${esc(t('your_times'))}</h2>${['in', 'hold', 'out', 'pausa'].map(passo).join('')}</div>
+    <div class="secao"><h2>${esc(t('duration'))}</h2>${chips('respMin', String(r.min), [1, 3, 5, 10].map(n => [String(n), t('min_x', { n })]))}</div>
+    <div class="secao"><h2>${esc(t('voice'))}</h2>${chips('ajVoz', String(p.voz.respirar !== false), [['true', t('voice_on')], ['false', t('text_only')]], 'data-m="respirar"')}</div>
+    <div class="secao"><h2>${esc(t('vibration'))}</h2>${chips('respVib', String(r.vib !== false), [['true', t('on')], ['false', t('off')]])}</div>
+    <div class="secao"><h2>${esc(t('background'))}</h2>${botaoSom('respirar')}</div>
+  </section>`;
+}
+function viewRespSessao(g) {
+  const nome = g && g.titulo ? tr(g.titulo) : t('breathe');
+  if (Sessao.fase === 'respFim' || !g) {
+    return `<section class="sessao resp"><div class="topo"><span class="marca">${esc(nome)}</span></div>
+      <div class="instr-caixa"><p class="pergunta">${esc(t('breathe_done'))}</p></div>
+      <div class="escolhas">${botao('respDeNovo', t('again'), 'forte')}${botao('sSair', t('finish'))}</div></section>`;
+  }
+  const pausado = !!g.pausadoEm, fr = Guia.frase(g);
+  return `<section class="sessao resp">
+    <div class="topo"><span class="marca">${esc(nome)}</span><div class="grupo" style="justify-content:flex-end">
+      <button class="chip" data-a="sSom" aria-label="${esc(t('sound_aria', { s: nomeSom(g.som) }))}">${esc(t('sound_x', { s: nomeSom(g.som) }))}</button>
+      <button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button></div></div>
+    <div class="resp-caixa"><div class="circulo-halo" aria-hidden="true"></div><div class="circulo" id="circulo"><span id="resp-rotulo"></span><span id="resp-seg"></span></div></div>
+    <p id="instr" class="instr pequena${fr.calado ? ' calado' : ''}" aria-live="polite">${esc(fr.texto)}</p>
+    <p class="estado" id="estado">${pausado ? esc(t('paused')) : ''}</p>
+    <div class="barra">${pausado ? botao('sContinuar', t('resume')) : botao('sPausar', t('pause'))}${botao('sSair', t('leave'))}</div>
+  </section>`;
+}
+
+/* ----- músicas e sono ----- */
+function viewMusica() {
+  const m = prefs().musica;
+  const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
+  return `<section class="tela">${topo(t('music'))}
+    <button class="btn pico dormir" data-a="musDormir"><span>${esc(t('sleep_now'))}<small>${esc(t('sleep_det'))}</small></span></button>
+    <div class="secao"><h2>${esc(t('plays_for'))}</h2>${chips('musTimer', String(m.timer), [['15', t('min_x', { n: 15 })], ['30', t('min_x', { n: 30 })], ['45', t('min_x', { n: 45 })], ['60', t('min_x', { n: 60 })], ['0', t('no_end')]])}</div>
+    <div class="secao"><h2>${esc(t('sleep_voice'))}</h2>${chips('musVoz', String(m.vozDormir !== false), [['true', t('on')], ['false', t('off')]])}</div>
+    <p class="sub">${esc(t('music_tap'))}</p>
+    ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="faixas">${l.map(f => `<button class="faixa" data-a="musTocar" data-v="${esc(f.musica || f.v)}"><span class="ic" aria-hidden="true">${f.musica ? '♪' : '≈'}</span><span>${esc(tr(f.n))}</span></button>`).join('')}</div></div>`).join('')}
+  </section>`;
+}
+function viewMusSessao(g) {
+  const dormir = !!(Sessao.r && Sessao.r.extra.dormir);
+  if (Sessao.fase === 'quieto' || !g) {
+    return `<section class="sessao"><div class="instr-caixa"><p class="instr calado">…</p></div>
+      <div class="barra">${botao('sSair', t('end'), 'discreto')}</div></section>`;
+  }
+  const pausado = !!g.pausadoEm, fr = Guia.frase(g), varias = !!(g.sons && g.sons.length > 1);
+  const timer = Sessao.r.extra.min;
+  return `<section class="sessao musica${dormir ? ' noturna' : ''}">
+    <div class="topo"><span class="marca">${esc(dormir ? t('sleep_now') : t('music'))}</span>${dormir ? `<button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button>` : ''}</div>
+    <div class="musica-agora">
+      <div class="disco${pausado ? ' parado' : ''}" aria-hidden="true"><span></span></div>
+      <p class="pequeno">${esc(t('now_playing'))}</p>
+      <p class="titulo-faixa" id="mus-nome">${esc(Mus.nomeAtual(g))}</p>
+      ${!dormir && timer ? `<p class="sub" id="mus-resta">${esc(t('ends_in', { n: Mus.restaMin(g) }))}</p>` : ''}
+    </div>
+    <p id="instr" class="instr pequena${fr.calado ? ' calado' : ''}" aria-live="polite">${esc(fr.texto)}</p>
+    <p class="estado" id="estado">${pausado ? esc(t('paused')) : ''}</p>
+    <div class="barra">${pausado ? botao('sContinuar', t('resume')) : botao('sPausar', t('pause'))}${varias ? botao('musProxima', t('next_track')) : ''}${botao('sSair', t('stop'))}</div>
+  </section>`;
+}
+function atualizarMusica() {
+  const g = Guia.g;
+  if (!g || Sessao.modo !== 'musica') return;
+  const n = $('#mus-nome'), r = $('#mus-resta');
+  if (n) { const v = Mus.nomeAtual(g); if (n.textContent !== v) n.textContent = v; }
+  if (r) { const v = t('ends_in', { n: Mus.restaMin(g) }); if (r.textContent !== v) r.textContent = v; }
 }

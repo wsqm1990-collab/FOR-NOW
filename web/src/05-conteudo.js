@@ -17,10 +17,50 @@ const FONTES = {
   ubs: { nome: ['Brazilian Ministry of Health — Anxiety in primary care', 'Ministério da Saúde — Ansiedade na atenção primária', 'Ministerio de Salud de Brasil — Ansiedad en atención primaria'], url: 'https://linhasdecuidado.saude.gov.br/portal/ansiedade/unidade-de-atencao-primaria/' },
 };
 
-const SONS = [['silencio', ['Silence', 'Silêncio', 'Silencio']], ['chuva', ['Rain', 'Chuva', 'Lluvia']], ['grave', ['Low noise', 'Ruído grave', 'Ruido grave']], ['ondas', ['Waves', 'Ondas', 'Olas']]];
-const nomeSom = id => tr((SONS.find(s => s[0] === id) || SONS[0])[1]);
-const listaSons = () => SONS.map(([v, n]) => [v, tr(n)]);
-const MODOS = { pico: ['Spike', 'Pico', 'Pico'], paz: ['Peace', 'Paz', 'Paz'], cochilo: ['Nap', 'Cochilo', 'Siesta'], madrugada: ['Night', 'Madrugada', 'Madrugada'] };
+/* sons de fundo. "midia/..." são gravações que vêm dentro do app (natureza e músicas);
+   os outros são feitos em código e servem no navegador e como reserva. */
+const SONS = [
+  ['silencio', ['Silence', 'Silêncio', 'Silencio'], 'base'],
+  ['midia/sons/N01.ogg', ['Rain', 'Chuva', 'Lluvia'], 'natureza'],
+  ['midia/sons/N02.ogg', ['Sea', 'Mar', 'Mar'], 'natureza'],
+  ['midia/sons/N03.ogg', ['Forest at night', 'Floresta à noite', 'Bosque de noche'], 'natureza'],
+  ['midia/sons/N04.ogg', ['Stream', 'Riacho', 'Arroyo'], 'natureza'],
+  ['midia/sons/N05.ogg', ['Fireplace', 'Lareira', 'Chimenea'], 'natureza'],
+  ['grave', ['Soft noise', 'Ruído suave', 'Ruido suave'], 'natureza'],
+  ['chuva', ['Simple rain', 'Chuva simples', 'Lluvia simple'], 'reserva'],
+  ['ondas', ['Simple waves', 'Ondas simples', 'Olas simples'], 'reserva'],
+];
+const MUSICAS = [
+  ['M01', ['Gentle piano', 'Piano suave', 'Piano suave'], 'piano'],
+  ['M02', ['Piano for sleep', 'Piano para dormir', 'Piano para dormir'], 'piano'],
+  ['M03', ['Strings, adagio', 'Cordas em adágio', 'Cuerdas en adagio'], 'classica'],
+  ['M04', ['Celtic harp', 'Harpa celta', 'Arpa celta'], 'celta'],
+  ['M05', ['Gregorian chant', 'Canto gregoriano', 'Canto gregoriano'], 'canticos'],
+  ['M06', ['Deep ambient', 'Ambiente profundo', 'Ambiente profundo'], 'ambiente'],
+  ['M07', ['Celtic flute', 'Celta com flauta', 'Celta con flauta'], 'celta'],
+  ['M08', ['Ethereal choir', 'Coral etéreo', 'Coro etéreo'], 'canticos'],
+  ['M09', ['Singing bowls', 'Tigelas tibetanas', 'Cuencos tibetanos'], 'ambiente'],
+  ['M10', ['Soft guitar', 'Violão suave', 'Guitarra suave'], 'violao'],
+  ['M11', ['Gentle morning', 'Manhã suave', 'Mañana suave'], 'manha'],
+];
+const CATEGORIAS = [
+  ['natureza', ['Nature', 'Natureza', 'Naturaleza']],
+  ['piano', ['Piano', 'Piano', 'Piano']],
+  ['classica', ['Classical', 'Clássica', 'Clásica']],
+  ['celta', ['Celtic', 'Celta', 'Celta']],
+  ['canticos', ['Chants', 'Cânticos', 'Cánticos']],
+  ['ambiente', ['Ambient', 'Ambiente', 'Ambiente']],
+  ['violao', ['Guitar', 'Violão', 'Guitarra']],
+  ['manha', ['Morning', 'Manhã', 'Mañana']],
+];
+const caminhoMusica = id => `midia/musicas/${id}.ogg`;
+/* tudo o que pode tocar ao fundo, com o nome e a categoria */
+const FUNDOS = [...SONS.map(([v, n, c]) => ({ v, n, c })), ...MUSICAS.map(([id, n, c]) => ({ v: caminhoMusica(id), n, c, musica: id }))];
+const nomeSom = id => { const f = FUNDOS.find(x => x.v === id); return tr((f || FUNDOS[0]).n); };
+/* gravações só existem no app instalado; no navegador ficam os sons feitos em código */
+const temMidia = () => !!(Nat.on && window.__fnMidia !== false);
+const listaSons = () => FUNDOS.filter(f => f.c !== 'reserva' && (temMidia() || !f.v.startsWith('midia/'))).map(f => [f.v, tr(f.n)]);
+const MODOS = { pico: ['Spike', 'Pico', 'Pico'], paz: ['Peace', 'Paz', 'Paz'], cochilo: ['Nap', 'Cochilo', 'Siesta'], madrugada: ['Night', 'Madrugada', 'Madrugada'], respirar: ['Breathing', 'Respiração', 'Respiración'], musica: ['Music', 'Música', 'Música'] };
 const nomeModo = m => tr(MODOS[m] || m);
 const rotuloPrincipal = () => t(prefs().rotulo === 'pico' ? 'btn_pico' : 'btn_dificil');
 
@@ -147,7 +187,7 @@ const TEC = {
     ],
   },
 };
-const nomeTecnica = id => (TEC[id] ? tr(TEC[id].nome) : id);
+const nomeTecnica = id => (TEC[id] ? tr(TEC[id].nome) : id && id.startsWith('resp_') && RESP[id.slice(5)] ? tr(RESP[id.slice(5)].nome) : id === 'musica' ? tr(MODOS.musica) : id);
 /* os passos de uma técnica no idioma atual: [[texto, segundos], ...] */
 function passosDe(id, volta) {
   const t = TEC[id];
@@ -178,12 +218,15 @@ const FICHAS_MODO = {
 /* roteiros do cochilo, com o horário já confirmado */
 function roteiroCochilo(tipo, alvo) {
   const h = alvo ? hhmm(alvo) : '';
+  /* com a voz gravada, a frase é fixa (a hora fica na tela); com a voz do celular, ela diz a hora */
+  const escolher = (fixa, comHora) => (!h || clipe(tr(fixa))) ? tr(fixa) : tr(comHora);
   const travesseiro = [7, tr(['Feel the pillow supporting you.', 'Sinta o apoio do travesseiro.', 'Siente el apoyo de la almohada.'])];
   const descanse = [12, tr(["You can rest now. If you don't fall asleep, that's fine: resting counts.", 'Você pode descansar agora. Se não dormir, tudo bem: descansar já conta.', 'Ya puedes descansar. Si no te duermes, está bien: descansar también cuenta.'])];
   let primeira;
-  if (tipo === 'proprio') primeira = [6, tr([`Your alarm is set for ${h}.`, `Seu alarme ficou para ${h}.`, `Tu alarma quedó para las ${h}.`])];
-  else if (tipo === 'relogio') primeira = [7, h ? tr([`Your alarm is in the phone's Clock, at ${h}.`, `O despertador está no Relógio do celular, às ${h}.`, `La alarma está en el Reloj del teléfono, a las ${h}.`])
-    : tr(["Your alarm is in the phone's Clock.", 'O despertador está no Relógio do celular.', 'La alarma está en el Reloj del teléfono.'])];
+  if (tipo === 'proprio') primeira = [6, escolher(['Your alarm is set.', 'Seu despertador está marcado.', 'Tu alarma está puesta.'],
+    [`Your alarm is set for ${h}.`, `Seu alarme ficou para ${h}.`, `Tu alarma quedó para las ${h}.`])];
+  else if (tipo === 'relogio') primeira = [7, escolher(["Your alarm is in the phone's Clock.", 'O despertador está no Relógio do celular.', 'La alarma está en el Reloj del teléfono.'],
+    [`Your alarm is in the phone's Clock, at ${h}.`, `O despertador está no Relógio do celular, às ${h}.`, `La alarma está en el Reloj del teléfono, a las ${h}.`])];
   else return [[tr(['This rest has no alarm.', 'Este descanso não tem despertador.', 'Este descanso no tiene alarma.']), 6], [travesseiro[1], 7], [tr(['You can rest now.', 'Você pode descansar agora.', 'Ya puedes descansar.']), 10]];
   return [[primeira[1], primeira[0]], [travesseiro[1], travesseiro[0]], [descanse[1], descanse[0]]];
 }
@@ -194,4 +237,85 @@ const MADRUGADA_DESPERTO = [
   ['Do something calm, in dim light.', 'Faça algo tranquilo, com pouca luz.', 'Haz algo tranquilo, con poca luz.'],
   ['Go back to bed when you feel sleepy.', 'Volte para a cama quando sentir sono.', 'Vuelve a la cama cuando sientas sueño.'],
   ['If getting up is hard, find a comfortable position and just rest.', 'Se levantar for difícil, escolha uma posição confortável e só descanse.', 'Si levantarte es difícil, busca una posición cómoda y solo descansa.'],
+];
+
+/* ---------- respiração guiada ----------
+   Cada exercício é uma lista de fases [tipo, segundos]. A voz guia os dois primeiros ciclos;
+   depois ficam o círculo e uma vibração curta a cada fase. */
+const RESP = {
+  quadrada: {
+    nome: ['Box breathing', 'Respiração quadrada', 'Respiración cuadrada'],
+    det: ['In 4 · hold 4 · out 4 · pause 4', 'Inspire 4 · segure 4 · solte 4 · pausa 4', 'Inhala 4 · sostén 4 · suelta 4 · pausa 4'],
+    fases: [['in', 4], ['hold', 4], ['out', 4], ['pausa', 4]],
+    intro: ['Box breathing. Breathe in, hold, breathe out and pause, all for the same time. Follow the circle.', 'Respiração quadrada. Inspire, segure, solte e faça uma pausa, todos no mesmo tempo. Siga o círculo.', 'Respiración cuadrada. Inhala, sostén, suelta y haz una pausa, todo con el mismo tiempo. Sigue el círculo.'],
+  },
+  r478: {
+    nome: ['4-7-8 breathing', 'Respiração 4-7-8', 'Respiración 4-7-8'],
+    det: ['In 4 · hold 7 · out 8', 'Inspire 4 · segure 7 · solte 8', 'Inhala 4 · sostén 7 · suelta 8'],
+    fases: [['in', 4], ['hold', 7], ['out', 8]], aviso: true,
+    intro: ['Four, seven, eight breathing. Breathe in counting to four, hold to seven and let it out slowly to eight.', 'Respiração quatro, sete, oito. Inspire contando até quatro, segure até sete e solte devagar até oito.', 'Respiración cuatro, siete, ocho. Inhala contando hasta cuatro, sostén hasta siete y suelta despacio hasta ocho.'],
+  },
+  coerente: {
+    nome: ['Coherent breathing', 'Respiração coerente', 'Respiración coherente'],
+    det: ['In 5 · out 5, like a wave', 'Inspire 5 · solte 5, como uma onda', 'Inhala 5 · suelta 5, como una ola'],
+    fases: [['in', 5], ['out', 5]],
+    intro: ['Coherent breathing. Breathe in and out at the same pace, slowly, like a wave.', 'Respiração coerente. Inspire e solte no mesmo ritmo, devagar, como uma onda.', 'Respiración coherente. Inhala y suelta al mismo ritmo, despacio, como una ola.'],
+  },
+  longa: {
+    nome: ['Long exhale', 'Expiração longa', 'Exhalación larga'],
+    det: ['In 4 · out 6', 'Inspire 4 · solte 6', 'Inhala 4 · suelta 6'],
+    fases: [['in', 4], ['out', 6]],
+    intro: ['Long exhale. Let the breath out last longer than the breath in.', 'Expiração longa. Deixe a saída do ar ficar mais longa que a entrada.', 'Exhalación larga. Deja que la salida del aire dure más que la entrada.'],
+  },
+  suspiro: {
+    nome: ['Double sigh', 'Suspiro duplo', 'Suspiro doble'],
+    det: ['Two breaths in, one long breath out', 'Duas entradas de ar, uma saída longa', 'Dos entradas de aire, una salida larga'],
+    fases: [['in', 2.5], ['in2', 1.2], ['outLonga', 6], ['pausa', 3]], aviso: true,
+    intro: ['Double sigh. Breathe in through your nose, take in a little more, and let it all out very slowly through your mouth.', 'Suspiro duplo. Puxe o ar pelo nariz, puxe mais um pouquinho, e solte tudo bem devagar pela boca.', 'Suspiro doble. Toma aire por la nariz, toma un poquito más y suéltalo todo muy despacio por la boca.'],
+  },
+  livre: {
+    nome: ['Your own timing', 'No seu tempo', 'A tu ritmo'],
+    det: ['Choose each time', 'Você escolhe cada tempo', 'Tú eliges cada tiempo'],
+    fases: null,
+    intro: ['Breathing at your own timing. Follow the circle.', 'Respiração no seu tempo. Siga o círculo.', 'Respiración a tu ritmo. Sigue el círculo.'],
+  },
+};
+const RESP_AVISO = ['If it feels uncomfortable, go back to breathing normally. You can shorten the times.', 'Se ficar desconfortável, volte a respirar normalmente. Pode encurtar os tempos.', 'Si te resulta incómodo, vuelve a respirar normalmente. Puedes acortar los tiempos.'];
+const RESP_FIM = [
+  ['You can go back to breathing at your own pace.', 'Pode voltar a respirar no seu ritmo.', 'Puedes volver a respirar a tu ritmo.'],
+  ['Notice how your body feels now.', 'Repare como o corpo está agora.', 'Nota cómo está tu cuerpo ahora.'],
+];
+/* o que a voz diz em cada fase: [primeiro ciclo, segundo ciclo] */
+const RESP_FALA = {
+  in: [['Breathe in through your nose.', 'Inspire pelo nariz.', 'Inhala por la nariz.'], ['Breathe in.', 'Inspire.', 'Inhala.']],
+  in2: [['A little more air.', 'Mais um pouquinho de ar.', 'Un poquito más de aire.'], ['A little more air.', 'Mais um pouquinho de ar.', 'Un poquito más de aire.']],
+  hold: [['Hold the air.', 'Segure o ar.', 'Sostén el aire.'], ['Hold.', 'Segure.', 'Sostén.']],
+  out: [['Let the air out slowly.', 'Solte o ar devagar.', 'Suelta el aire despacio.'], ['Breathe out.', 'Solte.', 'Suelta.']],
+  outLonga: [['And let it all out, slowly.', 'E solte tudo, bem devagar.', 'Y suéltalo todo, despacio.'], ['Breathe out.', 'Solte.', 'Suelta.']],
+  pausa: [['Pause.', 'Pausa.', 'Pausa.'], ['Pause.', 'Pausa.', 'Pausa.']],
+};
+const RESP_ROTULO = { in: ['Breathe in', 'Inspire', 'Inhala'], in2: ['A little more', 'Mais um pouco', 'Un poco más'], hold: ['Hold', 'Segure', 'Sostén'], out: ['Breathe out', 'Solte', 'Suelta'], outLonga: ['Breathe out', 'Solte', 'Suelta'], pausa: ['Pause', 'Pausa', 'Pausa'] };
+
+/* ---------- dormir: relaxamento guiado do corpo, com música que vai sumindo ---------- */
+const DORMIR = [
+  ['Lie down in the way that is most comfortable for you.', 'Deite do jeito mais confortável para você.', 'Acuéstate de la forma más cómoda para ti.'],
+  ['Put the phone aside. You do not need to look at the screen.', 'Deixe o celular de lado. Não precisa olhar para a tela.', 'Deja el teléfono a un lado. No necesitas mirar la pantalla.'],
+  ['Let the air out slowly, a little longer than usual.', 'Solte o ar devagar, um pouco mais longo que o normal.', 'Suelta el aire despacio, un poco más largo de lo normal.'],
+  ['Once more. Let the breath out be slow.', 'Mais uma vez. Deixe a saída do ar ficar lenta.', 'Una vez más. Deja que la salida del aire sea lenta.'],
+  ['Now bring your attention to your feet.', 'Agora leve a atenção para os pés.', 'Ahora lleva la atención a los pies.'],
+  ['Let your feet be heavy, sinking into the mattress.', 'Deixe os pés pesados, afundando no colchão.', 'Deja los pies pesados, hundiéndose en el colchón.'],
+  ['Move up to your legs. Let your legs be loose.', 'Suba para as pernas. Deixe as pernas soltas.', 'Sube a las piernas. Deja las piernas sueltas.'],
+  ['Your hips and belly can rest too.', 'O quadril e a barriga também podem descansar.', 'La cadera y la barriga también pueden descansar.'],
+  ['Notice your chest rising and falling, without controlling anything.', 'Repare no peito subindo e descendo, sem controlar nada.', 'Nota el pecho subiendo y bajando, sin controlar nada.'],
+  ['Now your hands. Let your hands be heavy and warm.', 'Agora as mãos. Deixe as mãos pesadas e mornas.', 'Ahora las manos. Deja las manos pesadas y tibias.'],
+  ['Your arms, up to your shoulders. Let your shoulders drop.', 'Os braços, até os ombros. Deixe os ombros descerem.', 'Los brazos, hasta los hombros. Deja que los hombros bajen.'],
+  ['Your neck can rest on the pillow.', 'O pescoço pode descansar no travesseiro.', 'El cuello puede descansar en la almohada.'],
+  ['Release your jaw, your tongue, your forehead and your eyes.', 'Solte o maxilar, a língua, a testa e os olhos.', 'Suelta la mandíbula, la lengua, la frente y los ojos.'],
+  ['If thoughts come, let them pass, like clouds.', 'Se vierem pensamentos, deixe que passem, como nuvens.', 'Si vienen pensamientos, deja que pasen, como nubes.'],
+  ['You do not need to try to sleep. Resting already counts.', 'Não precisa tentar dormir. Descansar já conta.', 'No necesitas intentar dormir. Descansar ya cuenta.'],
+  ['Imagine a peaceful place where you like to be.', 'Imagine um lugar tranquilo, onde você gosta de estar.', 'Imagina un lugar tranquilo, donde te gusta estar.'],
+  ['Notice the colors, the sounds and the temperature of that place.', 'Repare nas cores, nos sons e na temperatura desse lugar.', 'Nota los colores, los sonidos y la temperatura de ese lugar.'],
+  ['Let your body get heavier and heavier.', 'Deixe o corpo cada vez mais pesado.', 'Deja que el cuerpo esté cada vez más pesado.'],
+  ['I will be quiet now. The music goes on for a while.', 'Eu vou ficar em silêncio agora. A música continua por um tempo.', 'Me quedaré en silencio ahora. La música sigue un rato.'],
+  ['Good night.', 'Boa noite.', 'Buenas noches.'],
 ];

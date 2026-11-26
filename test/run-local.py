@@ -98,10 +98,13 @@ async def main():
         await page.screenshot(path=OUT + '/05-pico-escolha.png')
         await tap(A('escolher', '[data-v="som"]'), 300)
         cs = await calls()
-        check('the sound technique plays rain', achar(cs, 'guiaStart')[-1][2]['som'] == 'chuva')
-        await tap(A('sSom'), 200)
+        check('the sound technique plays the recorded rain', achar(cs, 'guiaStart')[-1][2]['som'] == 'midia/sons/N01.ogg', achar(cs, 'guiaStart')[-1][2]['som'])
+        await tap(A('sSom'), 300)
+        check('the sound chip opens the list by category', await page.locator('#folha ' + A('escolherSom')).count() >= 10)
+        await page.screenshot(path=OUT + '/05b-lista-sons.png')
+        await tap('#folha ' + A('escolherSom', '[data-v="midia/sons/N02.ogg"]'), 300)
         cs = await calls()
-        check('the sound chip changes the sound live', bool(achar(cs, 'guiaUpdate', lambda o: o.get('som') == 'grave')))
+        check('choosing the sea changes the sound live', bool(achar(cs, 'guiaUpdate', lambda o: o.get('som') == 'midia/sons/N02.ogg')) and await page.evaluate("$('#folha').hidden"))
         await tap(A('sSair'), 200)
         h = await page.evaluate("Hist.todos()")
         check('leaving records "left before the end" and no answer', h[-1]['saida'] == 'saiu' and h[-1]['resp'] is None)
@@ -258,6 +261,109 @@ async def main():
         await page.wait_for_timeout(400)
         check('an alarm turned off while the page missed it leaves the alarm screen', await page.evaluate("S.tela") != 'alarme' and await page.evaluate("S.alarmeTocando") is False, await page.evaluate("S.tela"))
         await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+
+        # ---- breathing: list, custom times, a session with exact times, the circle and the end
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+        await tap(A('respirar'), 300)
+        check('breathing lists six exercises', await page.locator(A('respComecar')).count() == 6)
+        await page.screenshot(path=OUT + '/24-respirar.png', full_page=True)
+        await tap(A('respLivre', '[data-v="out"][data-d="1"]'), 200)
+        check('custom times can be changed', await page.evaluate("prefs().respirar.livre.out") == 7)
+        await tap(A('respMin', '[data-v="1"]'), 200)
+        await tap(A('respComecar', '[data-v="quadrada"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        ps = g['passos']
+        ciclo = [x for x in ps if x.get('v') == 35]
+        check('box breathing: 4-second phases that vibrate, exact', len(ciclo) >= 8 and all(abs(x['s'] - 4) < 0.001 for x in ciclo), [(x['s'], x.get('v')) for x in ps[:8]])
+        check('breathing plays its own background quietly', g['som'] == 'midia/musicas/M06.ogg' and g.get('volSom') == 0.4, (g['som'], g.get('volSom')))
+        check('the voice guides only the first rounds', sum(1 for x in ciclo if x['t']) == 8, [x['t'] for x in ciclo[:10]])
+        check('the circle is on screen', await page.locator('#circulo').count() == 1)
+        await page.evaluate("(() => { const g = Guia.g; const e = g.dur.slice(0, 2).reduce((a, b) => a + b, 0) + 1000; g.ini = Date.now() - e; atualizarCirculo(true); })()")
+        check('the circle shows the phase and the seconds left', (await page.locator('#resp-rotulo').inner_text()).strip() == 'Breathe in' and (await page.locator('#resp-seg').inner_text()).strip() == '3',
+              [await page.locator('#resp-rotulo').inner_text(), await page.locator('#resp-seg').inner_text()])
+        check('the circle grows while breathing in', 'scale(1)' in await page.evaluate("$('#circulo').style.transform"), await page.evaluate("$('#circulo').style.transform"))
+        await page.screenshot(path=OUT + '/25-respirar-sessao.png')
+        await fim_do_guia()
+        check('breathing ends with Again / Finish', await page.locator(A('respDeNovo')).count() == 1)
+        await tap(A('respDeNovo'), 400)
+        check('Again starts the same exercise', await page.evaluate("Sessao.r.extra.ex") == 'quadrada' and await page.evaluate("Sessao.fase") == 'guia')
+        await tap(A('sSair'), 300)
+        h = [x for x in await page.evaluate("Hist.todos()") if x['modo'] == 'respirar']
+        check('breathing sessions go to the history', len(h) >= 2)
+
+        # ---- music: a playlist starting from the chosen song, next track, timer
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+        await tap(A('musica'), 300)
+        check('music lists the songs and the nature sounds', await page.locator(A('musTocar')).count() == 17, await page.locator(A('musTocar')).count())
+        await page.screenshot(path=OUT + '/26-musicas.png', full_page=True)
+        await tap(A('musTocar', '[data-v="M03"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('the chosen song plays first, then the others', g['sons'][0] == 'midia/musicas/M03.ogg' and len(g['sons']) == 11 and abs(sum(x['s'] for x in g['passos']) - 1800) < 1, (g['sons'][:2], sum(x['s'] for x in g['passos'])))
+        check('the music screen shows the song and the time left', (await page.locator('#mus-nome').inner_text()).strip() == 'Strings, adagio' and await page.locator('#mus-resta').count() == 1)
+        await page.screenshot(path=OUT + '/27-musica-tocando.png')
+        await tap(A('musProxima'), 300)
+        check('Next track asks Android for the next song', bool(achar(await calls(), 'guiaUpdate', lambda o: o.get('proxima'))))
+        await tap(A('sSair'), 300)
+        # ---- sleep now: voice that relaxes the body, dark screen, then quiet
+        await tap(A('musDormir'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('sleep now: dark screen, dim light, the sleep voice', await page.evaluate("document.documentElement.dataset.noite") == '1' and bool(achar(await calls(), 'brilho', lambda o: o.get('nivel') == 0.05)) and len([x for x in g['passos'] if x['t']]) == 20)
+        await page.screenshot(path=OUT + '/28-dormir.png')
+        await fim_do_guia()
+        check('after the music ends, sleep stays quiet', await page.evaluate("Sessao.fase") == 'quieto' and await page.locator(A('responder')).count() == 0)
+        await tap(A('sSair'), 300)
+
+        # ---- every sentence the app can say in Portuguese has a recording, in both voices
+        faltam = await page.evaluate("""(() => {
+          const antes = LANG, tipo = prefs().vozTipo; setIdioma('pt');
+          const frases = new Set();
+          for (const id of Object.keys(TEC)) for (const v of [false, true]) passosDe(id, v).forEach(([t]) => t && frases.add(t));
+          for (const tipoC of ['proprio', 'relogio', 'nenhum']) roteiroCochilo(tipoC, 0).forEach(([t]) => t && frases.add(t));
+          for (const ex of Object.keys(RESP)) { frases.add(tr(RESP[ex].intro)); }
+          frases.add(tr(RESP_AVISO)); RESP_FIM.forEach(f => frases.add(tr(f)));
+          for (const f of Object.keys(RESP_FALA)) RESP_FALA[f].forEach(x => frases.add(tr(x)));
+          DORMIR.forEach(f => frases.add(tr(f)));
+          frases.add('Esta é a voz que vai te acompanhar aqui.');
+          const falta = [];
+          for (const v of ['feminina', 'masculina']) { setPref('vozTipo', v); for (const f of frases) if (!clipe(f)) falta.push(v + ': ' + f); }
+          setPref('vozTipo', tipo); setIdioma(antes);
+          return { n: frases.size, falta };
+        })()""")
+        check('every Portuguese sentence has a recording in both voices', not faltam['falta'], faltam['falta'][:8] or faltam['n'])
+
+        # ---- recorded voices (Portuguese): female, male, or the phone's own voice
+        await page.evaluate("(() => { setPref('lang', 'pt'); setIdioma('pt'); S.tela = 'inicio'; render(); })()")
+        await page.wait_for_timeout(200)
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('Portuguese uses the recorded female voice', g['passos'][0].get('a', '').startswith('midia/voz/feminina/'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("(() => { S.tela = 'ajustes'; render(); })()")
+        await tap(A('ajVozTipo', '[data-v="masculina"]'), 300)
+        check('choosing the male voice plays a sample of it', bool(achar(await calls(), 'previa', lambda o: o.get('nome', '').startswith('midia/voz/masculina/'))))
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('and the sessions use it', g['passos'][0].get('a', '').startswith('midia/voz/masculina/'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("(() => { setPref('vozTipo', 'android'); })()")
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check("the phone's voice can still be chosen", not g['passos'][0].get('a'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("(() => { setPref('vozTipo', 'feminina'); setPref('lang', 'en'); setIdioma('en'); S.tela = 'inicio'; render(); })()")
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('English keeps the phone voice (no recordings yet)', not g['passos'][0].get('a'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        # ---- an app without the recordings falls back to the sounds made in code
+        await page.evaluate("window.__fnMidia = false")
+        await page.evaluate("Sessao.pico()")
+        await page.evaluate("Sessao.escolher && (Sessao.fase = 'escolha')")
+        await page.evaluate("Sessao.escolher('som')")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('without recordings, the chosen sea falls back to the sea made in code', g['som'] == 'ondas', g['som'])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("window.__fnMidia = true")
 
         # ---- update never applies during a session
         await page.evaluate("Sessao.pico()")

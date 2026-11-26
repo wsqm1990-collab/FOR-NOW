@@ -53,6 +53,8 @@ async function connect() {
   if (cdp) { todosEventos.push(...cdp.events); cdp.close(); }
   for (let i = 0; i < 40; i++) {
     const pid = adb('shell', 'pidof', PKG).trim().split(/\s+/)[0];
+    /* a big APK can still be finishing its install and the system restarts the app: open it again */
+    if (!pid && (i === 8 || i === 20 || i === 32)) adb('shell', 'am', 'start', '-n', `${PKG}/.MainActivity`);
     if (pid) {
       adb('forward', '--remove-all');
       adb('forward', 'tcp:9222', `localabstract:webview_devtools_remote_${pid}`);
@@ -245,6 +247,49 @@ async function main() {
   check('Portuguese works', (await ev(`document.querySelector('[data-a="pico"]').textContent.trim()`)) === 'Está difícil agora');
   await cabe('Portuguese home');
   screen('11-home-pt');
+
+  // ---- the recordings: human voice (Portuguese), breathing with its music, songs that follow one another
+  check('the recordings are inside the app', !!(info && info.midia), info);
+  limparLog();
+  await click(A('pico'), 7000);
+  let lcv = logcat();
+  check('Portuguese speaks with the recorded voice', /clip midia\/voz\/feminina\//.test(lcv), (lcv.match(/(clip|som) [^\n]+/g) || []).slice(0, 6));
+  check('no recording failed to open', !/W ForNow.*(asset|clip) midia/.test(lcv), (lcv.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await click(A('sSair'), 800);
+
+  await ev(`(() => { S.tela = 'respirar'; render(); })()`); await sleep(600);
+  await cabe('breathing list');
+  screen('12-breathe');
+  limparLog();
+  await click(A('respComecar', '[data-v="coerente"]'), 12000);
+  const stR = await ev(`Nat.call('guiaState')`);
+  check('breathing runs in the Android service', stR && stR.running, stR);
+  let lcr = logcat();
+  check('breathing plays its background music', /som midia\/musicas\/M06\.ogg/.test(lcr), (lcr.match(/(clip|som) [^\n]+/g) || []).slice(0, 6));
+  check('the voice guides the breathing', /clip midia\/voz\/feminina\//.test(lcr), null, false);
+  await cabe('breathing session');
+  screen('13-breathe-session');
+  await click(A('sSair'), 800);
+  check('leaving breathing stops the sound', !(await ev(`Nat.call('guiaState').then(s => s.running)`)));
+
+  await ev(`(() => { S.tela = 'musica'; render(); })()`); await sleep(600);
+  await cabe('music list');
+  screen('14-music');
+  limparLog();
+  await click(A('musTocar', '[data-v="M01"]'), 3000);
+  await cabe('music playing');
+  screen('15-music-playing');
+  await click(A('musProxima'), 4000);
+  let lcm = logcat();
+  check('music: the chosen song plays', /som midia\/musicas\/M01\.ogg \(1\/11\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  check('music: Next goes smoothly to the next song', /som midia\/musicas\/M02\.ogg \(2\/11\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  check('the screen shows the new song', await waitFor(`Guia.g && Guia.g.faixa === 1`, 6000), await ev(`Guia.g && Guia.g.faixa`), false);
+  await click(A('sSair'), 800);
+  await click(A('musDormir'), 2500);
+  check('sleep now: dark screen', (await ev(`document.documentElement.dataset.noite`)) === '1');
+  screen('16-sleep');
+  await click(A('sSair'), 800);
+  await ev(`(() => { S.tela = 'inicio'; render(); })()`); await sleep(400);
   await click(A('ajustes'), 600); await click(A('ajLang', '[data-v="en"]'), 600); await click(A('voltar'), 400);
 
   // ---- automatic update: switch to a newer copy of the page, data stays

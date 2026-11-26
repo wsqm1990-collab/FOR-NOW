@@ -17,6 +17,8 @@ adb shell settings put system screen_off_timeout 600000 || true
 if ! adb install -r "$APK" > "$OUT/install.txt" 2>&1; then cat "$OUT/install.txt"; exit 1; fi
 # notifications on, as after the first nap; exact alarms stay off until the test grants them
 adb shell pm grant $PKG android.permission.POST_NOTIFICATIONS 2>/dev/null || true
+# a big APK keeps installing for a moment after "Success"; starting the app too early gets it killed
+sleep 10
 adb logcat -c
 
 # A copy of this build with a higher number, used to test the automatic update.

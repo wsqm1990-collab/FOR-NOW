@@ -27,15 +27,31 @@ const ACT = {
     if (m === 'cochilo') setPref('cochiloVoz', v); else if (m) setPref('voz.' + m, v);
     render();
   },
-  sSom: () => {
-    const g = Guia.g;
-    if (!g) return;
-    const ids = SONS.map(s => s[0]);
-    const prox = ids[(ids.indexOf(g.som) + 1) % ids.length];
-    Guia.setSom(prox);
-    if (Sessao.modo) setPref('som.' + Sessao.modo, prox);
+  /* o som de fundo: abre a lista (na sessão, troca ao vivo) */
+  sSom: () => { const g = Guia.g; if (g) folhaSons(Sessao.modo || 'pico', g.som); },
+  abrirSons: el => folhaSons(el.dataset.m, prefs().som[el.dataset.m]),
+  escolherSom: el => {
+    const m = el.dataset.m, v = el.dataset.v;
+    if (m && m !== 'musica') setPref('som.' + m, v);
+    fecharFolha();
+    if (Guia.g && Sessao.ativa && (Sessao.modo === m || !m)) Guia.setSom(v);
+    else ouvirSom(v);
     render();
   },
+  /* respirar */
+  respirar: () => { S.tela = 'respirar'; render(); },
+  respComecar: el => { if (Nat.on) Nat.safe('previaParar'); Resp.comecar(el.dataset.v); },
+  respDeNovo: () => { const ex = Sessao.r && Sessao.r.extra.ex; Sessao.encerrar('fim'); Resp.comecar(ex); },
+  respMin: el => { setPref('respirar.min', Number(el.dataset.v)); render(); },
+  respVib: el => { setPref('respirar.vib', el.dataset.v === 'true'); render(); },
+  respLivre: el => { Resp.ajustarLivre(el.dataset.v, Number(el.dataset.d)); render(); },
+  /* músicas e sono */
+  musica: () => { S.tela = 'musica'; render(); },
+  musTocar: el => { if (Nat.on) Nat.safe('previaParar'); Mus.tocar(el.dataset.v, false); },
+  musDormir: () => { if (Nat.on) Nat.safe('previaParar'); Mus.dormir(); },
+  musTimer: el => { setPref('musica.timer', Number(el.dataset.v)); render(); },
+  musVoz: el => { setPref('musica.vozDormir', el.dataset.v === 'true'); render(); },
+  musProxima: () => { Guia.proxima(); setTimeout(atualizarMusica, 300); },
   escolher: el => Sessao.escolher(el.dataset.v),
   irFim: () => Sessao.irParaFim(),
   continuarDia: () => Sessao.continuarDia(),
@@ -137,6 +153,7 @@ const ACT = {
   ajVel: el => { setPref('velocidade', Number(el.dataset.v)); render(); },
   ajTestarVoz: () => testarVoz(),
   ajSom: el => { setPref('som.' + el.dataset.m, el.dataset.v); ouvirSom(el.dataset.v); render(); },
+  ajVozTipo: el => { setPref('vozTipo', el.dataset.v); render(); testarVoz(); },
   ajOuvir: el => ouvirSom(el.dataset.v),
   ajTema: el => { setPref('tema', el.dataset.v); render(); },
   ajTexto: el => { setPref('texto', Number(el.dataset.v)); render(); },
@@ -301,7 +318,8 @@ document.addEventListener('visibilitychange', async () => {
 
 async function iniciar() {
   setIdioma(prefs().lang);
-  Guia.aoMudar = () => atualizarFrase();
+  Guia.aoMudar = () => { atualizarFrase(); atualizarCirculo(); };
+  Guia.aoTique = () => { atualizarCirculo(); atualizarMusica(); };
   Guia.aoTerminar = () => Sessao.guiaTerminou();
   document.addEventListener('click', onClick);
   render();
@@ -319,7 +337,7 @@ async function iniciar() {
   if (Nat.on) { setTimeout(() => sincronizar(), 1500); setTimeout(() => sincronizar(), 5000); }
   window.__fnOk = true;
   confirmarVersao();
-  if (Nat.on) { enviarRotulos(); primeiraVez(); }
+  if (Nat.on) { enviarRotulos(); primeiraVez(); Nat.safe('info').then(i => { if (i) { window.__fnMidia = !!i.midia; if (S.tela === 'musica' || S.tela === 'respirar') render(); } }); }
   setTimeout(() => checarAtualizacao(false), 10000);
   setInterval(tique, 15000);
 }

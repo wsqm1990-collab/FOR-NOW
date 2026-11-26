@@ -123,6 +123,11 @@ const Sessao = {
     else if (m === 'paz') this.fase = 'resposta';
     else if (m === 'madrugada') { this.fase = 'quieto'; Pend.add({ id: this.r.id, tipo: 'madrugada', em: agora() }); }
     else if (m === 'cochilo') this.fase = 'cochilo';
+    else if (m === 'respirar') this.fase = 'respFim';
+    else if (m === 'musica') {
+      if (this.r.extra.dormir) this.fase = 'quieto';
+      else { this.encerrar('fim'); if (S.tela === 'sessao') { S.tela = 'musica'; render(); } return; }
+    }
     this.salvarEstado();
     if (m === 'cochilo') { if (S.tela === 'cochiloSessao') render(); return; }
     if (S.tela === 'sessao') render();
@@ -156,8 +161,10 @@ const Sessao = {
   },
   sair() {
     if (!this.ativa) { S.tela = 'inicio'; render(); return; }
-    this.encerrar(this.fase === 'resposta' ? (this.r.saida || 'fim') : 'saiu');
-    S.tela = 'inicio';
+    const m = this.modo, fase = this.fase, dormir = !!this.r.extra.dormir;
+    this.encerrar(fase === 'resposta' ? (this.r.saida || 'fim') : (fase === 'quieto' || fase === 'respFim') ? 'fim' : 'saiu');
+    /* respiração e música voltam para a lista (para escolher outra); o resto vai para o início */
+    S.tela = (m === 'respirar' && fase !== 'respFim') ? 'respirar' : (m === 'musica' && !dormir) ? 'musica' : 'inicio';
     render();
   },
   encerrar(saida) {

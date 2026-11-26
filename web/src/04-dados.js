@@ -20,9 +20,12 @@ const PADRAO = {
   rotulo: 'dificil',            // 'dificil' → "It's hard right now"; 'pico' → "My anxiety is peaking"
   tema: 'auto',                 // auto (escuro das 20h às 6h) | claro | escuro
   texto: 1,                     // 1 | 1.15 | 1.3
-  voz: { pico: true, paz: true, cochilo: true, madrugada: true },
+  voz: { pico: true, paz: true, cochilo: true, madrugada: true, respirar: true, musica: true },
+  vozTipo: 'feminina',          // feminina | masculina (gravadas, em português) | android (a voz do celular)
   velocidade: 0.9,
-  som: { pico: 'chuva', paz: 'chuva', cochilo: 'silencio', madrugada: 'silencio' },
+  som: { pico: 'midia/sons/N01.ogg', paz: 'midia/sons/N01.ogg', cochilo: 'silencio', madrugada: 'silencio', respirar: 'midia/musicas/M06.ogg' },
+  respirar: { ex: 'quadrada', min: 3, vib: true, livre: { in: 4, hold: 2, out: 6, pausa: 0 } },
+  musica: { timer: 30, vozDormir: true, ultima: 'M02' },
   cochiloMin: 20,
   cochiloVoz: true,
   ordem: { pico: ['ambiente', 'respiracao', 'som'], paz: ['musculos', 'somLongo'] },

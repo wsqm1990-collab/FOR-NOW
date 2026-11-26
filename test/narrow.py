@@ -73,6 +73,17 @@ async def main():
             await ver('night', "document.querySelector('[data-a=\"madrugada\"]').click()", 400)
             await ver('night-awake', "document.querySelector('[data-a=\"madDesperto\"]') && document.querySelector('[data-a=\"madDesperto\"]').click()", 300)
             await page.evaluate("(() => { Sessao.ativa && Sessao.encerrar && Sessao.encerrar('saiu'); S.tela = 'inicio'; render(); })()")
+            await ver('breathe-menu', tela('respirar'))
+            await ver('breathe-session', "Resp.comecar('r478')", 400)
+            await ver('breathe-paused', "document.querySelector('[data-a=\"sPausar\"]').click()")
+            await ver('breathe-end', "(() => { const g = Guia.g; g.pausadoEm = 0; g.ini -= g.total + 2000; Guia.tick(); })()", 300)
+            await page.evaluate('Sessao.ativa && Sessao.sair()')
+            await ver('music-menu', tela('musica'))
+            await ver('music-session', "Mus.tocar('M07', false)", 400)
+            await ver('sound-sheet', "folhaSons('paz', 'midia/sons/N01.ogg')", 300)
+            await page.evaluate('fecharFolha(); Sessao.ativa && Sessao.sair()')
+            await ver('sleep-session', "Mus.dormir()", 400)
+            await page.evaluate("(() => { Sessao.ativa && Sessao.sair(); S.tela = 'inicio'; render(); })()")
             for t in ('apoio', 'contato', 'historico', 'revisao', 'ajustes', 'tecnicas', 'preparar', 'diagnostico', 'privacidade', 'acesso'):
                 await ver(t, tela(t), 300)
             if errs:

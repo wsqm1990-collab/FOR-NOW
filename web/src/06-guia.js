@@ -11,20 +11,24 @@ const Guia = {
   iniciar(cfg) {
     this.parar();
     const passos = cfg.passos.filter(Boolean);
-    // cada frase tem pelo menos o tempo de ser dita com calma
-    const dur = passos.map(([t, s]) => Math.max(1000, s * 1000, t ? (Math.ceil(t.length / 11) + 2) * 1000 : 0));
+    // cada frase tem pelo menos o tempo de ser dita com calma (na respiração o tempo é exato)
+    const dur = passos.map(([t, s]) => cfg.exato ? Math.max(300, s * 1000) : Math.max(1000, s * 1000, t ? (Math.ceil(t.length / 11) + 2) * 1000 : 0));
     let total = dur.reduce((a, b) => a + b, 0);
     if (cfg.totalMs && cfg.totalMs > total) { dur[dur.length - 1] += cfg.totalMs - total; total = cfg.totalMs; }
     const g = this.g = {
       id: uid(), tec: cfg.tec, passos, dur, total, ini: agora(), pausa: 0, pausadoEm: 0,
-      voz: !!cfg.voz, som: cfg.som || 'silencio', fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
+      voz: !!cfg.voz, som: somReal(cfg.som || 'silencio'), fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
+      sons: cfg.sons ? cfg.sons.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
     };
     if (Nat.on) {
-      Nat.safe('guiaStart', {
+      const plano = {
         id: g.id, ini: g.ini, voz: g.voz, som: g.som, volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
         labels: { title: 'For Now', text: t('n_text'), paused: t('paused'), pause: t('pause'), resume: t('resume'), end: t('end'), channel: t('n_channel') },
-        passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000 })),
-      });
+        passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
+      };
+      if (g.sons) plano.sons = g.sons;
+      if (cfg.volSom != null) plano.volSom = cfg.volSom;
+      Nat.safe('guiaStart', plano);
     } else GuiaWeb.iniciar(g);
     this.salvar();
     this.tick();
@@ -56,6 +60,7 @@ const Guia = {
       if (!Nat.on) GuiaWeb.passo(g, i);
       if (this.aoMudar) this.aoMudar(g, i);
     }
+    if (this.aoTique) this.aoTique(g);
     this.timer = setTimeout(() => this.tick(), document.visibilityState === 'visible' ? 250 : 1000);
   },
   sync(o) { if (this.g && Nat.on) Nat.safe('guiaUpdate', Object.assign({ id: this.g.id }, o)); },
@@ -88,9 +93,19 @@ const Guia = {
   setSom(s) {
     const g = this.g;
     if (!g) return;
-    g.som = s;
-    this.sync({ som: s });
-    if (!Nat.on) GuiaWeb.som(s, g);
+    g.som = somReal(s);
+    g.sons = null;
+    g.faixa = 0;
+    this.sync({ som: g.som, sons: g.som === 'silencio' ? [] : [g.som] });
+    if (!Nat.on) GuiaWeb.som(g.som, g);
+    this.salvar();
+  },
+  /* lista de músicas: a próxima agora, com uma transição curta */
+  proxima() {
+    const g = this.g;
+    if (!g || !g.sons || g.sons.length < 2) return;
+    g.faixa = (g.faixa + 1) % g.sons.length;
+    this.sync({ proxima: true });
     this.salvar();
   },
   /* parar por escolha (Sair, Trocar): sem esperar o fim */
@@ -139,6 +154,7 @@ const Guia = {
     if (!g || !ev || ev.id !== g.id) return;
     if (ev.type === 'state') {
       g.ini = ev.ini; g.pausa = ev.pausa; g.pausadoEm = ev.pausadoEm;
+      if (typeof ev.faixa === 'number') g.faixa = ev.faixa;
       this.salvar();
       if (typeof atualizarEstadoSessao === 'function') atualizarEstadoSessao();
       this.tick();
@@ -154,6 +170,23 @@ const Guia = {
 };
 
 /* no navegador (testes): voz do próprio navegador, se houver, e o som pela página */
+/* a gravação de uma frase (em português, na voz escolhida), se existir */
+function clipe(texto) {
+  if (!texto || LANG !== 'pt' || !temMidia()) return '';
+  const tipo = prefs().vozTipo;
+  if (tipo === 'android') return '';
+  const m = (typeof VOZ_PT !== 'undefined' && VOZ_PT[tipo === 'masculina' ? 'masculina' : 'feminina']) || {};
+  return m[texto] || '';
+}
+/* o som que dá para tocar aqui: no app, as gravações (e as antigas chuva/ondas viram as gravadas);
+   no navegador, os sons feitos em código */
+function somReal(v) {
+  if (!v) return 'silencio';
+  if (temMidia()) return v === 'chuva' ? 'midia/sons/N01.ogg' : v === 'ondas' ? 'midia/sons/N02.ogg' : v;
+  if (v.startsWith('midia/')) return v === 'midia/sons/N02.ogg' ? 'ondas' : v.startsWith('midia/sons/') ? 'chuva' : 'silencio';
+  return v;
+}
+
 const GuiaWeb = {
   audio: null,
   iniciar(g) { this.som(g.som, g); },

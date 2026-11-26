@@ -9,12 +9,14 @@ const src = path.join(root, 'web', 'src'), out = path.join(root, 'web', 'www');
 const build = Number(process.env.BUILD_NUMBER || process.argv[2] || 0);
 const HEAD = ['01-head.html', '01-estilo.css'];
 const BODY = ['02-body.html'];
-const JS = ['02-idioma.js', '03-nativo.js', '04-dados.js', '05-conteudo.js', '06-guia.js', '07-sessao.js', '08-cochilo.js', '09-aprender.js',
-  '10-ajustes.js', '11-atualizacao.js', '12-telas.js', '13-app.js'];
+const JS = ['02-idioma.js', '03-nativo.js', '04-dados.js', '05-conteudo.js', '06-guia.js', '07-sessao.js', '08-cochilo.js', '08b-respirar.js',
+  '08c-musica.js', '09-aprender.js', '10-ajustes.js', '11-atualizacao.js', '12-telas.js', '13-app.js'];
 const read = f => fs.readFileSync(path.join(src, f), 'utf8');
 const head = HEAD.map(f => (f.endsWith('.css') ? `<style>\n${read(f)}\n</style>` : read(f))).join('\n');
 const body = BODY.map(read).join('\n');
-const js = JS.map(f => `/* ===== ${f} ===== */\n` + read(f)).join('\n');
+/* frases gravadas (texto -> arquivo dentro do app), feito pelo tools/audio-app.py */
+const vozPt = fs.existsSync(path.join(src, 'voz-pt.json')) ? read('voz-pt.json') : '{}';
+const js = `/* ===== voz-pt.json ===== */\nconst VOZ_PT = ${JSON.stringify(JSON.parse(vozPt))};\n` + JS.map(f => `/* ===== ${f} ===== */\n` + read(f)).join('\n');
 if (js.includes('</script')) throw new Error('um script contém </script>');
 
 // Se uma versão recém-baixada não conseguir abrir em 15 s, o app volta para a anterior.

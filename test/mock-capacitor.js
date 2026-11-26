@@ -11,6 +11,7 @@ window.__mock = {
   function impl(name, m, o) {
     if (name === 'ForNow') {
       if (m === 'guiaStart') { guia = { id: o.id, ini: o.ini, pausa: 0, pausadoEm: 0, running: true, passos: o.passos, som: o.som, voz: o.voz }; return Promise.resolve({}); }
+      if (m === 'previa' || m === 'previaParar') return Promise.resolve({});
       if (m === 'guiaUpdate') { if (guia && guia.running && guia.id === o.id) for (const k of ['pausa', 'pausadoEm', 'som', 'voz']) if (o[k] != null) guia[k] = o[k]; return Promise.resolve({}); }
       if (m === 'guiaStop') { if (guia && guia.id === o.id) { guia.running = false; guia.ended = true; } return Promise.resolve({}); }
       if (m === 'guiaState') return Promise.resolve(guia ? { id: guia.id, ini: guia.ini, pausa: guia.pausa, pausadoEm: guia.pausadoEm, running: guia.running, ended: !!guia.ended, complete: !!guia.complete } : {});
@@ -31,7 +32,7 @@ window.__mock = {
       if (m === 'launchAction') { const a = M.acao; M.acao = ''; return Promise.resolve({ acao: a }); }
       if (m === 'ouvintes') { const tem = e => (listeners['ForNow:' + e] || []).length > 0; return Promise.resolve({ guia: tem('guia'), alarme: tem('alarme'), launch: tem('launch') }); }
       if (m === 'vozStatus') return Promise.resolve({ status: 'ok', motor: 'com.google.android.tts' });
-      if (m === 'info') return Promise.resolve({ shell: 2, shellId: M.shellId || 'abc123', versionCode: 7, installer: '', sdk: 35, maker: 'Xiaomi', model: 'POCO', talkback: M.talkback });
+      if (m === 'info') return Promise.resolve({ shell: 2, shellId: M.shellId || 'abc123', midia: M.midia !== false, versionCode: 7, installer: '', sdk: 35, maker: 'Xiaomi', model: 'POCO', talkback: M.talkback });
       if (m === 'fetchText') return Promise.resolve({ text: JSON.stringify({ build: 999, zip: 'https://example.invalid/web.zip', sha256: '', minShell: 2, shellId: M.novoShell || 'abc123' }) });
       if (m === 'fetchBundle') return Promise.resolve({ path: '/data/bundles/999' });
       return Promise.resolve({});

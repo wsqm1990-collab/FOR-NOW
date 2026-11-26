@@ -14,7 +14,8 @@ function aviso(txt) {
 function ehNoite(d = new Date()) { const h = d.getHours(); return h >= 20 || h < 6; }
 function aplicarTema() {
   const p = prefs(), r = document.documentElement;
-  const madrugada = ['madrugada', 'madDesperto', 'madLado', 'alarme'].includes(S.tela) || (S.tela === 'sessao' && Sessao.modo === 'madrugada');
+  const dormindo = S.tela === 'sessao' && Sessao.modo === 'musica' && Sessao.r && Sessao.r.extra.dormir;
+  const madrugada = ['madrugada', 'madDesperto', 'madLado', 'alarme'].includes(S.tela) || (S.tela === 'sessao' && Sessao.modo === 'madrugada') || dormindo;
   const escuro = madrugada || S.tela === 'cochiloSessao' || p.tema === 'escuro' || (p.tema === 'auto' && ehNoite());
   r.setAttribute('data-tema', escuro ? 'escuro' : 'claro');
   if (madrugada) r.setAttribute('data-noite', '1'); else r.removeAttribute('data-noite');
@@ -37,7 +38,9 @@ function enviarRotulos() {
 let previa = null;
 function ouvirSom(id) {
   try { if (previa) { previa.pause(); previa = null; } } catch { /* nada */ }
-  if (!id || id === 'silencio') return;
+  if (!id || id === 'silencio') { if (Nat.on) Nat.safe('previaParar'); return; }
+  id = somReal(id);
+  if (Nat.on && id.startsWith('midia/')) { Nat.safe('previa', { nome: id, ms: 9000, vol: 0.7 }); return; }
   try {
     const a = new Audio('sons/' + id + '.ogg');
     a.volume = 0.6;
@@ -49,6 +52,10 @@ function ouvirSom(id) {
 
 /* ---------- voz ---------- */
 async function testarVoz() {
+  /* a voz gravada escolhida, se for o caso */
+  const frase = 'Esta é a voz que vai te acompanhar aqui.';
+  const clip = clipe(frase);
+  if (clip) { await Nat.safe('previa', { nome: clip, ms: 6000, vol: 1 }); return; }
   const txt = t('voice_test_text');
   if (Nat.on) { await Nat.safe('falar', { texto: txt, rate: prefs().velocidade, lang: TTS_LANG[LANG] }); return; }
   try { if ('speechSynthesis' in window) { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(txt); u.lang = TTS_LANG[LANG]; speechSynthesis.speak(u); } } catch { /* nada */ }
