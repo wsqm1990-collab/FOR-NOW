@@ -1,0 +1,48 @@
+name: Audio pack
+
+# Downloads the audio made on ElevenLabs (links listed in audio/manifest.json, valid for some hours),
+# checks each file and publishes one ZIP as a pre-release. A pre-release is never the "latest"
+# release, so it never reaches the app's automatic updates.
+on:
+  push:
+    branches: [proxima-versao]
+    paths: ['audio/manifest.json', 'tools/audio-pack.py', '.github/workflows/audio-pack.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download and check every file
+        run: |
+          command -v ffprobe > /dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null; }
+          python3 tools/audio-pack.py audio/manifest.json pack
+
+      - name: Publish the ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="audio-${{ github.run_number }}"
+          gh release create "$TAG" pack/ForNow-audios.zip pack/relatorio.txt --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" --prerelease --latest=false --title "For Now · áudios ${{ github.run_number }}" \
+            --notes "Pacote de áudios do For Now (ZIP). Não é uma versão do app."
+          echo "https://github.com/${{ github.repository }}/releases/download/$TAG/ForNow-audios.zip" > pack/link.txt
+
+      - name: Report to the ci-audio branch
+        if: always()
+        run: |
+          mkdir -p /tmp/rep && cp pack/relatorio.txt pack/link.txt /tmp/rep/ 2>/dev/null || true
+          echo "run ${{ github.run_number }} (${{ github.sha }}): ${{ job.status }}" > /tmp/rep/SUMMARY.txt
+          cd /tmp/rep && git init -q && git checkout -q -b ci-audio && git add -A
+          git -c user.name="For Now build" -c user.email="build@users.noreply.github.com" commit -qm "Audio pack ${{ github.run_number }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-audio

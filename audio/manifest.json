@@ -1,0 +1,37 @@
+{
+ "nota": "Links da ElevenLabs (valem algumas horas). O workflow Audio pack baixa tudo e publica um ZIP.",
+ "itens": [
+  {
+   "arquivo": "amostras/Miranda-1.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/xLfHHdbit0EF3MuUXEUm/lDQrglmwqHl3ruU4qzPz/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=eWPGveXJjdRaqNdd635mJ2o3ZxI="
+  },
+  {
+   "arquivo": "amostras/Miranda-2.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/BTj5YWonWebViFhRgmrt/PrJNy358QheiV84zjy83/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=hl3spe6UzLatu7bYAqaGyg8cRJc="
+  },
+  {
+   "arquivo": "amostras/Angel-1.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/a9ppFMu3EDOxsyEa3Ioj/jZgsti6T1ozrvJhaKGyH/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=QBS0TCWU3qVCX6QRMAuOP5nH-9E="
+  },
+  {
+   "arquivo": "amostras/Angel-2.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/MDGGN4uzO3FsdnbT6v5c/zNrTufU5OyuSvE9wtaSj/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=IOejyO27ZSdgqFDMEKHZNoee3Ds="
+  },
+  {
+   "arquivo": "amostras/Bruno-1.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/QARK8vs6wPhH4ergS2IZ/IL2tlTsKpIoGTYLjT76R/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=bufPd7ii8zehTUE4L60hUMmqJh0="
+  },
+  {
+   "arquivo": "amostras/Bruno-2.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/Mm9q6ZhNt9qm2kXAaBug/O6Y8t89KUsOOwpBMV2WJ/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=4lpLTY0IkbGPg2Tg11z875rnFwM="
+  },
+  {
+   "arquivo": "amostras/Mark-1.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/17WAGEDtm6LKI4CvAPeo/xICt4pcD3eL6gSmrtz48/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=15M4_RWXsAkuOE7wi0kWuyu3mIA="
+  },
+  {
+   "arquivo": "amostras/Mark-2.mp3",
+   "url": "https://elevenlabsusercontent.com/database/workspace/a7364951c4f7414abc4cb03acba02293/content_generation/GJBntXbYkMx2VBC8Kr4w/wCcTWNZZHIWMntDf0KmL/content.mp3?Expires=1795708800&KeyName=assets-cdn-key-1&Signature=xIIa2nE_WTscwsu2ryoOWng3h2E="
+  }
+ ]
+}
