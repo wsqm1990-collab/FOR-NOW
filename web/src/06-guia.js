@@ -14,19 +14,20 @@ const Guia = {
     // cada frase tem pelo menos o tempo de ser dita com calma (na respiração o tempo é exato)
     const dur = passos.map(([t, s]) => cfg.exato ? Math.max(300, s * 1000) : Math.max(1000, s * 1000, t ? (Math.ceil(t.length / 11) + 2) * 1000 : 0));
     let total = dur.reduce((a, b) => a + b, 0);
+    const sonsCfg = cfg.sons || listaDoEstilo(cfg.som);
     if (cfg.totalMs && cfg.totalMs > total) { dur[dur.length - 1] += cfg.totalMs - total; total = cfg.totalMs; }
     const g = this.g = {
       id: uid(), tec: cfg.tec, passos, dur, total, ini: agora(), pausa: 0, pausadoEm: 0,
       voz: !!cfg.voz, som: somReal(cfg.som || 'silencio'), fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
-      sons: cfg.sons ? cfg.sons.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
+      sons: sonsCfg ? sonsCfg.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
     };
     if (Nat.on) {
       const plano = {
-        id: g.id, ini: g.ini, voz: g.voz, som: g.som, volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
+        id: g.id, ini: g.ini, voz: g.voz, som: com8D(g.som), volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
         labels: { title: 'For Now', text: t('n_text'), paused: t('paused'), pause: t('pause'), resume: t('resume'), end: t('end'), channel: t('n_channel') },
         passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
       };
-      if (g.sons) plano.sons = g.sons;
+      if (g.sons) plano.sons = g.sons.map(com8D);
       if (cfg.volSom != null) plano.volSom = cfg.volSom;
       Nat.safe('guiaStart', plano);
     } else GuiaWeb.iniciar(g);
@@ -94,13 +95,20 @@ const Guia = {
     const g = this.g;
     if (!g) return;
     g.som = somReal(s);
-    g.sons = null;
+    const l = listaDoEstilo(g.som);
+    g.sons = l ? l.map(somReal) : null;
     g.faixa = 0;
-    this.sync({ som: g.som, sons: g.som === 'silencio' ? [] : [g.som] });
+    this.enviarSons();
     if (!Nat.on) GuiaWeb.som(g.som, g);
     this.salvar();
   },
   /* lista de músicas: a próxima agora, com uma transição curta */
+  /* manda ao Android o fundo atual (na versão 8D, se ligada) */
+  enviarSons() {
+    const g = this.g;
+    if (!g) return;
+    this.sync({ som: com8D(g.som), sons: g.som === 'silencio' ? [] : (g.sons || [g.som]).map(com8D) });
+  },
   proxima() {
     const g = this.g;
     if (!g || !g.sons || g.sons.length < 2) return;

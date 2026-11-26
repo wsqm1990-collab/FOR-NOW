@@ -3,9 +3,10 @@
    outra com transição suave. "Dormir agora" junta uma voz que solta o corpo nos primeiros minutos,
    tela bem escura e a música sumindo devagar no fim. Tudo pelo Android, com a tela apagada. */
 const Mus = {
-  /* todas as músicas, começando pela escolhida */
-  lista(desde) {
-    const ids = MUSICAS.map(m => m[0]);
+  /* as músicas começando pela escolhida; com estilo, só as do mesmo estilo (para dormir, sem susto) */
+  lista(desde, estilo) {
+    const cat = (MUSICAS.find(m => m[0] === desde) || [])[2];
+    const ids = MUSICAS.filter(m => !estilo || m[2] === cat).map(m => m[0]);
     const k = Math.max(0, ids.indexOf(desde));
     return [...ids.slice(k), ...ids.slice(0, k)].map(caminhoMusica);
   },
@@ -13,7 +14,7 @@ const Mus = {
     const p = prefs(), m = p.musica;
     const ehMusica = /^M\d\d$/.test(v);
     if (ehMusica) setPref('musica.ultima', v);
-    const sons = ehMusica ? this.lista(v) : [v];
+    const sons = ehMusica ? this.lista(v, !!dormir) : [v];
     const minutos = Number(m.timer) || 0;            /* 0 = sem fim (8 horas) */
     const totalS = minutos ? minutos * 60 : 8 * 3600;
     const passos = [];

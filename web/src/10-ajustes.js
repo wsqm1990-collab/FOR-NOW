@@ -42,7 +42,7 @@ let previa = null;
 function ouvirSom(id) {
   try { if (previa) { previa.pause(); previa = null; } } catch { /* nada */ }
   if (!id || id === 'silencio') { if (Nat.on) Nat.safe('previaParar'); return; }
-  id = somReal(id);
+  id = com8D(somReal(id));
   if (Nat.on && id.startsWith('midia/')) { Nat.safe('previa', { nome: id, ms: 9000, vol: 0.7 }); return; }
   try {
     const a = new Audio('sons/' + id + '.ogg');

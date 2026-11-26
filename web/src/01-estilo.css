@@ -170,6 +170,8 @@ label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;
 .btn.marcado { border-color: var(--accent); }
 .linha-item.marcado { background: var(--soft); }
 .chip-som { display: inline-flex; align-items: center; gap: 0.4rem; }
+.grupo.atalhos { justify-content: center; }
+.oito-d { align-items: center; }
 .chip-som .ic { width: 1.05rem; height: 1.05rem; color: var(--accent); flex-shrink: 0; }
 .ic-play { margin-left: auto; color: var(--accent); font-size: 0.9rem; padding-left: 0.6rem; }
 .som-escolha { justify-content: space-between; }

@@ -1,6 +1,9 @@
 /* ---------- cochilo ----------
    Regra principal: o app só diz que o alarme está marcado depois de conferir com o Android.
    Uma contagem na tela nunca é tratada como despertador. */
+/* 20 min, 1 h, 1 h 30 ... */
+const fmtDur = min => min < 60 ? `${min} min` : `${Math.floor(min / 60)} h${min % 60 ? ' ' + (min % 60) : ''}`;
+
 const Coch = {
   st: null,          // situação do despertador no Android
   min: 20,
@@ -42,10 +45,14 @@ const Coch = {
     if (/xiaomi|poco|redmi/i.test(st.fabricante || '') && !LS.get('prep_ok')) out.push(t('a_xiaomi'));
     return out;
   },
+  /* de 10 minutos a 3 horas: de 5 em 5 até 1 hora, depois de 15 em 15 */
+  passo(dir) { return dir > 0 ? (this.min >= 60 ? 15 : 5) : (this.min > 60 ? 15 : 5); },
   ajustar(d) {
-    this.min = Math.max(10, Math.min(45, this.min + d));
+    const dir = Math.sign(d);
+    this.min = Math.max(10, Math.min(180, this.min + dir * this.passo(dir)));
     render();
   },
+  definir(min) { this.min = Math.max(10, Math.min(180, Number(min) || 20)); render(); },
 
   async comecar() {
     if (this.ocupado) return;
@@ -72,7 +79,8 @@ const Coch = {
     const som = p.som.cochilo;
     const voz = p.cochiloVoz && p.voz.cochilo !== false;
     let totalMs = 0;
-    if (som !== 'silencio') totalMs = alvo ? Math.max(30000, alvo - agora() - 10000) : this.min * 60000;
+    const margem = tipo === 'sem' ? 0 : 2 * 60000;   /* passa um pouco da hora: quem para o som é o despertador */
+    if (som !== 'silencio') totalMs = (alvo ? Math.max(30000, alvo - agora()) : this.min * 60000) + margem;
     Sessao.tocarCochilo(roteiroCochilo(tipo, alvo), voz, som, totalMs);
     S.tela = 'cochiloSessao';
     render();

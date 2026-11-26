@@ -316,6 +316,63 @@ async def main():
         check('after the music ends, sleep stays quiet', await page.evaluate("Sessao.fase") == 'quieto' and await page.locator(A('responder')).count() == 0)
         await tap(A('sSair'), 300)
 
+        # ---- long nap: up to 3 hours, the sound lasts until the alarm, a song goes on with the same style
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); window.__mock.exato = true; window.__mock.proximo = 0; })()")
+        await tap(A('cochilo'), 400)
+        await tap(A('cochiloDur', '[data-v="120"]'), 200)
+        check('a 2-hour nap can be chosen', await page.evaluate('Coch.min') == 120 and (await page.locator('.grande').first.inner_text()).strip() == '2 h')
+        await tap(A('cochiloMais'), 200)
+        check('above 1 hour the steps are 15 minutes', await page.evaluate('Coch.min') == 135 and (await page.locator('.grande').first.inner_text()).strip() == '2 h 15')
+        for _ in range(6):
+            await tap(A('cochiloMais'), 80)
+        check('the nap stops at 3 hours', await page.evaluate('Coch.min') == 180)
+        await tap(A('cochiloDur', '[data-v="120"]'), 200)
+        await page.screenshot(path=OUT + '/29-cochilo-2h.png', full_page=True)
+        await page.evaluate("setPref('som.cochilo', 'midia/sons/N01.ogg')")
+        await tap(A('cochiloComecar'), 500)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        ag = achar(await calls(), 'alarmeAgendar', lambda o: o.get('tipo') == 'cochilo')[-1][2]
+        dur_s = sum(x['s'] for x in g['passos'])
+        falta_s = (ag['at'] - await page.evaluate('Date.now()')) / 1000
+        check('the rain plays through the whole 2-hour nap, past the alarm time', g['som'] == 'midia/sons/N01.ogg' and falta_s > 7100 and dur_s >= falta_s + 60, (round(dur_s), round(falta_s)))
+        await page.evaluate("(() => { fecharFolha(); if (Sessao.ativa) Sessao.encerrar('saiu'); S.tela = 'inicio'; render(); })()")
+        await page.evaluate("setPref('som.cochilo', 'midia/musicas/M04.ogg')")
+        await page.evaluate("Coch.min = 90; Coch.iniciarSessao('proprio', Date.now() + 90 * 60000)")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('a song in the nap goes on with the other song of the same style', g.get('sons') == ['midia/musicas/M04.ogg', 'midia/musicas/M07.ogg'], g.get('sons'))
+        await page.evaluate("(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); S.tela = 'inicio'; render(); setPref('som.cochilo', 'silencio'); })()")
+
+        # ---- 8D: the same sounds, circling around; only what goes to Android changes
+        await page.evaluate("(() => { S.tela = 'musica'; render(); })()")
+        check('the music screen has the 8D switch', await page.locator(A('tog8D')).count() == 2)
+        await tap(A('tog8D', '[data-v="true"]'), 300)
+        check('turning 8D on plays a sample in 8D', bool(achar(await calls(), 'previa', lambda o: o.get('nome', '').startswith('midia/8d/musicas/'))))
+        await tap(A('musTocar', '[data-v="M05"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('with 8D on, every song goes to Android in 8D', all(x.startswith('midia/8d/musicas/') for x in g['sons']) and g['som'] == 'midia/8d/musicas/M05.ogg', g['sons'][:2])
+        check('the screen still shows the song name', (await page.locator('#mus-nome').inner_text()).strip() == 'Gregorian chant')
+        await page.screenshot(path=OUT + '/30-musica-8d.png')
+        await tap(A('tog8D'), 300)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'sons' in o)[-1][2]
+        check('turning 8D off during the music switches back at once', all(x.startswith('midia/musicas/') for x in u['sons']), u['sons'][:2])
+        await tap(A('sSair'), 300)
+        await page.evaluate("setPref('oitoD', true)")
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+        await tap(A('pazAbrir'), 300)
+        await tap(A('paz', '[data-v="somLongo"]'), 300)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('a nature sound goes in 8D too', g['som'] == 'midia/8d/sons/N01.ogg', g['som'])
+        await tap(A('sSom'), 300)
+        check('the sound list has the 8D switch on top', await page.locator('#folha ' + A('tog8D')).count() == 2)
+        await page.screenshot(path=OUT + '/31-lista-8d.png')
+        await page.evaluate("fecharFolha()")
+        await tap(A('sSair'), 300)
+        await page.evaluate("(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); S.tela = 'inicio'; render(); })()")
+        faltam8d = [v for v in await page.evaluate("FUNDOS.map(f => f.v).filter(tem8D).map(v => (setPref('oitoD', true), com8D(v)))")
+                    if not os.path.exists(os.path.join(ROOT, 'native', v))]
+        await page.evaluate("setPref('oitoD', false)")
+        check('every 8D file the app can ask for exists', not faltam8d, faltam8d)
+
         # ---- every sentence the app can say in Portuguese has a recording, in both voices
         faltam = await page.evaluate("""(() => {
           const antes = LANG, tipo = prefs().vozTipo; setIdioma('pt');

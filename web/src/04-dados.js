@@ -26,6 +26,7 @@ const PADRAO = {
   som: { pico: 'midia/sons/N01.ogg', paz: 'midia/sons/N01.ogg', cochilo: 'silencio', madrugada: 'silencio', respirar: 'midia/musicas/M06.ogg' },
   respirar: { ex: 'quadrada', min: 3, vib: true, livre: { in: 4, hold: 2, out: 6, pausa: 0 } },
   musica: { timer: 30, vozDormir: true, ultima: 'M02' },
+  oitoD: false,                 // sons e músicas em 8D (girando em volta; com fones)
   cochiloMin: 20,
   cochiloVoz: true,
   ordem: { pico: ['ambiente', 'respiracao', 'som'], paz: ['musculos', 'somLongo'] },

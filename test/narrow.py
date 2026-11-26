@@ -86,6 +86,12 @@ async def main():
             await ver('sound-sheet', "folhaSons('paz', 'midia/sons/N01.ogg')", 300)
             await page.evaluate('fecharFolha(); Sessao.ativa && Sessao.sair()')
             await ver('sleep-session', "Mus.dormir()", 400)
+            await page.evaluate("(() => { Sessao.ativa && Sessao.sair(); })()")
+            await ver('music-8d-on', "(() => { setPref('oitoD', true); S.tela = 'musica'; render(); })()", 300)
+            await ver('music-session-8d', "Mus.tocar('M04', false)", 400)
+            await ver('sound-sheet-8d', "folhaSons('cochilo', 'midia/sons/N03.ogg')", 300)
+            await page.evaluate("(() => { fecharFolha(); Sessao.ativa && Sessao.sair(); setPref('oitoD', false); })()")
+            await ver('nap-2h', "(() => { window.__mock.exato = true; window.__mock.proximo = 0; Coch.min = 135; S.tela = 'cochilo'; render(); Coch.checar(); })()", 500)
             await page.evaluate("(() => { Sessao.ativa && Sessao.sair(); S.tela = 'inicio'; render(); })()")
             for t in ('apoio', 'contato', 'historico', 'revisao', 'ajustes', 'tecnicas', 'preparar', 'diagnostico', 'privacidade', 'acesso'):
                 await ver(t, tela(t), 300)

@@ -189,9 +189,10 @@ function viewCochilo() {
       ${av.length ? `<div class="cartao">${av.map(x => `<p class="pequeno aviso">${esc(x)}</p>`).join('')}${botao('preparar', t('prep_alarm'), 'discreto')}</div>` : ''}`;
   }
   return `<section class="tela">${topo(t('nap'))}
-    <p class="grande">${Coch.min} min</p>
+    <p class="grande">${esc(fmtDur(Coch.min))}</p>
     <p class="centro sub" id="cochilo-hora">${t('wake_at', { h: hhmm(alvo) })}</p>
-    <div class="linha"><button class="btn" data-a="cochiloMenos" aria-label="${esc(t('less5'))}">− 5 min</button><button class="btn" data-a="cochiloMais" aria-label="${esc(t('more5'))}">+ 5 min</button></div>
+    <div class="linha"><button class="btn" data-a="cochiloMenos" aria-label="${esc(t('less_n', { n: Coch.passo(-1) }))}">− ${Coch.passo(-1)} min</button><button class="btn" data-a="cochiloMais" aria-label="${esc(t('more_n', { n: Coch.passo(1) }))}">+ ${Coch.passo(1)} min</button></div>
+    <div class="grupo atalhos">${[20, 45, 60, 90, 120].map(m => `<button class="chip" data-a="cochiloDur" data-v="${m}" aria-pressed="${Coch.min === m}">${esc(fmtDur(m))}</button>`).join('')}</div>
     ${painel}
     <div class="secao"><h2>${esc(t('sound_while_resting'))}</h2>${botaoSom('cochilo')}</div>
     <div class="secao"><h2>${esc(t('short_voice_start'))}</h2>${chips('ajCochiloVoz', String(!!p.cochiloVoz), [['true', t('with_voice')], ['false', t('no_voice')]])}</div>
@@ -335,7 +336,8 @@ function viewAjustes() {
       ${v && v.status === 'falta' ? `<p class="pequeno aviso">${esc(t('voice_missing'))}</p>` : ''}
       <p class="pequeno">${esc(t('voice_note'))}</p></div>
     <div class="secao"><h2>${esc(t('sounds'))}</h2>
-      ${[['pico', t('pico_sound')], ['paz', nomeModo('paz')], ['cochilo', nomeModo('cochilo')], ['madrugada', nomeModo('madrugada')], ['respirar', t('breathe')]].map(([m, n]) => `<div class="item"><div class="txt">${esc(n)}</div>${botaoSom(m)}</div>`).join('')}</div>
+      ${[['pico', t('pico_sound')], ['paz', nomeModo('paz')], ['cochilo', nomeModo('cochilo')], ['madrugada', nomeModo('madrugada')], ['respirar', t('breathe')]].map(([m, n]) => `<div class="item"><div class="txt">${esc(n)}</div>${botaoSom(m)}</div>`).join('')}
+      ${temMidia() ? linha8D() : ''}</div>
     <div class="secao"><h2>${esc(t('look'))}</h2>
       ${chips('ajTema', p.tema, [['auto', t('theme_auto')], ['claro', t('light')], ['escuro', t('dark')]])}
       ${chips('ajTexto', String(p.texto), [['1', t('text_normal')], ['1.15', t('text_big')], ['1.3', t('text_bigger')]])}</div>
@@ -436,7 +438,9 @@ function folhaSons(modo, atual) {
   atual = somReal(atual || 'silencio');
   const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
   const chip = f => `<button class="chip" data-a="escolherSom" data-m="${modo}" data-v="${esc(f.v)}" aria-pressed="${f.v === atual}">${esc(tr(f.n))}</button>`;
+  S.folhaSons = { modo, atual };
   abrirFolha(`<p class="pergunta">${esc(t('choose_sound'))}</p>
+    ${temMidia() ? linha8D() : ''}
     <div class="grupo">${chip(FUNDOS[0])}</div>
     ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="grupo">${l.map(chip).join('')}</div></div>`).join('')}
     <button class="btn discreto" data-a="fecharFolha">${esc(t('back_word'))}</button>`);
@@ -489,6 +493,7 @@ function viewMusica() {
     <button class="btn dormir-agora" data-a="musDormir"><span>${esc(t('sleep_now'))}</span><small>${esc(t('sleep_det'))}</small></button>
     <div class="secao"><h2>${esc(t('plays_for'))}</h2>${chips('musTimer', String(m.timer), [['15', t('min_x', { n: 15 })], ['30', t('min_x', { n: 30 })], ['45', t('min_x', { n: 45 })], ['60', t('min_x', { n: 60 })], ['0', t('no_end')]])}</div>
     <div class="secao"><h2>${esc(t('sleep_voice'))}</h2>${chips('musVoz', String(m.vozDormir !== false), [['true', t('on')], ['false', t('off')]])}</div>
+    ${temMidia() ? `<div class="secao">${linha8D()}</div>` : ''}
     <p class="sub">${esc(t('music_tap'))}</p>
     ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="faixas">${l.map(f => `<button class="faixa" data-a="musTocar" data-v="${esc(f.musica || f.v)}"><span class="ic" aria-hidden="true">${f.musica ? '♪' : '≈'}</span><span>${esc(tr(f.n))}</span></button>`).join('')}</div></div>`).join('')}
   </section>`;
@@ -502,7 +507,7 @@ function viewMusSessao(g) {
   const pausado = !!g.pausadoEm, fr = Guia.frase(g), varias = !!(g.sons && g.sons.length > 1);
   const timer = Sessao.r.extra.min;
   return `<section class="sessao musica${dormir ? ' noturna' : ''}">
-    <div class="topo"><span class="marca">${esc(dormir ? t('sleep_now') : t('music'))}</span>${dormir ? `<button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button>` : ''}</div>
+    <div class="topo"><span class="marca">${esc(dormir ? t('sleep_now') : t('music'))}</span><div class="grupo" style="justify-content:flex-end">${temMidia() ? `<button class="chip" data-a="tog8D" aria-pressed="${!!prefs().oitoD}">8D</button>` : ''}${dormir ? `<button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button>` : ''}</div></div>
     <div class="musica-agora">
       <div class="disco${pausado ? ' parado' : ''}" aria-hidden="true"><span></span></div>
       <p class="pequeno">${esc(t('now_playing'))}</p>
@@ -532,3 +537,8 @@ const ICONES = {
   apoio: '<path d="M6.7 4.6h2.5l1.3 3.6-1.8 1.3a10.2 10.2 0 0 0 5.8 5.8l1.3-1.8 3.6 1.3v2.5a1.6 1.6 0 0 1-1.7 1.6A15.4 15.4 0 0 1 5.1 6.3a1.6 1.6 0 0 1 1.6-1.7z"/>',
 };
 const icone = nome => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONES[nome] || ''}</svg>`;
+
+/* som 8D: liga e desliga para todos os sons e músicas */
+function linha8D() {
+  return `<div class="item oito-d"><div class="txt"><b>${esc(t('eight_d'))}</b><div class="pequeno">${esc(t('eight_d_det'))}</div></div>${chips('tog8D', String(!!prefs().oitoD), [['false', t('off')], ['true', t('on')]])}</div>`;
+}

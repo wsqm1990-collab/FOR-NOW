@@ -57,6 +57,14 @@ const caminhoMusica = id => `midia/musicas/${id}.ogg`;
 /* tudo o que pode tocar ao fundo, com o nome e a categoria */
 const FUNDOS = [...SONS.map(([v, n, c]) => ({ v, n, c })), ...MUSICAS.map(([id, n, c]) => ({ v: caminhoMusica(id), n, c, musica: id }))];
 const nomeSom = id => { const f = FUNDOS.find(x => x.v === id); return tr((f || FUNDOS[0]).n); };
+/* uma música como fundo: ela e as outras do mesmo estilo, uma depois da outra (null se não é música) */
+function listaDoEstilo(v) {
+  const m = /^midia\/musicas\/(M\d\d)\.ogg$/.exec(v || '');
+  return m ? Mus.lista(m[1], true) : null;
+}
+/* versão 8D: o som gira devagar em volta de você (com fones). Só no que vai para o Android. */
+const tem8D = v => /^midia\/(musicas|sons)\/[MN]\d\d\.ogg$/.test(v || '') || v === 'grave';
+const com8D = v => (prefs().oitoD && temMidia() && tem8D(v)) ? (v === 'grave' ? 'midia/8d/sons/grave.ogg' : v.replace('midia/', 'midia/8d/')) : v;
 /* gravações só existem no app instalado; no navegador ficam os sons feitos em código */
 const temMidia = () => !!(Nat.on && window.__fnMidia !== false);
 const listaSons = () => FUNDOS.filter(f => f.c !== 'reserva' && (temMidia() || !f.v.startsWith('midia/'))).map(f => [f.v, tr(f.n)]);

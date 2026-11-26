@@ -82,8 +82,8 @@ const STR = {
 
   /* cochilo */
   wake_at: ['You wake up at <b>{h}</b>', 'Você acorda às <b>{h}</b>', 'Despiertas a las <b>{h}</b>'],
-  less5: ['5 minutes less', 'Menos 5 minutos', '5 minutos menos'],
-  more5: ['5 minutes more', 'Mais 5 minutos', '5 minutos más'],
+  less_n: ['{n} minutes less', 'Menos {n} minutos', '{n} minutos menos'],
+  more_n: ['{n} minutes more', 'Mais {n} minutos', '{n} minutos más'],
   start: ['Start', 'Começar', 'Empezar'],
   prep_alarm: ['Prepare the alarm', 'Preparar despertador', 'Preparar la alarma'],
   checking_alarm: ['Checking the alarm…', 'Conferindo o despertador…', 'Revisando la alarma…'],
@@ -202,6 +202,8 @@ const STR = {
   main_button: ['Main button', 'Botão principal', 'Botón principal'],
   on: ['On', 'Ligada', 'Activada'],
   off: ['Off', 'Desligada', 'Apagada'],
+  eight_d: ['8D sound', 'Som 8D', 'Sonido 8D'],
+  eight_d_det: ['The sound slowly circles around you. Use headphones.', 'O som gira devagar em volta de você. Use fones de ouvido.', 'El sonido gira despacio a tu alrededor. Usa auriculares.'],
   speed: ['Speed', 'Velocidade', 'Velocidad'],
   slower: ['Slower', 'Mais lenta', 'Más lenta'],
   calm: ['Calm', 'Calma', 'Calmada'],

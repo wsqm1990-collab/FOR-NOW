@@ -52,6 +52,17 @@ const ACT = {
   musTimer: el => { setPref('musica.timer', Number(el.dataset.v)); render(); },
   musVoz: el => { setPref('musica.vozDormir', el.dataset.v === 'true'); render(); },
   musProxima: () => { Guia.proxima(); setTimeout(atualizarMusica, 300); },
+  /* 8D: vale para tudo; numa sessão muda na hora, fora dela toca uma amostra */
+  tog8D: el => {
+    const v = el.dataset.v != null ? el.dataset.v === 'true' : !prefs().oitoD;
+    setPref('oitoD', v);
+    const folha = !$('#folha').hidden && S.folhaSons;
+    if (Guia.g && Sessao.ativa) Guia.enviarSons();
+    else if (folha && v) ouvirSom(folha.atual);
+    else if (v && S.tela === 'musica') ouvirSom(caminhoMusica(prefs().musica.ultima || 'M02'));
+    if (folha) folhaSons(folha.modo, folha.atual);
+    render();
+  },
   escolher: el => Sessao.escolher(el.dataset.v),
   irFim: () => Sessao.irParaFim(),
   continuarDia: () => Sessao.continuarDia(),
@@ -60,8 +71,9 @@ const ACT = {
   responder: el => Sessao.responder(el.dataset.v),
 
   /* cochilo */
-  cochiloMenos: () => Coch.ajustar(-5),
-  cochiloMais: () => Coch.ajustar(5),
+  cochiloMenos: () => Coch.ajustar(-1),
+  cochiloMais: () => Coch.ajustar(1),
+  cochiloDur: el => Coch.definir(el.dataset.v),
   cochiloComecar: () => Coch.comecar(),
   cochiloAutorizar: () => Nat.safe('alarmePermitir'),
   cochiloNotif: async () => {
