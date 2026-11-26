@@ -1,0 +1,182 @@
+{
+ "idioma": "pt-BR",
+ "modelo": "eleven_v4",
+ "nota": "Cada bloco vira um arquivo de áudio. As frases são separadas por [long pause]; o app corta o arquivo nessas pausas e usa cada frase sozinha, no tempo certo. O texto de cada frase é igual ao que aparece na tela.",
+ "vozes": {
+  "feminina": {
+   "sugestao": "Miranda - Calm & Serene",
+   "voice_id": "pycQyzKletH76EvhFjXL",
+   "alternativa": "Angel - Warm & Soothing (qiPEUVsraZ9jPQZFYhfc)"
+  },
+  "masculina": {
+   "sugestao": "Bruno - Calm and Deep",
+   "voice_id": "coDqCEkljuhSqVVLj9y7",
+   "alternativa": "Mark - Emotional & Expressive (AER0pA6w0SVtfnFMyfXG)"
+  }
+ },
+ "blocos": [
+  {
+   "id": "V00",
+   "nome": "Teste da voz",
+   "frases": [
+    "Esta é a voz que vai te acompanhar aqui."
+   ]
+  },
+  {
+   "id": "V01",
+   "nome": "Pico: o que está em volta",
+   "frases": [
+    "Sinta onde os pés encontram o chão.",
+    "Escolha um objeto à sua frente.",
+    "Repare numa cor ou num detalhe dele.",
+    "Agora perceba um som por perto.",
+    "Pode ficar só com isso por um momento.",
+    "Tudo bem. Volte para o que está em volta.",
+    "Encoste a mão em alguma coisa e repare na textura.",
+    "Repare se é frio ou morno, liso ou áspero.",
+    "Agora encontre com os olhos três coisas da mesma cor."
+   ]
+  },
+  {
+   "id": "V02",
+   "nome": "Pico: respirar e ouvir",
+   "frases": [
+    "Deixe o ar entrar do jeito que vier.",
+    "Solte devagar, sem pressa.",
+    "Não precisa encher o peito nem prender o ar.",
+    "Só deixe a saída do ar ficar um pouco mais lenta.",
+    "Continue assim, no seu ritmo.",
+    "Escolha um som e fique com ele por um instante.",
+    "Quando perceber que começou a conversar com um pensamento, pode voltar ao som.",
+    "Não precisa esvaziar a cabeça. É só voltar, quantas vezes for.",
+    "Pode ficar só com o som.",
+    "Eu fico em silêncio agora. Continue com o som.",
+    "Fique mais um pouco. Não precisa fazer nada."
+   ]
+  },
+  {
+   "id": "V03",
+   "nome": "Soltar o corpo",
+   "frases": [
+    "Se for confortável, feche as mãos de leve.",
+    "Agora solte. Repare na diferença.",
+    "Suba um pouco os ombros, sem forçar.",
+    "E deixe que desçam. Deixe os ombros descansarem.",
+    "Se alguma parte doer, pode só soltar, sem apertar.",
+    "Franza de leve a testa e os olhos.",
+    "Solte o rosto: a testa, os olhos, o maxilar.",
+    "Empurre os pés de leve contra o chão.",
+    "E solte as pernas.",
+    "Agora deixe o corpo pesar onde está apoiado.",
+    "Não precisa fazer mais nada. Fique o quanto quiser."
+   ]
+  },
+  {
+   "id": "V04",
+   "nome": "Madrugada",
+   "tom": "[softly] [slowly]",
+   "frases": [
+    "Deixe o corpo pesar no colchão.",
+    "Solte os ombros.",
+    "Deixe as mãos pesadas.",
+    "Não precisa dormir agora. Descansar já conta.",
+    "Se vierem pensamentos, deixe que passem como barulho lá fora.",
+    "Eu vou ficar em silêncio."
+   ]
+  },
+  {
+   "id": "V05",
+   "nome": "Cochilo e despertar",
+   "frases": [
+    "Seu despertador está marcado.",
+    "O despertador está no Relógio do celular.",
+    "Este descanso não tem despertador.",
+    "Sinta o apoio do travesseiro.",
+    "Você pode descansar agora. Se não dormir, tudo bem: descansar já conta.",
+    "Você pode descansar agora.",
+    "Hora de voltar, sem pressa.",
+    "Mexa os dedos das mãos e dos pés.",
+    "Espreguice, se tiver vontade.",
+    "Quando quiser, abra bem os olhos e respire fundo uma vez."
+   ]
+  },
+  {
+   "id": "V06",
+   "nome": "Respiração: começo e fim",
+   "frases": [
+    "Respiração quadrada. Inspire, segure, solte e faça uma pausa, todos no mesmo tempo. Siga o círculo.",
+    "Respiração quatro, sete, oito. Inspire contando até quatro, segure até sete e solte devagar até oito.",
+    "Respiração coerente. Inspire e solte no mesmo ritmo, devagar, como uma onda.",
+    "Expiração longa. Deixe a saída do ar ficar mais longa que a entrada.",
+    "Suspiro duplo. Puxe o ar pelo nariz, puxe mais um pouquinho, e solte tudo bem devagar pela boca.",
+    "Respiração no seu tempo. Siga o círculo.",
+    "Se ficar desconfortável, volte a respirar normalmente. Pode encurtar os tempos.",
+    "Pode voltar a respirar no seu ritmo.",
+    "Repare como o corpo está agora."
+   ]
+  },
+  {
+   "id": "V07",
+   "nome": "Respiração: comandos",
+   "frases": [
+    "Inspire pelo nariz.",
+    "Segure o ar.",
+    "Solte o ar devagar.",
+    "Pausa.",
+    "Mais um pouquinho de ar.",
+    "E solte tudo, bem devagar.",
+    "Inspire.",
+    "Segure.",
+    "Solte."
+   ]
+  },
+  {
+   "id": "V08",
+   "nome": "Contagem",
+   "frases": [
+    "Um.",
+    "Dois.",
+    "Três.",
+    "Quatro.",
+    "Cinco.",
+    "Seis.",
+    "Sete.",
+    "Oito."
+   ]
+  },
+  {
+   "id": "V09",
+   "nome": "Dormir, parte 1",
+   "tom": "[softly] [slowly]",
+   "frases": [
+    "Deite do jeito mais confortável para você.",
+    "Deixe o celular de lado. Não precisa olhar para a tela.",
+    "Solte o ar devagar, um pouco mais longo que o normal.",
+    "Mais uma vez. Deixe a saída do ar ficar lenta.",
+    "Agora leve a atenção para os pés.",
+    "Deixe os pés pesados, afundando no colchão.",
+    "Suba para as pernas. Deixe as pernas soltas.",
+    "O quadril e a barriga também podem descansar.",
+    "Repare no peito subindo e descendo, sem controlar nada.",
+    "Agora as mãos. Deixe as mãos pesadas e mornas."
+   ]
+  },
+  {
+   "id": "V10",
+   "nome": "Dormir, parte 2",
+   "tom": "[softly] [slowly]",
+   "frases": [
+    "Os braços, até os ombros. Deixe os ombros descerem.",
+    "O pescoço pode descansar no travesseiro.",
+    "Solte o maxilar, a língua, a testa e os olhos.",
+    "Se vierem pensamentos, deixe que passem, como nuvens.",
+    "Não precisa tentar dormir. Descansar já conta.",
+    "Imagine um lugar tranquilo, onde você gosta de estar.",
+    "Repare nas cores, nos sons e na temperatura desse lugar.",
+    "Deixe o corpo cada vez mais pesado.",
+    "Eu vou ficar em silêncio agora. A música continua por um tempo.",
+    "Boa noite."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "nota": "ElevenLabs Music (eleven_music_v2_5). Faixas instrumentais de 3 minutos; o app toca em sequência e com transição suave.",
+ "faixas": [
+  {
+   "id": "M01",
+   "nome": "Piano suave",
+   "prioridade": 1,
+   "prompt": "Slow, gentle solo piano in a late-Romantic impressionist style, warm felt-piano tone with soft sustain pedal, a simple lyrical melody over sparse arpeggios, around 60 BPM. Very calm and intimate, staying quiet throughout and fading out gently at the end. Instrumental, no percussion."
+  },
+  {
+   "id": "M02",
+   "nome": "Piano para dormir",
+   "prioridade": 1,
+   "prompt": "Very slow ambient solo piano for sleep, low and middle register only, long sustained notes with plenty of space between phrases, around 50 BPM, soft room reverb. Dreamy and tranquil, getting even softer toward the end. Instrumental, no percussion."
+  },
+  {
+   "id": "M03",
+   "nome": "Cordas em adágio",
+   "prioridade": 1,
+   "prompt": "Peaceful classical adagio for string orchestra, warm violas and cellos with soft violins, long legato lines and gentle swells, slow tempo around 55 BPM. Serene and comforting with no dramatic climax, fading out softly. Instrumental, no percussion."
+  },
+  {
+   "id": "M04",
+   "nome": "Harpa celta",
+   "prioridade": 1,
+   "prompt": "Slow Celtic harp solo playing a gentle traditional-style air in Dorian mode, with a soft ambient string pad underneath, around 65 BPM. Peaceful and nostalgic, warm airy production, fading out gently. Instrumental, no percussion."
+  },
+  {
+   "id": "M05",
+   "nome": "Canto gregoriano",
+   "prioridade": 1,
+   "prompt": "Slow Gregorian-style chant sung by a small male choir in unison, wordless vowels only, long flowing phrases in a large stone cathedral with long natural reverb. Sacred, meditative and very calm, no instruments and no percussion."
+  },
+  {
+   "id": "M06",
+   "nome": "Ambiente profundo",
+   "prioridade": 1,
+   "prompt": "Slow evolving ambient soundscape with warm analog synth pads, soft shimmering textures and a deep gentle drone, no beat, changing very gradually. Deeply relaxing and spacious, fading out slowly at the end."
+  },
+  {
+   "id": "M07",
+   "nome": "Celta com flauta",
+   "prioridade": 2,
+   "prompt": "Slow Celtic air played on a soft low whistle over fingerpicked harp and gentle strings, around 70 BPM. Misty and peaceful, warm acoustic production. Instrumental, no percussion."
+  },
+  {
+   "id": "M08",
+   "nome": "Coral etéreo",
+   "prioridade": 2,
+   "prompt": "Ethereal wordless female choir singing soft sustained harmonies over a warm ambient pad, slow and floating with long reverb. Angelic and calming, no percussion, fading out gently."
+  },
+  {
+   "id": "M09",
+   "nome": "Tigelas tibetanas",
+   "prioridade": 2,
+   "prompt": "Meditative Tibetan singing bowls with long resonant tones over a low soft drone, slow and spacious, gentle and grounding. No percussion and no melodic instruments."
+  },
+  {
+   "id": "M10",
+   "nome": "Violão suave",
+   "prioridade": 2,
+   "prompt": "Slow fingerstyle classical guitar on nylon strings, warm and intimate close-mic sound, a simple gentle melody around 65 BPM. Calm and soothing. Instrumental, no percussion."
+  },
+  {
+   "id": "M11",
+   "nome": "Manhã suave",
+   "prioridade": 2,
+   "prompt": "Gentle morning music with soft piano and light strings, starting very quietly and slowly brightening into a hopeful, warm melody around 72 BPM. Uplifting but calm. Instrumental, no drums."
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "nota": "ElevenLabs Sound Effects (eleven_text_to_sound_v3), 30 segundos, em loop se houver a opção. O app junta o fim com o começo sem emenda.",
+ "sons": [
+  {
+   "id": "N01",
+   "nome": "Chuva",
+   "prompt": "Steady gentle rain falling on leaves and soil, soft and even, no thunder"
+  },
+  {
+   "id": "N02",
+   "nome": "Mar",
+   "prompt": "Calm ocean waves rolling slowly onto a sandy beach, soft and distant"
+  },
+  {
+   "id": "N03",
+   "nome": "Floresta à noite",
+   "prompt": "Quiet forest at night, soft crickets and a faint distant breeze"
+  },
+  {
+   "id": "N04",
+   "nome": "Riacho",
+   "prompt": "Small stream gently flowing over smooth stones, soft and continuous"
+  },
+  {
+   "id": "N05",
+   "nome": "Lareira",
+   "prompt": "Soft crackling fireplace, close-mic, gentle occasional pops"
+  }
+ ]
+}
