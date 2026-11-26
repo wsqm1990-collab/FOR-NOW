@@ -6,7 +6,7 @@ name: Audio pack
 on:
   push:
     branches: [proxima-versao]
-    paths: ['audio/manifest.json', 'tools/audio-pack.py', '.github/workflows/audio-pack.yml']
+    paths: ['audio/manifest.json', 'tools/audio-pack.py', 'tools/audio-split.py', '.github/workflows/audio-pack.yml']
   workflow_dispatch:
 
 permissions:
@@ -28,12 +28,17 @@ jobs:
           command -v ffprobe > /dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null; }
           python3 tools/audio-pack.py audio/manifest.json pack
 
+      - name: Cut the voice blocks into one clip per sentence (for the app)
+        run: |
+          python3 tools/audio-split.py pack/ForNow-audios app | tee pack/divisao.txt
+          (cd app && zip -qr ../pack/ForNow-vozes-app.zip voz voz-pt.json)
+
       - name: Publish the ZIP
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="audio-${{ github.run_number }}"
-          gh release create "$TAG" pack/ForNow-audios.zip pack/relatorio.txt --repo "${{ github.repository }}" \
+          gh release create "$TAG" pack/ForNow-audios.zip pack/ForNow-vozes-app.zip pack/relatorio.txt pack/divisao.txt --repo "${{ github.repository }}" \
             --target "${{ github.sha }}" --prerelease --latest=false --title "For Now · áudios ${{ github.run_number }}" \
             --notes "Pacote de áudios do For Now (ZIP). Não é uma versão do app."
           echo "https://github.com/${{ github.repository }}/releases/download/$TAG/ForNow-audios.zip" > pack/link.txt
@@ -41,7 +46,7 @@ jobs:
       - name: Report to the ci-audio branch
         if: always()
         run: |
-          mkdir -p /tmp/rep && cp pack/relatorio.txt pack/link.txt /tmp/rep/ 2>/dev/null || true
+          mkdir -p /tmp/rep && cp pack/relatorio.txt pack/divisao.txt pack/link.txt /tmp/rep/ 2>/dev/null || true
           echo "run ${{ github.run_number }} (${{ github.sha }}): ${{ job.status }}" > /tmp/rep/SUMMARY.txt
           cd /tmp/rep && git init -q && git checkout -q -b ci-audio && git add -A
           git -c user.name="For Now build" -c user.email="build@users.noreply.github.com" commit -qm "Audio pack ${{ github.run_number }}"
