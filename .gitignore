@@ -11,3 +11,4 @@ upd.zip
 native/keystore/
 test-out/
 test/shots/
+__pycache__/
