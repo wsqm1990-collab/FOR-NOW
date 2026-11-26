@@ -281,8 +281,9 @@ async function main() {
   screen('15-music-playing');
   await click(A('musProxima'), 4000);
   let lcm = logcat();
-  check('music: the chosen song plays', /som midia\/musicas\/M01\.ogg \(1\/11\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
-  check('music: Next goes smoothly to the next song', /som midia\/musicas\/M02\.ogg \(2\/11\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  // Gentle piano is "to relax": it goes on with the other songs of that list (harp, flute)
+  check('music: the chosen song plays', /som midia\/musicas\/M01\.ogg \(1\/3\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  check('music: Next goes smoothly to the next song of the same list', /som midia\/musicas\/M04\.ogg \(2\/3\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
   check('the screen shows the new song', await waitFor(`Guia.g && Guia.g.faixa === 1`, 6000), await ev(`Guia.g && Guia.g.faixa`), false);
   await click(A('sSair'), 800);
   await click(A('musDormir'), 2500);
