@@ -3,18 +3,19 @@
    outra com transição suave. "Dormir agora" junta uma voz que solta o corpo nos primeiros minutos,
    tela bem escura e a música sumindo devagar no fim. Tudo pelo Android, com a tela apagada. */
 const Mus = {
-  /* as músicas começando pela escolhida; com estilo, só as do mesmo estilo (para dormir, sem susto) */
-  lista(desde, estilo) {
-    const cat = (MUSICAS.find(m => m[0] === desde) || [])[2];
-    const ids = MUSICAS.filter(m => !estilo || m[2] === cat).map(m => m[0]);
+  /* as músicas começando pela escolhida: as do mesmo uso (relaxar, focar...), ou, para dormir e
+     para fundo, só as do mesmo estilo (muda menos ainda) */
+  lista(desde, como) {
+    const cat = (MUSICAS.find(m => m[0] === desde) || [])[2], uso = usoDe(caminhoMusica(desde));
+    const ids = MUSICAS.filter(m => como === 'uso' ? usoDe(caminhoMusica(m[0])) === uso : !como || m[2] === cat).map(m => m[0]);
     const k = Math.max(0, ids.indexOf(desde));
     return [...ids.slice(k), ...ids.slice(0, k)].map(caminhoMusica);
   },
   tocar(v, dormir) {
     const p = prefs(), m = p.musica;
-    const ehMusica = /^M\d\d$/.test(v);
+    const ehMusica = /^M\d\d$/.test(v), ehMix = v.startsWith('mix:');
     if (ehMusica) setPref('musica.ultima', v);
-    const sons = ehMusica ? this.lista(v, !!dormir) : [v];
+    const sons = ehMix ? null : ehMusica ? this.lista(v, dormir ? 'estilo' : 'uso') : [v];
     const minutos = Number(m.timer) || 0;            /* 0 = sem fim (8 horas) */
     const totalS = minutos ? minutos * 60 : 8 * 3600;
     const passos = [];
@@ -26,7 +27,7 @@ const Mus = {
     Sessao.r.passos.push({ tec: 'musica', ini: agora(), fim: null });
     Hist.salvar(Sessao.r);
     Guia.iniciar({
-      tec: 'musica', tipo: dormir ? 'dormir' : 'musica', passos, sons, som: sons[0], voz: p.voz.musica !== false,
+      tec: 'musica', tipo: dormir ? 'dormir' : 'musica', passos, sons, som: ehMix ? v : sons[0], voz: p.voz.musica !== false,
       totalMs: totalS * 1000, fimFadeMs: minutos ? Math.min(180000, totalS * 150) : 4000, volSom: 0.6,
     });
     Sessao.salvarEstado();

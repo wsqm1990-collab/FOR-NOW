@@ -57,12 +57,21 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private PowerManager.WakeLock wakeLock;
     private AudioManager am;
     private AudioFocusRequest focusReq;
-    private MediaPlayer ambiente;      // the background playing now
-    private MediaPlayer proximo;       // the next song, during a crossfade
     private MediaPlayer vozMp;         // the recorded voice of the current sentence
-    private String[] lista = new String[0];
-    private int faixa = 0;
-    private long cruzIni = 0, cruzMs = 5000, ultimaMistura = 0;
+    /** The background: one or more layers playing together (a mix), each with its own volume. */
+    private final java.util.ArrayList<Camada> camadas = new java.util.ArrayList<>();
+    private long ultimaMistura = 0;
+
+    /** One background layer: a sound that repeats, or a list of songs that follow each other. */
+    private static final class Camada {
+        String[] lista = new String[0];
+        int faixa = 0;
+        MediaPlayer atual, proximo;    // playing now / the next one, while they cross
+        long cruzIni = 0, cruzMs = 5000;
+        float alvo = 1f, vol = 1f;     // this layer's volume (from the page) and where it is now
+        boolean saindo = false;        // fading out, to be removed
+        String chave() { return lista.length > 0 ? lista[0] : ""; }
+    }
     private float volAtual = 0f, volVoz = 1f, volSom = VOL_AMBIENTE, focoFator = 1f;
     private boolean receptorLigado = false;
 
@@ -155,7 +164,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             volVoz = (float) o.optDouble("volVoz", volume);
             volSom = (float) o.optDouble("volSom", VOL_AMBIENTE * volume);
             fimFade = o.optLong("fimFade", 0);
-            lista = lerLista(o, som);
+            java.util.ArrayList<Camada> novas = lerCamadas(o, som);
             JSONObject lb = o.optJSONObject("labels");
             if (lb != null) {
                 lTitle = lb.optString("title", lTitle);
@@ -189,14 +198,14 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             Fala.get(this).preparar(lang);
             pedirFoco();
             ligarReceptor();
-            faixa = 0;
-            tocarLista(true);
+            camadas.addAll(novas);
+            tocarCamadas(true);
             garantirCanal();
             entrarEmPrimeiroPlano(notificacao());
             segurarCpu();
             salvarEstado(false, false, 0);
             handler.post(tick);
-            Log.i(ForNowPlugin.TAG, "guia start id=" + id + " passos=" + n + " som=" + som + " lista=" + lista.length + " voz=" + voz + " total=" + totalMs);
+            Log.i(ForNowPlugin.TAG, "guia start id=" + id + " passos=" + n + " som=" + som + " lista=" + principalTam() + " camadas=" + camadas.size() + " voz=" + voz + " total=" + totalMs);
             return true;
         } catch (Exception e) {
             Log.e(ForNowPlugin.TAG, "bad plan", e);
@@ -219,14 +228,21 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             if (o.has("voz")) { voz = o.optBoolean("voz", voz); if (!voz) calar(); }
             if (o.has("volSom")) volSom = (float) o.optDouble("volSom", volSom);
             if (o.has("volVoz")) { volVoz = (float) o.optDouble("volVoz", volVoz); try { if (vozMp != null) vozMp.setVolume(volVoz, volVoz); } catch (Exception ignored) { } }
-            if (o.has("som") || o.has("sons")) {
+            if (o.has("camadas")) {
+                // a mix being made: layers come in, go out and change volume smoothly, nothing restarts
+                misturarAoVivo(lerCamadas(o, o.optString("som", som)));
+                som = o.optString("som", som);
+            } else if (o.has("som") || o.has("sons")) {
                 String s = o.optString("som", som);
                 String[] nova = lerLista(o, s);
-                if (!java.util.Arrays.equals(nova, lista)) {
+                Camada c0 = camadas.isEmpty() ? null : camadas.get(0);
+                if (camadas.size() != 1 || c0 == null || !java.util.Arrays.equals(nova, c0.lista)) {
                     som = s;
-                    lista = nova;
-                    faixa = 0;
-                    tocarLista(true);
+                    pararAmbiente();
+                    Camada c = new Camada();
+                    c.lista = nova;
+                    camadas.add(c);
+                    tocarCamadas(true);
                     if (pausadoEm > 0) pausarAmbiente();
                 }
             }
@@ -307,8 +323,8 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             }
         }
         if (pausadoEm == 0) misturar(totalMs - e);
-        // finer steps while two tracks are crossing, so the crossfade is smooth
-        handler.postDelayed(tick, pausadoEm > 0 ? 1000 : proximo != null ? 40 : 200);
+        // finer steps while tracks cross or layers glide, so it stays smooth
+        handler.postDelayed(tick, pausadoEm > 0 ? 1000 : emMovimento() ? 40 : 200);
     }
 
     private void falarPasso(int i) {
@@ -406,8 +422,9 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             o.put("pausa", pausa);
             o.put("pausadoEm", pausadoEm);
             o.put("running", running);
-            o.put("faixa", faixa);
-            o.put("faixas", lista.length);
+            Camada p = principal();
+            o.put("faixa", p == null ? 0 : p.faixa);
+            o.put("faixas", p == null ? 0 : p.lista.length);
         } catch (Exception ignored) { }
         return o;
     }
@@ -441,7 +458,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
 
     // ---------------------------------------------------------------- background sound
 
-    /** The background list from the plan: "sons" (several, in turn) or "som" (one, repeating). */
+    /** The background list of one layer: "sons" (several, in turn) or "som" (one, repeating). */
     private static String[] lerLista(JSONObject o, String somUnico) {
         JSONArray a = o.optJSONArray("sons");
         if (a != null) {
@@ -452,6 +469,36 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         if (somUnico == null || somUnico.length() == 0 || "silencio".equals(somUnico)) return new String[0];
         return new String[] { somUnico };
     }
+
+    /** The layers of a plan: "camadas" [{sons|som, vol}] for a mix, or one layer from "sons"/"som". */
+    private static java.util.ArrayList<Camada> lerCamadas(JSONObject o, String som) {
+        java.util.ArrayList<Camada> out = new java.util.ArrayList<>();
+        JSONArray cs = o.optJSONArray("camadas");
+        if (cs != null) {
+            for (int i = 0; i < cs.length(); i++) {
+                JSONObject c = cs.optJSONObject(i);
+                if (c == null) continue;
+                Camada k = new Camada();
+                k.lista = lerLista(c, c.optString("som", ""));
+                k.alvo = k.vol = (float) Math.max(0, Math.min(1, c.optDouble("vol", 1)));
+                if (k.lista.length > 0) out.add(k);
+            }
+            return out;
+        }
+        Camada k = new Camada();
+        k.lista = lerLista(o, som);
+        if (k.lista.length > 0) out.add(k);
+        return out;
+    }
+
+    /** The layer the page shows as "now playing" (the one with a list of songs, or the first). */
+    private Camada principal() {
+        for (Camada c : camadas) if (c.lista.length > 1 && !c.saindo) return c;
+        for (Camada c : camadas) if (!c.saindo) return c;
+        return null;
+    }
+
+    private int principalTam() { Camada p = principal(); return p == null ? 0 : p.lista.length; }
 
     /**
      * Opens one track. Nothing loops inside the player (Android's own looping leaves a small gap
@@ -471,9 +518,13 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             mp.setVolume(0f, 0f);
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override public void onCompletion(MediaPlayer m) {
-                    if (m != ambiente || !running || pausadoEm != 0) return;
-                    if (proximo != null) terminarCruzamento();   // the next copy is already playing: it takes over now
-                    else seguir(150);                            // the joint was missed: go on at once
+                    if (!running || pausadoEm != 0) return;
+                    for (Camada c : camadas) {
+                        if (c.atual != m) continue;
+                        if (c.proximo != null) terminarCruzamento(c);   // the next copy is already playing: it takes over now
+                        else seguir(c, 150);                            // the joint was missed: go on at once
+                        return;
+                    }
                 }
             });
             return mp;
@@ -484,71 +535,108 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         }
     }
 
-    /** Starts the background list from the current track (fades in through misturar). */
-    private void tocarLista(boolean doZero) {
-        pararAmbiente();
+    /** Starts every layer from its current track (the whole background fades in through misturar). */
+    private void tocarCamadas(boolean doZero) {
         ultimaMistura = 0;
-        if (lista.length == 0) return;
-        for (int tent = 0; tent < lista.length; tent++) {
-            int k = (faixa + tent) % lista.length;
-            MediaPlayer mp = abrirFaixa(lista[k]);
+        if (doZero) volAtual = 0f;
+        for (Camada c : camadas) iniciarCamada(c);
+    }
+
+    private void iniciarCamada(Camada c) {
+        int n = c.lista.length;
+        for (int tent = 0; tent < n; tent++) {
+            int k = (c.faixa + tent) % n;
+            MediaPlayer mp = abrirFaixa(c.lista[k]);
             if (mp == null) continue;
-            faixa = k;
-            if (doZero) volAtual = 0f;
-            try { mp.setVolume(volAtual, volAtual); mp.start(); } catch (Exception ignored) { }
-            ambiente = mp;
-            Log.i(ForNowPlugin.TAG, "som " + lista[k] + " (" + (k + 1) + "/" + lista.length + ")");
+            c.faixa = k;
+            float v = volAtual * c.vol;
+            try { mp.setVolume(v, v); mp.start(); } catch (Exception ignored) { }
+            c.atual = mp;
+            Log.i(ForNowPlugin.TAG, "som " + c.lista[k] + " (" + (k + 1) + "/" + n + ")");
             return;
         }
+    }
+
+    /** A mix being made on the page: new layers fade in, removed ones fade out, volumes glide. */
+    private void misturarAoVivo(java.util.ArrayList<Camada> novas) {
+        java.util.ArrayList<Camada> ficam = new java.util.ArrayList<>();
+        for (Camada nova : novas) {
+            Camada igual = null;
+            for (Camada c : camadas) if (!c.saindo && !ficam.contains(c) && java.util.Arrays.equals(c.lista, nova.lista)) { igual = c; break; }
+            if (igual != null) { igual.alvo = nova.alvo; ficam.add(igual); continue; }
+            nova.vol = 0f;                       // comes in from silence
+            camadas.add(nova);
+            ficam.add(nova);
+            if (pausadoEm == 0) iniciarCamada(nova);
+        }
+        for (Camada c : camadas) if (!ficam.contains(c)) c.saindo = true;
+        Log.i(ForNowPlugin.TAG, "mix " + ficam.size() + " camadas");
     }
 
     /** Next song now, with a short crossfade (the "next" button). */
     private void pularFaixa() {
-        if (lista.length < 2 || ambiente == null) return;
-        if (proximo != null) terminarCruzamento();
-        comecarCruzamento(2000);
+        Camada c = principal();
+        if (c == null || c.lista.length < 2 || c.atual == null) return;
+        if (c.proximo != null) terminarCruzamento(c);
+        comecarCruzamento(c, 2000);
     }
 
     /** Goes on to what comes next (the next song, or the same sound again) over ms. */
-    private void seguir(long ms) {
-        if (ambiente == null || lista.length == 0) return;
-        if (proximo != null) terminarCruzamento();
-        comecarCruzamento(ms);
+    private void seguir(Camada c, long ms) {
+        if (c.atual == null || c.lista.length == 0) return;
+        if (c.proximo != null) terminarCruzamento(c);
+        comecarCruzamento(c, ms);
     }
 
     /** Starts the next track (or, with one sound, a new copy of it) silent; misturar() brings it up. */
-    private void comecarCruzamento(long ms) {
-        int n = lista.length;
+    private void comecarCruzamento(Camada c, long ms) {
+        int n = c.lista.length;
         for (int tent = 1; tent <= n; tent++) {
-            int k = (faixa + tent) % n;
-            MediaPlayer mp = abrirFaixa(lista[k]);
+            int k = (c.faixa + tent) % n;
+            MediaPlayer mp = abrirFaixa(c.lista[k]);
             if (mp == null) continue;
             try { mp.start(); } catch (Exception ignored) { }
-            proximo = mp;
-            faixa = k;
-            cruzIni = System.currentTimeMillis();
-            cruzMs = Math.max(100, ms);
-            Log.i(ForNowPlugin.TAG, (n == 1 ? "som laço " : "som ") + lista[k] + " (" + (k + 1) + "/" + n + ")");
+            c.proximo = mp;
+            c.faixa = k;
+            c.cruzIni = System.currentTimeMillis();
+            c.cruzMs = Math.max(100, ms);
+            Log.i(ForNowPlugin.TAG, (n == 1 ? "som laço " : "som ") + c.lista[k] + " (" + (k + 1) + "/" + n + ")");
             return;
         }
     }
 
-    private void terminarCruzamento() {
-        MediaPlayer velho = ambiente;
-        ambiente = proximo;
-        proximo = null;
-        cruzIni = 0;
-        try { if (ambiente != null) ambiente.setVolume(volAtual, volAtual); } catch (Exception ignored) { }
-        if (velho != null) { try { velho.stop(); } catch (Exception ignored) { } try { velho.release(); } catch (Exception ignored) { } }
-        if (lista.length > 1) ForNowPlugin.emit("guia", estadoJson("state"));
+    private void terminarCruzamento(Camada c) {
+        MediaPlayer velho = c.atual;
+        c.atual = c.proximo;
+        c.proximo = null;
+        c.cruzIni = 0;
+        float v = volAtual * c.vol;
+        try { if (c.atual != null) c.atual.setVolume(v, v); } catch (Exception ignored) { }
+        soltar(velho);
+        if (c.lista.length > 1 && c == principal()) ForNowPlugin.emit("guia", estadoJson("state"));
+    }
+
+    private static void soltar(MediaPlayer mp) {
+        if (mp == null) return;
+        try { mp.stop(); } catch (Exception ignored) { }
+        try { mp.release(); } catch (Exception ignored) { }
+    }
+
+    private boolean emMovimento() {
+        for (Camada c : camadas) {
+            if (c.proximo != null) return true;
+            if (Math.abs((c.saindo ? 0f : c.alvo) - c.vol) > 0.001f) return true;
+        }
+        return false;
     }
 
     /**
      * Sets the background volume every tick: fades in at the start, gets quieter while a voice clip
-     * plays, fades out over the last fimFade ms, and crossfades songs near the end of each one.
+     * plays, fades out over the last fimFade ms, glides each layer to its own volume, and joins
+     * repeating sounds and songs (see comecarCruzamento).
      */
     private void misturar(long faltaMs) {
-        if (ambiente == null) return;
+        if (camadas.isEmpty()) return;
         long agora = System.currentTimeMillis();
         float dt = ultimaMistura == 0 ? 1f : Math.min(5f, (agora - ultimaMistura) / 200f);   // ramps keep their speed
         ultimaMistura = agora;
@@ -558,61 +646,77 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         float passo = (alvo < volAtual ? 0.06f : 0.035f) * dt;
         if (Math.abs(alvo - volAtual) <= passo) volAtual = alvo;
         else volAtual += alvo > volAtual ? passo : -passo;
-        if (proximo == null) {
-            try {
-                int dur = ambiente.getDuration(), pos = ambiente.getCurrentPosition();
-                // a song passes slowly into the next (its own ending fades under the new one);
-                // a repeating sound joins a new copy of itself with a crossfade too short to hear
-                long junta = dur > 60000 ? 12000 : 600;
-                if (dur > 0 && dur - pos <= junta) comecarCruzamento(Math.max(junta > 600 ? 1500 : 120, dur - pos - 60));
-            } catch (Exception ignored) { }
+
+        java.util.Iterator<Camada> it = camadas.iterator();
+        while (it.hasNext()) {
+            Camada c = it.next();
+            // each layer glides to its own volume in about a second and a half
+            float meta = c.saindo ? 0f : c.alvo, pc = 0.13f * dt;
+            if (Math.abs(meta - c.vol) <= pc) c.vol = meta;
+            else c.vol += meta > c.vol ? pc : -pc;
+            if (c.saindo && c.vol <= 0f) { soltar(c.atual); soltar(c.proximo); it.remove(); continue; }
+            if (c.atual == null) continue;
+            if (c.proximo == null) {
+                try {
+                    int dur = c.atual.getDuration(), pos = c.atual.getCurrentPosition();
+                    // a song passes slowly into the next (its own ending fades under the new one);
+                    // a repeating sound joins a new copy of itself with a crossfade too short to hear
+                    long junta = dur > 60000 && c.lista.length > 1 || dur > 120000 ? 12000 : 600;
+                    if (dur > 0 && dur - pos <= junta) comecarCruzamento(c, Math.max(junta > 600 ? 1500 : 120, dur - pos - 60));
+                } catch (Exception ignored) { }
+            }
+            float base = volAtual * c.vol, gVelho = 1f;
+            if (c.proximo != null) {
+                float w = Math.max(0f, Math.min(1f, (agora - c.cruzIni) / (float) c.cruzMs));
+                // equal power: the two together stay as loud as one the whole way
+                float gNovo = (float) Math.sin(w * Math.PI / 2);
+                gVelho = (float) Math.cos(w * Math.PI / 2);
+                try { c.proximo.setVolume(base * gNovo, base * gNovo); } catch (Exception ignored) { }
+                if (w >= 1f) { terminarCruzamento(c); gVelho = 1f; }
+            }
+            float vA = base * gVelho;
+            try { if (c.atual != null) c.atual.setVolume(vA, vA); } catch (Exception ignored) { }
         }
-        float gVelho = 1f;
-        if (proximo != null) {
-            float w = Math.max(0f, Math.min(1f, (agora - cruzIni) / (float) cruzMs));
-            // equal power: the sum stays as loud as one track the whole way
-            float gNovo = (float) Math.sin(w * Math.PI / 2);
-            gVelho = (float) Math.cos(w * Math.PI / 2);
-            try { proximo.setVolume(volAtual * gNovo, volAtual * gNovo); } catch (Exception ignored) { }
-            if (w >= 1f) { terminarCruzamento(); gVelho = 1f; }
-        }
-        float vA = volAtual * gVelho;
-        try { if (ambiente != null) ambiente.setVolume(vA, vA); } catch (Exception ignored) { }
     }
 
     private void apagarAmbiente(final long ms) {
-        if (proximo != null) terminarCruzamento();
-        final MediaPlayer mp = ambiente;
-        if (mp == null) return;
-        ambiente = null;
-        final float v0 = volAtual;
+        final java.util.ArrayList<MediaPlayer> mps = new java.util.ArrayList<>();
+        final java.util.ArrayList<Float> vs = new java.util.ArrayList<>();
+        for (Camada c : camadas) {
+            if (c.proximo != null) terminarCruzamento(c);
+            if (c.atual != null) { mps.add(c.atual); vs.add(volAtual * c.vol); }
+        }
+        camadas.clear();
+        if (mps.isEmpty()) return;
         final long t0 = System.currentTimeMillis();
         handler.post(new Runnable() {
             @Override public void run() {
                 float f = 1f - Math.min(1f, (System.currentTimeMillis() - t0) / (float) ms);
-                try { mp.setVolume(v0 * f, v0 * f); } catch (Exception ignored) { }
+                for (int i = 0; i < mps.size(); i++) { try { mps.get(i).setVolume(vs.get(i) * f, vs.get(i) * f); } catch (Exception ignored) { } }
                 if (f > 0f) handler.postDelayed(this, 80);
-                else { try { mp.stop(); } catch (Exception ignored) { } try { mp.release(); } catch (Exception ignored) { } }
+                else for (MediaPlayer mp : mps) soltar(mp);
             }
         });
     }
 
     private void pausarAmbiente() {
-        if (proximo != null) terminarCruzamento();
-        try { if (ambiente != null && ambiente.isPlaying()) ambiente.pause(); } catch (Exception ignored) { }
+        for (Camada c : camadas) {
+            if (c.proximo != null) terminarCruzamento(c);
+            try { if (c.atual != null && c.atual.isPlaying()) c.atual.pause(); } catch (Exception ignored) { }
+        }
     }
 
-    private void retomarAmbiente() { ultimaMistura = 0; try { if (ambiente != null && !ambiente.isPlaying()) ambiente.start(); } catch (Exception ignored) { } }
+    private void retomarAmbiente() {
+        ultimaMistura = 0;
+        for (Camada c : camadas) {
+            if (c.atual == null && !c.saindo) { iniciarCamada(c); continue; }
+            try { if (c.atual != null && !c.atual.isPlaying()) c.atual.start(); } catch (Exception ignored) { }
+        }
+    }
 
     private void pararAmbiente() {
-        for (MediaPlayer mp : new MediaPlayer[] { ambiente, proximo }) {
-            if (mp == null) continue;
-            try { mp.stop(); } catch (Exception ignored) { }
-            try { mp.release(); } catch (Exception ignored) { }
-        }
-        ambiente = null;
-        proximo = null;
-        cruzIni = 0;
+        for (Camada c : camadas) { soltar(c.atual); soltar(c.proximo); }
+        camadas.clear();
     }
 
     // ---------------------------------------------------------------- audio focus and headphones

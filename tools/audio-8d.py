@@ -10,7 +10,7 @@ Each file is turned into one source (mono) that travels a circle around the head
 Loops (the 30 s nature sounds, the 48 s soft noise) stay seamless: the circle closes exactly at
 the loop point and the room's tail wraps around. Loudness matches the original file.
 
-Usage: python3 tools/audio-8d.py            (writes native/midia/8d/musicas and native/midia/8d/sons)
+Usage: python3 tools/audio-8d.py [name ...]  (writes native/midia/8d/{musicas,sons,camadas}; names limit it)
 """
 import os
 import subprocess
@@ -117,10 +117,17 @@ def main():
     for f in sorted(os.listdir(os.path.join(MIDIA, 'sons'))):
         if f.endswith('.ogg'):
             trabalhos.append((os.path.join(MIDIA, 'sons', f), os.path.join(DEST, 'sons', f), 15.0, True, 64))
+    camadas = os.path.join(MIDIA, 'camadas')
+    if os.path.isdir(camadas):
+        for f in sorted(os.listdir(camadas)):
+            if f.endswith('.ogg'):
+                trabalhos.append((os.path.join(camadas, f), os.path.join(DEST, 'camadas', f), 16.0, True, 80))
     grave = os.path.join(RAIZ, 'web', 'sons', 'grave.ogg')
     if os.path.exists(grave):
         trabalhos.append((grave, os.path.join(DEST, 'sons', 'grave.ogg'), 16.0, True, 64))
 
+    if sys.argv[1:]:
+        trabalhos = [x for x in trabalhos if any(n in x[0] for n in sys.argv[1:])]
     for origem, destino, periodo, laco, kbps in trabalhos:
         x = ler(origem)
         if laco:

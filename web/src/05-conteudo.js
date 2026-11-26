@@ -56,14 +56,71 @@ const CATEGORIAS = [
 const caminhoMusica = id => `midia/musicas/${id}.ogg`;
 /* tudo o que pode tocar ao fundo, com o nome e a categoria */
 const FUNDOS = [...SONS.map(([v, n, c]) => ({ v, n, c })), ...MUSICAS.map(([id, n, c]) => ({ v: caminhoMusica(id), n, c, musica: id }))];
-const nomeSom = id => { const f = FUNDOS.find(x => x.v === id); return tr((f || FUNDOS[0]).n); };
+/* instrumentos do "Criar meu mix": feitos para combinar sempre entre si (tools/camadas.py) */
+const CAMADAS = [
+  ['midia/camadas/pad.ogg', ['Warm pad', 'Pad quente', 'Pad cálido']],
+  ['midia/camadas/drone.ogg', ['Deep drone', 'Drone grave', 'Dron grave']],
+  ['midia/camadas/sinos.ogg', ['Soft bells', 'Sinos suaves', 'Campanas suaves']],
+  ['midia/camadas/piano.ogg', ['Piano notes', 'Notas de piano', 'Notas de piano']],
+  ['midia/camadas/coro.ogg', ['Soft choir', 'Coro suave', 'Coro suave']],
+];
+const nomeSom = id => {
+  if (id && id.startsWith('mix:')) { const m = Mix.de(id); return m ? m.nome : tr(SONS[0][1]); }
+  const c = CAMADAS.find(x => x[0] === id);
+  if (c) return tr(c[1]);
+  const f = FUNDOS.find(x => x.v === id);
+  return tr((f || FUNDOS[0]).n);
+};
+
+/* ---------- para que serve cada som e música ----------
+   Quatro usos. Cada som tem um peso para cada uso [relaxar, focar, acalmar, dormir] (o maior é o
+   uso principal) e uma frase curta do porquê. Os pesos também decidem a categoria de um mix. */
+const USOS = ['relaxar', 'focar', 'acalmar', 'dormir'];
+const USO_NOME = { relaxar: ['Relax', 'Relaxar', 'Relajarse'], focar: ['Focus', 'Focar', 'Concentrarse'], acalmar: ['Soothe', 'Acalmar', 'Calmarse'], dormir: ['Sleep', 'Dormir', 'Dormir'] };
+const USO_TITULO = { relaxar: ['To relax', 'Para relaxar', 'Para relajarte'], focar: ['To focus', 'Para focar', 'Para concentrarte'], acalmar: ['To soothe', 'Para acalmar', 'Para calmarte'], dormir: ['To sleep', 'Para dormir', 'Para dormir'] };
+const USO_DET = {
+  relaxar: ['To unwind: warm and pleasant.', 'Para desacelerar: quente e agradável.', 'Para bajar el ritmo: cálido y agradable.'],
+  focar: ['To study or work: steady, no words.', 'Para estudar ou trabalhar: constante, sem palavras.', 'Para estudiar o trabajar: constante, sin palabras.'],
+  acalmar: ['When anxiety rises: slow and steady.', 'Quando a ansiedade sobe: lento e firme.', 'Cuando sube la ansiedad: lento y firme.'],
+  dormir: ['To fall asleep: low, slow, barely changing.', 'Para pegar no sono: grave, lento, quase sem mudar.', 'Para dormirte: grave, lento, casi sin cambios.'],
+};
+const PERFIL = {
+  'midia/sons/N01.ogg': [[0.10, 0.35, 0.10, 0.45], ['Steady rain that covers noise outside', 'Chuva constante que abafa os barulhos de fora', 'Lluvia constante que tapa los ruidos de fuera']],
+  'midia/sons/N02.ogg': [[0.30, 0.05, 0.50, 0.15], ['Slow waves, at the pace of a calm breath', 'Ondas lentas, no ritmo de uma respiração calma', 'Olas lentas, al ritmo de una respiración tranquila']],
+  'midia/sons/N03.ogg': [[0.25, 0.05, 0.10, 0.60], ['Crickets and a light breeze: a quiet night', 'Grilos e brisa leve: uma noite tranquila', 'Grillos y brisa suave: una noche tranquila']],
+  'midia/sons/N04.ogg': [[0.30, 0.50, 0.15, 0.05], ['Running water, clear and continuous', 'Água correndo, som claro e contínuo', 'Agua corriendo, sonido claro y continuo']],
+  'midia/sons/N05.ogg': [[0.60, 0.10, 0.15, 0.15], ['Crackling fire, cozy', 'Fogo estalando, aconchegante', 'Fuego crepitando, acogedor']],
+  grave: [[0.05, 0.50, 0.10, 0.35], ['Low, even noise with no surprises', 'Ruído grave e uniforme, sem surpresas', 'Ruido grave y uniforme, sin sorpresas']],
+  'midia/musicas/M01.ogg': [[0.60, 0.25, 0.10, 0.05], ['Slow, light piano with a simple melody', 'Piano lento e leve, melodia simples', 'Piano lento y ligero, melodía sencilla']],
+  'midia/musicas/M02.ogg': [[0.15, 0.05, 0.10, 0.70], ['Very slow, low notes with lots of space', 'Notas graves e bem lentas, com muito espaço', 'Notas graves y muy lentas, con mucho espacio']],
+  'midia/musicas/M03.ogg': [[0.25, 0.05, 0.60, 0.10], ['Long, gentle strings with no big moments', 'Cordas longas e suaves, sem momentos fortes', 'Cuerdas largas y suaves, sin momentos fuertes']],
+  'midia/musicas/M04.ogg': [[0.60, 0.15, 0.15, 0.10], ['Light harp, a peaceful old tune', 'Harpa leve, melodia antiga e tranquila', 'Arpa ligera, melodía antigua y tranquila']],
+  'midia/musicas/M05.ogg': [[0.10, 0.05, 0.65, 0.20], ['Low voices together, slow and steady', 'Vozes graves em uníssono, lentas e firmes', 'Voces graves al unísono, lentas y firmes']],
+  'midia/musicas/M06.ogg': [[0.10, 0.10, 0.20, 0.60], ['Deep layers that barely change', 'Camadas graves que quase não mudam', 'Capas graves que casi no cambian']],
+  'midia/musicas/M07.ogg': [[0.60, 0.15, 0.15, 0.10], ['Soft flute over harp, misty and calm', 'Flauta suave sobre harpa, calma e enevoada', 'Flauta suave sobre arpa, calma y brumosa']],
+  'midia/musicas/M08.ogg': [[0.10, 0.00, 0.30, 0.60], ['Soft, long voices that float', 'Vozes suaves e longas que flutuam', 'Voces suaves y largas que flotan']],
+  'midia/musicas/M09.ogg': [[0.15, 0.05, 0.60, 0.20], ['Tones that ring and fade slowly', 'Sons que ressoam e somem devagar', 'Sonidos que resuenan y se apagan despacio']],
+  'midia/musicas/M10.ogg': [[0.30, 0.55, 0.10, 0.05], ['Gentle guitar, no words, steady pace', 'Violão dedilhado, sem palavras, ritmo constante', 'Guitarra punteada, sin palabras, ritmo constante']],
+  'midia/musicas/M11.ogg': [[0.25, 0.65, 0.05, 0.05], ['Light and bright, to start or keep going', 'Leve e clara, para começar ou seguir em frente', 'Ligera y clara, para empezar o seguir adelante']],
+  'midia/camadas/pad.ogg': [[0.35, 0.05, 0.30, 0.30], ['A soft, steady chord', 'Um acorde suave e contínuo', 'Un acorde suave y continuo']],
+  'midia/camadas/drone.ogg': [[0.10, 0.05, 0.35, 0.50], ['A low hum, almost still', 'Um som grave, quase parado', 'Un sonido grave, casi quieto']],
+  'midia/camadas/sinos.ogg': [[0.30, 0.15, 0.45, 0.10], ['Soft bells now and then', 'Sinos suaves de vez em quando', 'Campanas suaves de vez en cuando']],
+  'midia/camadas/piano.ogg': [[0.45, 0.35, 0.10, 0.10], ['Loose piano notes, with space', 'Notas de piano soltas, com espaço', 'Notas de piano sueltas, con espacio']],
+  'midia/camadas/coro.ogg': [[0.15, 0.00, 0.40, 0.45], ['Wordless voices, slowly moving', 'Vozes sem palavras, mudando devagar', 'Voces sin palabras, cambiando despacio']],
+};
+const usoDe = v => {
+  if (v && v.startsWith('mix:')) { const m = Mix.de(v); return m ? m.cat : null; }
+  const p = PERFIL[v];
+  return p ? USOS[p[0].indexOf(Math.max(...p[0]))] : null;
+};
+const porQue = v => (PERFIL[v] ? tr(PERFIL[v][1]) : '');
 /* uma música como fundo: ela e as outras do mesmo estilo, uma depois da outra (null se não é música) */
 function listaDoEstilo(v) {
   const m = /^midia\/musicas\/(M\d\d)\.ogg$/.exec(v || '');
-  return m ? Mus.lista(m[1], true) : null;
+  return m ? Mus.lista(m[1], 'estilo') : null;
 }
 /* versão 8D: o som gira devagar em volta de você (com fones). Só no que vai para o Android. */
-const tem8D = v => /^midia\/(musicas|sons)\/[MN]\d\d\.ogg$/.test(v || '') || v === 'grave';
+const tem8D = v => /^midia\/(musicas|sons|camadas)\/\w+\.ogg$/.test(v || '') || v === 'grave';
 const com8D = v => (prefs().oitoD && temMidia() && tem8D(v)) ? (v === 'grave' ? 'midia/8d/sons/grave.ogg' : v.replace('midia/', 'midia/8d/')) : v;
 /* gravações só existem no app instalado; no navegador ficam os sons feitos em código */
 const temMidia = () => !!(Nat.on && window.__fnMidia !== false);

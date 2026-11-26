@@ -91,6 +91,13 @@ async def main():
             await ver('music-session-8d', "Mus.tocar('M04', false)", 400)
             await ver('sound-sheet-8d', "folhaSons('cochilo', 'midia/sons/N03.ogg')", 300)
             await page.evaluate("(() => { fecharFolha(); Sessao.ativa && Sessao.sair(); setPref('oitoD', false); })()")
+            await ver('mixer-empty', "(() => { Mix.novo(); S.tela = 'mix'; render(); })()", 300)
+            await ver('mixer-full', "(() => { ['midia/camadas/pad.ogg', 'midia/camadas/coro.ogg', 'midia/sons/N03.ogg', 'midia/sons/N05.ogg'].forEach(v => Mix.alternar(v)); render(); })()", 400)
+            await ver('mixer-song', "(() => { Mix.alternar('midia/musicas/M08.ogg'); render(); })()", 400)
+            await page.evaluate("(() => { Mix.salvar('Um nome de mix bem comprido para testar'); S.tela = 'musica'; render(); })()")
+            await ver('music-with-mix', None)
+            await ver('sheet-with-mix', "folhaSons('cochilo', 'silencio')", 300)
+            await page.evaluate("(() => { fecharFolha(); LS.set('mixes', []); S.tela = 'inicio'; render(); })()")
             await ver('nap-2h', "(() => { window.__mock.exato = true; window.__mock.proximo = 0; Coch.min = 135; S.tela = 'cochilo'; render(); Coch.checar(); })()", 500)
             await page.evaluate("(() => { Sessao.ativa && Sessao.sair(); S.tela = 'inicio'; render(); })()")
             for t in ('apoio', 'contato', 'historico', 'revisao', 'ajustes', 'tecnicas', 'preparar', 'diagnostico', 'privacidade', 'acesso'):

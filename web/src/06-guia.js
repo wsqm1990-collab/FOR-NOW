@@ -14,13 +14,18 @@ const Guia = {
     // cada frase tem pelo menos o tempo de ser dita com calma (na respiração o tempo é exato)
     const dur = passos.map(([t, s]) => cfg.exato ? Math.max(300, s * 1000) : Math.max(1000, s * 1000, t ? (Math.ceil(t.length / 11) + 2) * 1000 : 0));
     let total = dur.reduce((a, b) => a + b, 0);
-    const sonsCfg = cfg.sons || listaDoEstilo(cfg.som);
+    /* um mix (salvo, ou sendo montado) toca em camadas; o resto é um som ou uma lista */
+    const mix = cfg.camadas ? null : Mix.de(cfg.som && cfg.som.startsWith('mix:') ? cfg.som : '');
+    const camadas = cfg.camadas || (mix ? mix.camadas : null);
+    const sonsCfg = camadas ? null : (cfg.sons || listaDoEstilo(cfg.som));
     if (cfg.totalMs && cfg.totalMs > total) { dur[dur.length - 1] += cfg.totalMs - total; total = cfg.totalMs; }
     const g = this.g = {
       id: uid(), tec: cfg.tec, passos, dur, total, ini: agora(), pausa: 0, pausadoEm: 0,
       voz: !!cfg.voz, som: somReal(cfg.som || 'silencio'), fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
       sons: sonsCfg ? sonsCfg.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
+      camadas: camadas ? JSON.parse(JSON.stringify(camadas)) : null,
     };
+    if (cfg.camadas) g.som = 'mix:';
     if (Nat.on) {
       const plano = {
         id: g.id, ini: g.ini, voz: g.voz, som: com8D(g.som), volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
@@ -28,6 +33,7 @@ const Guia = {
         passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
       };
       if (g.sons) plano.sons = g.sons.map(com8D);
+      if (g.camadas) plano.camadas = this.camadasPlano(g.camadas);
       if (cfg.volSom != null) plano.volSom = cfg.volSom;
       Nat.safe('guiaStart', plano);
     } else GuiaWeb.iniciar(g);
@@ -95,7 +101,9 @@ const Guia = {
     const g = this.g;
     if (!g) return;
     g.som = somReal(s);
-    const l = listaDoEstilo(g.som);
+    const mix = Mix.de(g.som.startsWith('mix:') ? g.som : '');
+    g.camadas = mix ? JSON.parse(JSON.stringify(mix.camadas)) : null;
+    const l = mix ? null : listaDoEstilo(g.som);
     g.sons = l ? l.map(somReal) : null;
     g.faixa = 0;
     this.enviarSons();
@@ -103,11 +111,22 @@ const Guia = {
     this.salvar();
   },
   /* lista de músicas: a próxima agora, com uma transição curta */
-  /* manda ao Android o fundo atual (na versão 8D, se ligada) */
+  /* as camadas como vão ao Android (na versão 8D, se ligada) */
+  camadasPlano(camadas) { return Mix.plano(camadas).map(c => ({ sons: c.sons.map(com8D), vol: c.vol })); },
+  /* manda ao Android o fundo atual como camadas: o que muda entra e sai devagar, sem cortar */
   enviarSons() {
     const g = this.g;
+    if (!g || !Nat.on) return;
+    const camadas = g.camadas ? this.camadasPlano(g.camadas)
+      : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(com8D), vol: 1 }];
+    this.sync({ som: com8D(g.som), camadas });
+  },
+  /* o mix sendo montado mudou */
+  setCamadas(camadas) {
+    const g = this.g;
     if (!g) return;
-    this.sync({ som: com8D(g.som), sons: g.som === 'silencio' ? [] : (g.sons || [g.som]).map(com8D) });
+    g.camadas = JSON.parse(JSON.stringify(camadas));
+    this.enviarSons();
   },
   proxima() {
     const g = this.g;
@@ -190,6 +209,7 @@ function clipe(texto) {
    no navegador, os sons feitos em código */
 function somReal(v) {
   if (!v) return 'silencio';
+  if (v.startsWith('mix:')) return temMidia() && Mix.de(v) ? v : 'silencio';
   if (temMidia()) return v === 'chuva' ? 'midia/sons/N01.ogg' : v === 'ondas' ? 'midia/sons/N02.ogg' : v;
   if (v.startsWith('midia/')) return v === 'midia/sons/N02.ogg' ? 'ondas' : v.startsWith('midia/sons/') ? 'chuva' : 'silencio';
   return v;
@@ -201,7 +221,7 @@ const GuiaWeb = {
   som(id, g) {
     try {
       if (this.audio) { this.audio.pause(); this.audio = null; }
-      if (id && id !== 'silencio') {
+      if (id && id !== 'silencio' && !id.startsWith('mix:') && !id.startsWith('midia/')) {
         const a = new Audio('sons/' + id + '.ogg');
         a.loop = true;
         a.volume = Math.min(1, 0.6 * ((g && g.volume) || 1));

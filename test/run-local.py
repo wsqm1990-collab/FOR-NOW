@@ -301,7 +301,7 @@ async def main():
         await page.screenshot(path=OUT + '/26-musicas.png', full_page=True)
         await tap(A('musTocar', '[data-v="M03"]'), 400)
         g = achar(await calls(), 'guiaStart')[-1][2]
-        check('the chosen song plays first, then the others', g['sons'][0] == 'midia/musicas/M03.ogg' and len(g['sons']) == 11 and abs(sum(x['s'] for x in g['passos']) - 1800) < 1, (g['sons'][:2], sum(x['s'] for x in g['passos'])))
+        check('the chosen song plays first, then the others made for the same thing', g['sons'] == ['midia/musicas/M03.ogg', 'midia/musicas/M05.ogg', 'midia/musicas/M09.ogg'] and abs(sum(x['s'] for x in g['passos']) - 1800) < 1, (g['sons'], sum(x['s'] for x in g['passos'])))
         check('the music screen shows the song and the time left', (await page.locator('#mus-nome').inner_text()).strip() == 'Strings, adagio' and await page.locator('#mus-resta').count() == 1)
         await page.screenshot(path=OUT + '/27-musica-tocando.png')
         await tap(A('musProxima'), 300)
@@ -353,8 +353,8 @@ async def main():
         check('the screen still shows the song name', (await page.locator('#mus-nome').inner_text()).strip() == 'Gregorian chant')
         await page.screenshot(path=OUT + '/30-musica-8d.png')
         await tap(A('tog8D'), 300)
-        u = achar(await calls(), 'guiaUpdate', lambda o: 'sons' in o)[-1][2]
-        check('turning 8D off during the music switches back at once', all(x.startswith('midia/musicas/') for x in u['sons']), u['sons'][:2])
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('turning 8D off during the music switches back at once (a smooth crossfade of layers)', len(u['camadas']) == 1 and all(x.startswith('midia/musicas/') for x in u['camadas'][0]['sons']), u['camadas'])
         await tap(A('sSair'), 300)
         await page.evaluate("setPref('oitoD', true)")
         await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
@@ -372,6 +372,62 @@ async def main():
                     if not os.path.exists(os.path.join(ROOT, 'native', v))]
         await page.evaluate("setPref('oitoD', false)")
         check('every 8D file the app can ask for exists', not faltam8d, faltam8d)
+
+        # ---- every sound says what it is for; the music screen is organized by that
+        await page.evaluate("(() => { S.tela = 'musica'; render(); })()")
+        heads = [x.strip() for x in await page.locator('.secao.uso h2').all_inner_texts()]
+        check('the music screen is organized by what each sound is for', heads == ['To relax', 'To focus', 'To soothe', 'To sleep'], heads)
+        sono = await page.locator('.secao.uso').nth(3).inner_text()
+        check('each sound and song says why (rain, under To sleep)', 'Rain' in sono and 'Steady rain that covers noise outside' in sono and 'Piano for sleep' in sono, sono[:200])
+        await page.screenshot(path=OUT + '/32-musicas-por-uso.png', full_page=True)
+
+        # ---- create my mix: listen while building, the app decides what it is for, use it anywhere
+        await tap(A('mixNovo'), 300)
+        check('Create my mix opens', await page.evaluate("S.tela") == 'mix')
+        antes = len(achar(await calls(), 'guiaStart'))
+        await tap(A('mixCamada', '[data-v="midia/camadas/pad.ogg"]'), 300)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('the first instrument starts playing at once (in layers)', len(achar(await calls(), 'guiaStart')) == antes + 1 and g.get('camadas') == [{'sons': ['midia/camadas/pad.ogg'], 'vol': 0.6}], g.get('camadas'))
+        await tap(A('mixCamada', '[data-v="midia/camadas/drone.ogg"]'), 300)
+        await tap(A('mixCamada', '[data-v="midia/sons/N01.ogg"]'), 400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('adding layers changes the sound live, nothing restarts', len(achar(await calls(), 'guiaStart')) == antes + 1 and [c['sons'][0] for c in u['camadas']] == ['midia/camadas/pad.ogg', 'midia/camadas/drone.ogg', 'midia/sons/N01.ogg'], u['camadas'])
+        await page.evaluate("(() => { const el = document.querySelector('[data-in=\"mixVol\"][data-v=\"midia/camadas/drone.ogg\"]'); el.value = 90; el.dispatchEvent(new Event('input', { bubbles: true })); })()")
+        await page.wait_for_timeout(400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('the volume slider changes that layer live', [c['vol'] for c in u['camadas']] == [0.6, 0.9, 0.6], u['camadas'])
+        uso = (await page.locator('#mix-uso').inner_text())
+        check('the app decides by itself what the mix is for, and says why', 'This mix is for: Sleep' in uso and 'deep drone' in uso and 'rain' in uso, uso)
+        await page.screenshot(path=OUT + '/33-criar-mix.png', full_page=True)
+        await tap(A('mixCamada', '[data-v="midia/musicas/M02.ogg"]'), 400)
+        e = await page.evaluate("Mix.edit.camadas.map(c => c.v)")
+        check('a ready song replaces the instruments (keeps nature)', e == ['midia/sons/N01.ogg', 'midia/musicas/M02.ogg'], e)
+        await tap(A('mixCamada', '[data-v="midia/camadas/pad.ogg"]'), 300)
+        await tap(A('mixCamada', '[data-v="midia/camadas/sinos.ogg"]'), 300)
+        await tap(A('mixUso', '[data-v="acalmar"]'), 200)
+        check('the category can be changed by hand', 'You chose it' in await page.locator('#mix-uso').inner_text())
+        await page.fill('#mix-nome', 'Chuva com sinos')
+        await tap(A('mixSalvar'), 400)
+        mixes = await page.evaluate("Mix.todos()")
+        check('the mix is saved with its category', len(mixes) == 1 and mixes[0]['nome'] == 'Chuva com sinos' and mixes[0]['cat'] == 'acalmar' and [c['v'] for c in mixes[0]['camadas']] == ['midia/sons/N01.ogg', 'midia/camadas/pad.ogg', 'midia/camadas/sinos.ogg'], mixes)
+        check('leaving the mixer stops its sound', bool(achar(await calls(), 'guiaStop')) and await page.evaluate("Guia.g") is None)
+        calma = await page.locator('.secao.uso').nth(2).inner_text()
+        check('the saved mix shows up under its purpose', 'Chuva com sinos' in calma and 'My mix' in calma, calma[:160])
+        mid = mixes[0]['id']
+        await tap(A('musTocar', f'[data-v="mix:{mid}"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('playing the mix sends its layers', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/sons/N01.ogg', 'midia/camadas/pad.ogg', 'midia/camadas/sinos.ogg'] and (await page.locator('#mus-nome').inner_text()).strip() == 'Chuva com sinos', g.get('camadas'))
+        await tap(A('sSair'), 300)
+        await page.evaluate("(() => { setPref('som.cochilo', 'mix:" + mid + "'); setPref('oitoD', true); Coch.min = 120; Coch.iniciarSessao('proprio', Date.now() + 120 * 60000); })()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('a mix works as the nap sound, in 8D too', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/8d/sons/N01.ogg', 'midia/8d/camadas/pad.ogg', 'midia/8d/camadas/sinos.ogg'], g.get('camadas'))
+        await page.evaluate("(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); S.tela = 'musica'; render(); })()")
+        await tap(A('mixEditar', f'[data-id="{mid}"]'), 300)
+        check('a saved mix can be edited (and plays while editing)', await page.evaluate("S.tela") == 'mix' and await page.evaluate("Mix.ouvindo()"))
+        await tap(A('mixApagar'), 200)
+        await tap('#folha ' + A('mixApagarSim'), 300)
+        check('a mix can be deleted, and the nap goes back to silence', await page.evaluate("Mix.todos().length") == 0 and await page.evaluate("prefs().som.cochilo") == 'silencio')
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
 
         # ---- every sentence the app can say in Portuguese has a recording, in both voices
         faltam = await page.evaluate("""(() => {

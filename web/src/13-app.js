@@ -52,12 +52,27 @@ const ACT = {
   musTimer: el => { setPref('musica.timer', Number(el.dataset.v)); render(); },
   musVoz: el => { setPref('musica.vozDormir', el.dataset.v === 'true'); render(); },
   musProxima: () => { Guia.proxima(); setTimeout(atualizarMusica, 300); },
+  /* criar meu mix */
+  mixNovo: () => { Mix.novo(); S.tela = 'mix'; render(); },
+  mixEditar: el => { if (Mix.editar(el.dataset.id)) { S.tela = 'mix'; render(); Mix.ouvir(); } },
+  mixCamada: el => { Mix.alternar(el.dataset.v); render(); },
+  mixUso: el => { if (Mix.edit) { Mix.edit.uso = el.dataset.v; atualizarMixUso(); } },
+  mixSalvar: () => {
+    const m = Mix.salvar(($('#mix-nome') || {}).value || '');
+    if (!m) return;
+    Mix.pararDeOuvir();
+    S.tela = 'musica';
+    render();
+    aviso(t('mix_saved_in', { u: tr(USO_NOME[m.cat]) }));
+  },
+  mixApagar: () => abrirFolha(`<p class="pergunta">${esc(t('mix_delete_q'))}</p>${botao('mixApagarSim', t('delete'), 'alerta')}${botao('fecharFolha', t('back_word'), 'discreto')}`),
+  mixApagarSim: () => { if (Mix.edit && Mix.edit.id) Mix.apagar(Mix.edit.id); fecharFolha(); S.tela = 'musica'; render(); },
   /* 8D: vale para tudo; numa sessão muda na hora, fora dela toca uma amostra */
   tog8D: el => {
     const v = el.dataset.v != null ? el.dataset.v === 'true' : !prefs().oitoD;
     setPref('oitoD', v);
     const folha = !$('#folha').hidden && S.folhaSons;
-    if (Guia.g && Sessao.ativa) Guia.enviarSons();
+    if (Guia.g) Guia.enviarSons();
     else if (folha && v) ouvirSom(folha.atual);
     else if (v && S.tela === 'musica') ouvirSom(caminhoMusica(prefs().musica.ultima || 'M02'));
     if (folha) folhaSons(folha.modo, folha.atual);
@@ -334,12 +349,21 @@ async function iniciar() {
   Guia.aoTique = () => { atualizarCirculo(); atualizarMusica(); };
   Guia.aoTerminar = () => Sessao.guiaTerminou();
   document.addEventListener('click', onClick);
+  /* controles deslizantes e campos de texto: mudam o estado sem redesenhar a tela */
+  document.addEventListener('input', e => {
+    const el = e.target.closest && e.target.closest('[data-in]');
+    if (!el) return;
+    if (el.dataset.in === 'mixVol') { Mix.volume(el.dataset.v, Number(el.value) / 100); atualizarMixUso(); }
+    else if (el.dataset.in === 'mixNome' && Mix.edit) Mix.edit.nome = el.value;
+  });
   render();
   Nat.listen('guia', ev => Guia.evento(ev));
   Nat.listen('alarme', ev => Coch.evento(ev));
   Nat.listen('launch', async () => executarAcao(await pegarAcao()));
   Nat.listen('backButton', () => voltar(), 'App');
   const restaurou = await Sessao.restaurar();
+  /* um som que ficou tocando sem sessão (por exemplo, o mix que estava sendo montado) para aqui */
+  if (!restaurou && Nat.on) { const st = await Nat.safe('guiaState'); if (st && st.running && !Sessao.ativa) Nat.safe('guiaStop', { id: st.id }); }
   const acao = Nat.on ? await pegarAcao() : ((location.hash || '').replace('#', '') || null);
   if (acao) executarAcao(acao);
   else if (restaurou) render();

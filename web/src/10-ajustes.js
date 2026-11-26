@@ -42,6 +42,7 @@ let previa = null;
 function ouvirSom(id) {
   try { if (previa) { previa.pause(); previa = null; } } catch { /* nada */ }
   if (!id || id === 'silencio') { if (Nat.on) Nat.safe('previaParar'); return; }
+  if (String(id).startsWith('mix:')) return;          /* um mix se ouve tocando, não em amostra */
   id = com8D(somReal(id));
   if (Nat.on && id.startsWith('midia/')) { Nat.safe('previa', { nome: id, ms: 9000, vol: 0.7 }); return; }
   try {

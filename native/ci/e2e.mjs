@@ -301,6 +301,26 @@ async function main() {
   screen('17-peace-8d');
   await click(A('sSair'), 800);
   await ev(`(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); S.tela = 'inicio'; render(); })()`); await sleep(400);
+
+  // ---- create my mix: several layers play together and change live
+  await ev(`(() => { S.tela = 'musica'; render(); })()`); await sleep(600);
+  await cabe('music by purpose');
+  screen('18-music-by-purpose');
+  limparLog();
+  await click(A('mixNovo'), 800);
+  await click(A('mixCamada', '[data-v="midia/camadas/pad.ogg"]'), 1500);
+  await click(A('mixCamada', '[data-v="midia/camadas/sinos.ogg"]'), 1500);
+  await click(A('mixCamada', '[data-v="midia/sons/N02.ogg"]'), 3000);
+  let lcx = logcat();
+  const stX = await ev(`Nat.call('guiaState')`);
+  check('mix: the layers play together on the phone', /som midia\/camadas\/pad\.ogg/.test(lcx) && /som midia\/camadas\/sinos\.ogg/.test(lcx) && /som midia\/sons\/N02\.ogg/.test(lcx) && /mix 3 camadas/.test(lcx) && stX && stX.running,
+    (lcx.match(/(som|mix) [^\n]+/g) || []).slice(0, 8));
+  check('mix: no layer failed to open', !/W ForNow.*som midia/.test(lcx), (lcx.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await cabe('mixer');
+  screen('19-mixer');
+  await click(A('voltar'), 1000);
+  check('mix: leaving the mixer stops its sound', !(await ev(`Nat.call('guiaState').then(s => s.running)`)));
+  await ev(`(() => { S.tela = 'inicio'; render(); })()`); await sleep(400);
   await ev(`(() => { S.tela = 'inicio'; render(); })()`); await sleep(400);
   await click(A('ajustes'), 600); await click(A('ajLang', '[data-v="en"]'), 600); await click(A('voltar'), 400);
 

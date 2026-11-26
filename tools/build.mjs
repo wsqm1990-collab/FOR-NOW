@@ -10,7 +10,7 @@ const build = Number(process.env.BUILD_NUMBER || process.argv[2] || 0);
 const HEAD = ['01-head.html', '01-estilo.css'];
 const BODY = ['02-body.html'];
 const JS = ['02-idioma.js', '03-nativo.js', '04-dados.js', '05-conteudo.js', '06-guia.js', '07-sessao.js', '08-cochilo.js', '08b-respirar.js',
-  '08c-musica.js', '09-aprender.js', '10-ajustes.js', '11-atualizacao.js', '12-telas.js', '13-app.js'];
+  '08c-musica.js', '08d-mix.js', '09-aprender.js', '10-ajustes.js', '11-atualizacao.js', '12-telas.js', '13-app.js'];
 const read = f => fs.readFileSync(path.join(src, f), 'utf8');
 const head = HEAD.map(f => (f.endsWith('.css') ? `<style>\n${read(f)}\n</style>` : read(f))).join('\n');
 const body = BODY.map(read).join('\n');

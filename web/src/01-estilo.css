@@ -171,6 +171,21 @@ label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;
 .linha-item.marcado { background: var(--soft); }
 .chip-som { display: inline-flex; align-items: center; gap: 0.4rem; }
 .grupo.atalhos { justify-content: center; }
+/* sons por uso e o criar meu mix */
+.secao.uso > .pequeno { margin: -0.3rem 0 0.1rem; }
+.linha-item .ic { stroke-width: 1.6; }
+.criar-mix { background: var(--surface); border: 1px solid var(--line); border-radius: 1.5rem; }
+.criar-mix .t { color: var(--accent); }
+.linha-mix { display: flex; align-items: stretch; }
+.linha-mix + .linha-mix, .linha-item + .linha-mix, .linha-mix + .linha-item { border-top: 1px solid var(--line); }
+.linha-mix .linha-item { flex: 1; min-width: 0; border-top: 0 !important; }
+.linha-mix .editar { align-self: center; flex-shrink: 0; color: var(--muted); }
+.linha-mix .editar .ic { width: 1.25rem; height: 1.25rem; }
+.mix-vol { align-items: center; gap: 0.7rem; }
+.mix-vol .txt { flex: 0 1 8.5rem; overflow-wrap: anywhere; }
+.mix-vol input[type="range"] { flex: 1; min-width: 6rem; accent-color: var(--accent); height: 2.6rem; }
+.mix-uso p { margin: 0; }
+label input[type="text"] { margin-top: 0.1rem; }
 .oito-d { align-items: center; }
 .chip-som .ic { width: 1.05rem; height: 1.05rem; color: var(--accent); flex-shrink: 0; }
 .ic-play { margin-left: auto; color: var(--accent); font-size: 0.9rem; padding-left: 0.6rem; }

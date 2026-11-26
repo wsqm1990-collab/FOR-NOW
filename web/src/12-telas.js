@@ -2,7 +2,7 @@
 const S = { tela: 'inicio', de: null, ficha: null, filtro: 'todos', alarmeTocando: false, precisaApk: false, sug: null };
 
 const PAIS = {
-  paz: 'inicio', cochilo: 'inicio', respirar: 'inicio', musica: 'inicio', apoio: 'inicio', historico: 'inicio', revisao: 'inicio', ajustes: 'inicio',
+  paz: 'inicio', cochilo: 'inicio', respirar: 'inicio', musica: 'inicio', mix: 'musica', apoio: 'inicio', historico: 'inicio', revisao: 'inicio', ajustes: 'inicio',
   tecnicas: 'ajustes', diagnostico: 'ajustes', privacidade: 'ajustes', acesso: 'ajustes', preparar: 'ajustes',
   contato: 'apoio', ficha: 'tecnicas',
 };
@@ -20,6 +20,7 @@ function render() {
     case 'paz': html = viewPaz(); break;
     case 'respirar': html = viewRespirar(); break;
     case 'musica': html = viewMusica(); break;
+    case 'mix': html = viewMix(); break;
     case 'cochilo': html = viewCochilo(); break;
     case 'cochiloSessao': html = viewCochiloSessao(); break;
     case 'alarme': html = viewAlarme(); break;
@@ -41,6 +42,8 @@ function render() {
   }
   app.innerHTML = html;
   if (S.tela === 'sessao' && Sessao.modo === 'respirar') requestAnimationFrame(() => atualizarCirculo(true));
+  /* o som do mix sendo montado só toca enquanto se está na tela dele */
+  if (S.tela !== 'mix' && Mix.ouvindo()) Mix.pararDeOuvir();
 }
 
 /* ----- início ----- */
@@ -434,15 +437,24 @@ function viewAcesso() {
 function botaoSom(modo) {
   return `<button class="btn esq som-escolha" data-a="abrirSons" data-m="${modo}"><span><span>${esc(nomeSom(somReal(prefs().som[modo] || 'silencio')))}</span></span><span aria-hidden="true">›</span></button>`;
 }
+/* tudo o que pode tocar ao fundo, por uso: sons, músicas e os mixes salvos */
+function fundosPorUso() {
+  const base = FUNDOS.filter(f => f.c !== 'base' && f.c !== 'reserva' && (temMidia() || !f.v.startsWith('midia/')));
+  const mixes = temMidia() ? Mix.todos() : [];
+  return USOS.map(u => [u, [
+    ...mixes.filter(m => m.cat === u).map(m => ({ v: 'mix:' + m.id, nome: m.nome, mix: m })),
+    ...base.filter(f => usoDe(f.v) === u).map(f => ({ v: f.v, nome: tr(f.n), musica: f.musica })),
+  ]]).filter(([, l]) => l.length);
+}
 function folhaSons(modo, atual) {
   atual = somReal(atual || 'silencio');
-  const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
-  const chip = f => `<button class="chip" data-a="escolherSom" data-m="${modo}" data-v="${esc(f.v)}" aria-pressed="${f.v === atual}">${esc(tr(f.n))}</button>`;
+  const chip = (v, nome) => `<button class="chip" data-a="escolherSom" data-m="${modo}" data-v="${esc(v)}" aria-pressed="${v === atual}">${esc(nome)}</button>`;
   S.folhaSons = { modo, atual };
   abrirFolha(`<p class="pergunta">${esc(t('choose_sound'))}</p>
     ${temMidia() ? linha8D() : ''}
-    <div class="grupo">${chip(FUNDOS[0])}</div>
-    ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="grupo">${l.map(chip).join('')}</div></div>`).join('')}
+    <div class="grupo">${chip('silencio', tr(SONS[0][1]))}</div>
+    ${fundosPorUso().map(([u, l]) => `<div class="secao"><h2>${esc(tr(USO_TITULO[u]))}</h2><p class="pequeno">${esc(tr(USO_DET[u]))}</p>
+      <div class="grupo">${l.map(x => chip(x.v, x.nome)).join('')}</div></div>`).join('')}
     <button class="btn discreto" data-a="fecharFolha">${esc(t('back_word'))}</button>`);
 }
 
@@ -488,16 +500,62 @@ function viewRespSessao(g) {
 /* ----- músicas e sono ----- */
 function viewMusica() {
   const m = prefs().musica;
-  const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
+  const linha = x => {
+    const ic = x.mix ? icone('mix') : x.musica ? icone('musica') : icone('natureza');
+    const det = x.mix ? `${t('my_mix')}: ${Mix.descricao(x.mix)}` : porQue(x.v);
+    const tocar = `<button class="linha-item" data-a="musTocar" data-v="${esc(x.musica || x.v)}">${ic}<span class="txt"><span class="t">${esc(x.nome)}</span><span class="d">${esc(det)}</span></span></button>`;
+    return x.mix ? `<div class="linha-mix">${tocar}<button class="icone editar" data-a="mixEditar" data-id="${esc(x.mix.id)}" aria-label="${esc(t('edit_x', { s: x.nome }))}">${icone('lapis')}</button></div>` : tocar;
+  };
   return `<section class="tela">${topo(t('music'))}
     <button class="btn dormir-agora" data-a="musDormir"><span>${esc(t('sleep_now'))}</span><small>${esc(t('sleep_det'))}</small></button>
+    ${temMidia() ? `<button class="linha-item criar-mix" data-a="mixNovo">${icone('mix')}<span class="txt"><span class="t">${esc(t('mix_create'))}</span><span class="d">${esc(t('mix_create_det'))}</span></span></button>` : ''}
     <div class="secao"><h2>${esc(t('plays_for'))}</h2>${chips('musTimer', String(m.timer), [['15', t('min_x', { n: 15 })], ['30', t('min_x', { n: 30 })], ['45', t('min_x', { n: 45 })], ['60', t('min_x', { n: 60 })], ['0', t('no_end')]])}</div>
     <div class="secao"><h2>${esc(t('sleep_voice'))}</h2>${chips('musVoz', String(m.vozDormir !== false), [['true', t('on')], ['false', t('off')]])}</div>
     ${temMidia() ? `<div class="secao">${linha8D()}</div>` : ''}
     <p class="sub">${esc(t('music_tap'))}</p>
-    ${grupos.map(([n, l]) => `<div class="secao"><h2>${esc(n)}</h2><div class="faixas">${l.map(f => `<button class="faixa" data-a="musTocar" data-v="${esc(f.musica || f.v)}"><span class="ic" aria-hidden="true">${f.musica ? '♪' : '≈'}</span><span>${esc(tr(f.n))}</span></button>`).join('')}</div></div>`).join('')}
+    ${fundosPorUso().map(([u, l]) => `<div class="secao uso"><h2>${esc(tr(USO_TITULO[u]))}</h2><p class="pequeno">${esc(tr(USO_DET[u]))}</p>
+      <div class="lista-inicio">${l.map(linha).join('')}</div></div>`).join('')}
   </section>`;
 }
+
+/* ----- criar meu mix ----- */
+function viewMix() {
+  const e = Mix.edit;
+  if (!e) { S.tela = 'musica'; return viewMusica(); }
+  const chipMix = (v, nome) => `<button class="chip" data-a="mixCamada" data-v="${esc(v)}" aria-pressed="${Mix.tem(v)}">${esc(nome)}</button>`;
+  const natureza = FUNDOS.filter(f => f.c === 'natureza' && (temMidia() || !f.v.startsWith('midia/')));
+  const musicas = FUNDOS.filter(f => f.musica);
+  const vol = c => `<div class="item mix-vol"><div class="txt">${esc(nomeSom(c.v))}</div>
+      <input type="range" min="5" max="100" step="5" value="${Math.round(c.vol * 100)}" data-in="mixVol" data-v="${esc(c.v)}" aria-label="${esc(t('volume_of', { s: nomeSom(c.v) }))}">
+      <button class="icone" data-a="mixCamada" data-v="${esc(c.v)}" aria-label="${esc(t('remove_x', { s: nomeSom(c.v) }))}">✕</button></div>`;
+  const aviso = !temMidia() ? t('mix_only_app') : Sessao.ativa ? t('mix_no_preview') : '';
+  return `<section class="tela">${topo(e.id ? t('mix_edit') : t('mix_create'))}
+    <p class="sub">${esc(t('mix_intro'))}</p>
+    ${aviso ? `<p class="pequeno aviso">${esc(aviso)}</p>` : ''}
+    <div class="secao"><h2>${esc(t('mix_instruments'))}</h2><p class="pequeno">${esc(t('mix_instruments_det'))}</p>
+      <div class="grupo">${CAMADAS.map(([v, n]) => chipMix(v, tr(n))).join('')}</div></div>
+    <div class="secao"><h2>${esc(t('mix_nature'))}</h2><div class="grupo">${natureza.map(f => chipMix(f.v, tr(f.n))).join('')}</div></div>
+    <div class="secao"><h2>${esc(t('mix_song'))}</h2><p class="pequeno">${esc(t('mix_song_det'))}</p>
+      <div class="grupo">${musicas.map(f => chipMix(f.v, tr(f.n))).join('')}</div></div>
+    <div class="secao"><h2>${esc(t('mix_volumes'))}</h2>${e.camadas.length ? e.camadas.map(vol).join('') : `<p class="pequeno">${esc(t('mix_empty'))}</p>`}</div>
+    ${temMidia() ? `<div class="secao">${linha8D()}</div>` : ''}
+    <div class="cartao mix-uso" id="mix-uso">${mixUsoHtml()}</div>
+    <label>${esc(t('mix_name'))}<input type="text" id="mix-nome" data-in="mixNome" maxlength="40" value="${esc(e.nome || '')}" placeholder="${esc(Mix.nomeSugerido())}"></label>
+    <div class="pilha">${e.camadas.length ? botao('mixSalvar', t('save'), 'forte') : ''}${e.id ? botao('mixApagar', t('mix_delete'), 'discreto') : ''}</div>
+  </section>`;
+}
+/* para que o mix serve, decidido pelo app (e a escolha manual, se quiser) */
+function mixUsoHtml() {
+  const e = Mix.edit;
+  if (!e || !e.camadas.length) return `<p class="pequeno">${esc(t('mix_use_empty'))}</p>`;
+  const c = Mix.classificar(e.camadas);
+  const uso = e.uso && e.uso !== 'auto' ? e.uso : c.uso;
+  const porque = e.uso && e.uso !== 'auto' ? esc(t('mix_use_manual')) : esc(t('mix_because', { r: c.razoes.join(t('and_word')) }));
+  return `<p>${esc(t('mix_for'))} <b>${esc(tr(USO_NOME[uso]))}</b>. ${porque}</p>
+    <p class="pequeno">${esc(t('mix_change_use'))}</p>
+    ${chips('mixUso', e.uso || 'auto', [['auto', t('mix_auto')], ...USOS.map(u => [u, tr(USO_NOME[u])])])}`;
+}
+function atualizarMixUso() { const el = $('#mix-uso'); if (el) el.innerHTML = mixUsoHtml(); }
 function viewMusSessao(g) {
   const dormir = !!(Sessao.r && Sessao.r.extra.dormir);
   if (Sessao.fase === 'quieto' || !g) {
@@ -530,6 +588,9 @@ function atualizarMusica() {
 /* ícones de traço fino, na cor do texto de destaque */
 const ICONES = {
   respirar: '<circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.6" opacity=".55"/>',
+  natureza: '<path d="M3 15c2.2-2 4.4-2 6.6 0s4.4 2 6.6 0 3.3-1.5 4.8-.6"/><path d="M3 10c2.2-2 4.4-2 6.6 0s4.4 2 6.6 0 3.3-1.5 4.8-.6"/>',
+  mix: '<path d="M6 4v16M12 4v16M18 4v16"/><circle cx="6" cy="14" r="2" fill="currentColor"/><circle cx="12" cy="8" r="2" fill="currentColor"/><circle cx="18" cy="12" r="2" fill="currentColor"/>',
+  lapis: '<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/>',
   paz: '<path d="M5 19c0-8.2 5-13.2 14-14-0.8 9-5.8 14-14 14z"/><path d="M5 19l7.5-7.5"/>',
   musica: '<path d="M9 17.5V6l10-2v11.5"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/>',
   cochilo: '<circle cx="12" cy="13" r="7"/><path d="M12 9.6V13l2.4 1.8"/><path d="M4.6 6.2l2.3-1.8M19.4 6.2l-2.3-1.8"/>',
