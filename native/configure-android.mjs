@@ -38,6 +38,11 @@ for (const d of fs.readdirSync(res)) {
   if (d.startsWith('drawable') && fs.existsSync(f)) fs.rmSync(f);
 }
 copyTree(path.join(here, 'android-src', 'res'), res);
+/* voices, songs and nature sounds ship inside the APK (not in the page, which stays small for updates) */
+if (fs.existsSync(path.join(here, 'midia'))) {
+  copyTree(path.join(here, 'midia'), path.join(main, 'assets', 'midia'));
+  console.log('midia:', fs.readdirSync(path.join(main, 'assets', 'midia')).join(', '));
+}
 /* fingerprint of the native files (computed by the workflow); web updates for other native files ask for the APK */
 const shellId = String(process.env.SHELL_ID || 'dev').replace(/[^0-9a-z]/gi, '');
 write(path.join(res, 'values', 'fn_shell.xml'), `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <string name="fn_shell_id" translatable="false">${shellId}</string>\n</resources>\n`);

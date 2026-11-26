@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ServiceInfo;
-import android.content.res.AssetFileDescriptor;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -21,6 +20,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.os.VibratorManager;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -29,14 +31,15 @@ import androidx.core.content.ContextCompat;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-
 /**
  * Plays a session (one sentence at a time, with pauses, plus a background sound) as a
  * foreground service, so the voice keeps going with the screen locked. The page sends the
  * whole timeline once; after that this service owns the clock.
  * Time model (same as the page): elapsed = (pausedAt || now) - start - pausedTotal.
  * A phone call or unplugged headphones pause it; it never resumes by itself.
+ * Each sentence can come with a recorded voice clip (from the APK); without one the phone's own
+ * voice reads it. The background can be one sound that loops or a list of songs that follow each
+ * other with a crossfade. The background gets quieter while the voice speaks and fades out at the end.
  */
 public class GuiaService extends Service implements AudioManager.OnAudioFocusChangeListener {
     static final String ACTION_START = "com.wsqm1990.fornow.GUIA_START";
@@ -54,8 +57,13 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private PowerManager.WakeLock wakeLock;
     private AudioManager am;
     private AudioFocusRequest focusReq;
-    private MediaPlayer ambiente;
-    private float volAmb = 0f;
+    private MediaPlayer ambiente;      // the background playing now
+    private MediaPlayer proximo;       // the next song, during a crossfade
+    private MediaPlayer vozMp;         // the recorded voice of the current sentence
+    private String[] lista = new String[0];
+    private int faixa = 0;
+    private long cruzIni = 0, cruzMs = 5000;
+    private float volAtual = 0f, volVoz = 1f, volSom = VOL_AMBIENTE, focoFator = 1f;
     private boolean receptorLigado = false;
 
     private String id = "", lang = "en-US", som = "silencio";
@@ -63,6 +71,8 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private float rate = 0.9f, volume = 1f;
     private long[] durMs = new long[0];
     private String[] textos = new String[0];
+    private String[] clips = new String[0];
+    private int[] vibs = new int[0];
     private long ini, pausa, pausadoEm, totalMs, fimFade;
     private int idx = -1;
     private String lTitle = "For Now", lText = "Session in progress", lPaused = "Paused", lPause = "Pause", lResume = "Resume", lEnd = "End", lChannel = "Sessions";
@@ -108,6 +118,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     @Override
     public void onDestroy() {
         handler.removeCallbacksAndMessages(null);
+        pararClipe();
         pararAmbiente();
         abandonarFoco();
         desligarReceptor();
@@ -133,7 +144,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             int n = ps == null ? 0 : ps.length();
             if (n == 0) return false;
             handler.removeCallbacks(tick);
-            Fala.get(this).calar();
+            calar();
             pararAmbiente();
             id = o.optString("id", "");
             lang = o.optString("lang", "en-US");
@@ -141,7 +152,10 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             voz = o.optBoolean("voz", true);
             rate = (float) o.optDouble("rate", 0.9);
             volume = (float) o.optDouble("volume", 1.0);
+            volVoz = (float) o.optDouble("volVoz", volume);
+            volSom = (float) o.optDouble("volSom", VOL_AMBIENTE * volume);
             fimFade = o.optLong("fimFade", 0);
+            lista = lerLista(o, som);
             JSONObject lb = o.optJSONObject("labels");
             if (lb != null) {
                 lTitle = lb.optString("title", lTitle);
@@ -154,12 +168,16 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             }
             durMs = new long[n];
             textos = new String[n];
+            clips = new String[n];
+            vibs = new int[n];
             totalMs = 0;
             for (int i = 0; i < n; i++) {
                 JSONObject s = ps.optJSONObject(i);
                 if (s == null) s = new JSONObject();
-                durMs[i] = Math.max(500L, Math.round(s.optDouble("s", 1) * 1000.0));
+                durMs[i] = Math.max(300L, Math.round(s.optDouble("s", 1) * 1000.0));
                 textos[i] = s.optString("t", "");
+                clips[i] = s.optString("a", "");
+                vibs[i] = s.optInt("v", 0);
                 totalMs += durMs[i];
             }
             long now = System.currentTimeMillis();
@@ -171,13 +189,14 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             Fala.get(this).preparar(lang);
             pedirFoco();
             ligarReceptor();
-            tocarAmbiente(som, true);
+            faixa = 0;
+            tocarLista(true);
             garantirCanal();
             entrarEmPrimeiroPlano(notificacao());
             segurarCpu();
             salvarEstado(false, false, 0);
             handler.post(tick);
-            Log.i(ForNowPlugin.TAG, "guia start id=" + id + " passos=" + n + " som=" + som + " voz=" + voz + " total=" + totalMs);
+            Log.i(ForNowPlugin.TAG, "guia start id=" + id + " passos=" + n + " som=" + som + " lista=" + lista.length + " voz=" + voz + " total=" + totalMs);
             return true;
         } catch (Exception e) {
             Log.e(ForNowPlugin.TAG, "bad plan", e);
@@ -194,14 +213,24 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             if (o.has("pausa")) pausa = o.optLong("pausa", pausa);
             if (o.has("pausadoEm")) {
                 long p = o.optLong("pausadoEm", 0);
-                if (p > 0 && pausadoEm == 0) { pausadoEm = p; Fala.get(this).calar(); pausarAmbiente(); }
+                if (p > 0 && pausadoEm == 0) { pausadoEm = p; calar(); pausarAmbiente(); }
                 else if (p == 0 && pausadoEm > 0) { pausadoEm = 0; pedirFoco(); retomarAmbiente(); }
             }
-            if (o.has("voz")) { voz = o.optBoolean("voz", voz); if (!voz) Fala.get(this).calar(); }
-            if (o.has("som")) {
+            if (o.has("voz")) { voz = o.optBoolean("voz", voz); if (!voz) calar(); }
+            if (o.has("volSom")) volSom = (float) o.optDouble("volSom", volSom);
+            if (o.has("volVoz")) { volVoz = (float) o.optDouble("volVoz", volVoz); try { if (vozMp != null) vozMp.setVolume(volVoz, volVoz); } catch (Exception ignored) { } }
+            if (o.has("som") || o.has("sons")) {
                 String s = o.optString("som", som);
-                if (!s.equals(som)) { som = s; tocarAmbiente(som, false); if (pausadoEm > 0) pausarAmbiente(); }
+                String[] nova = lerLista(o, s);
+                if (!java.util.Arrays.equals(nova, lista)) {
+                    som = s;
+                    lista = nova;
+                    faixa = 0;
+                    tocarLista(true);
+                    if (pausadoEm > 0) pausarAmbiente();
+                }
             }
+            if (o.optBoolean("proxima", false) && pausadoEm == 0) pularFaixa();
             if (o.optBoolean("refalar", false) && voz && pausadoEm == 0) falarPasso(indiceAtual());
             salvarEstado(false, false, 0);
             handler.removeCallbacks(tick);
@@ -229,7 +258,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             if (voz) falarPasso(indiceAtual());
         } else {
             pausadoEm = now;
-            Fala.get(this).calar();
+            calar();
             pausarAmbiente();
         }
         salvarEstado(false, false, 0);
@@ -242,7 +271,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private void pausarPorFora(String porque) {
         if (!running || pausadoEm > 0) return;
         pausadoEm = System.currentTimeMillis();
-        Fala.get(this).calar();
+        calar();
         pausarAmbiente();
         salvarEstado(false, false, 0);
         atualizarNotificacao();
@@ -272,19 +301,78 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         if (i >= durMs.length) { encerrar(true, "end"); return; }
         if (i != idx) {
             idx = i;
-            if (pausadoEm == 0) falarPasso(i);
+            if (pausadoEm == 0) {
+                if (vibs[i] > 0) vibrar(vibs[i]);
+                falarPasso(i);
+            }
         }
-        if (fimFade > 0 && ambiente != null && pausadoEm == 0) {
-            long falta = totalMs - e;
-            if (falta < fimFade) definirVolume(VOL_AMBIENTE * volume * Math.max(0f, falta / (float) fimFade));
-        }
-        handler.postDelayed(tick, pausadoEm > 0 ? 1000 : 250);
+        if (pausadoEm == 0) misturar(totalMs - e);
+        handler.postDelayed(tick, pausadoEm > 0 ? 1000 : 200);
     }
 
     private void falarPasso(int i) {
         if (!voz || i < 0 || i >= textos.length) return;
+        if (clips[i] != null && clips[i].length() > 0 && tocarClipe(clips[i])) return;
         String t = textos[i];
-        if (t != null && t.length() > 0) Fala.get(this).dizer(t, lang, rate, volume);
+        if (t != null && t.length() > 0) Fala.get(this).dizer(t, lang, rate, volVoz);
+    }
+
+    /** Stops whatever voice is speaking: the recorded clip and the phone's voice. */
+    private void calar() {
+        Fala.get(this).calar();
+        pararClipe();
+    }
+
+    private boolean tocarClipe(String nome) {
+        pararClipe();
+        final MediaPlayer p = new MediaPlayer();
+        try {
+            p.setAudioAttributes(atributos());
+            if (!Fontes.abrir(this, p, nome)) { p.release(); return false; }
+            p.prepare();
+            p.setVolume(volVoz, volVoz);
+            p.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override public void onCompletion(MediaPlayer mp) { if (vozMp == mp) pararClipe(); }
+            });
+            p.start();
+            vozMp = p;
+            Log.i(ForNowPlugin.TAG, "clip " + nome);
+            return true;
+        } catch (Exception e) {
+            Log.w(ForNowPlugin.TAG, "clip " + nome, e);
+            try { p.release(); } catch (Exception ignored) { }
+            return false;
+        }
+    }
+
+    private void pararClipe() {
+        MediaPlayer p = vozMp;
+        vozMp = null;
+        if (p == null) return;
+        try { p.stop(); } catch (Exception ignored) { }
+        try { p.release(); } catch (Exception ignored) { }
+    }
+
+    private boolean falando() {
+        try { return vozMp != null && vozMp.isPlaying(); } catch (Exception e) { return false; }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void vibrar(int ms) {
+        try {
+            Vibrator v;
+            if (Build.VERSION.SDK_INT >= 31) {
+                VibratorManager vm = (VibratorManager) getSystemService(Context.VIBRATOR_MANAGER_SERVICE);
+                v = vm == null ? null : vm.getDefaultVibrator();
+            } else {
+                v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            }
+            if (v == null || !v.hasVibrator()) return;
+            if (Build.VERSION.SDK_INT >= 26) v.vibrate(VibrationEffect.createOneShot(Math.min(ms, 400), VibrationEffect.DEFAULT_AMPLITUDE));
+            else v.vibrate(Math.min(ms, 400));
+        } catch (Exception e) {
+            Log.w(ForNowPlugin.TAG, "vibrate", e);
+        }
     }
 
     private void encerrar(boolean completo, String por) {
@@ -293,7 +381,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         handler.removeCallbacks(tick);
         long fim = pausadoEm > 0 ? pausadoEm : System.currentTimeMillis();
         if (completo) apagarAmbiente(1500);
-        else { Fala.get(this).calar(); pararAmbiente(); }
+        else { calar(); pararAmbiente(); }
         salvarEstado(true, completo, fim);
         JSONObject ev = estadoJson(completo ? "done" : "stopped");
         try { ev.put("by", "notification".equals(por) ? "notification" : por); ev.put("endedAt", fim); ev.put("complete", completo); } catch (Exception ignored) { }
@@ -317,6 +405,8 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             o.put("pausa", pausa);
             o.put("pausadoEm", pausadoEm);
             o.put("running", running);
+            o.put("faixa", faixa);
+            o.put("faixas", lista.length);
         } catch (Exception ignored) { }
         return o;
     }
@@ -350,71 +440,124 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
 
     // ---------------------------------------------------------------- background sound
 
-    private void tocarAmbiente(String nome, boolean fadeIn) {
-        pararAmbiente();
-        if (nome == null || nome.length() == 0 || "silencio".equals(nome)) return;
+    /** The background list from the plan: "sons" (several, in turn) or "som" (one, looping). */
+    private static String[] lerLista(JSONObject o, String somUnico) {
+        JSONArray a = o.optJSONArray("sons");
+        if (a != null) {
+            java.util.ArrayList<String> l = new java.util.ArrayList<>();
+            for (int i = 0; i < a.length(); i++) { String x = a.optString(i, ""); if (x.length() > 0 && !"silencio".equals(x)) l.add(x); }
+            return l.toArray(new String[0]);
+        }
+        if (somUnico == null || somUnico.length() == 0 || "silencio".equals(somUnico)) return new String[0];
+        return new String[] { somUnico };
+    }
+
+    private MediaPlayer abrirFaixa(String nome, boolean repetir) {
         MediaPlayer mp = new MediaPlayer();
         try {
             mp.setAudioAttributes(new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build());
-            if (!abrirSom(mp, nome)) { mp.release(); return; }
-            mp.setLooping(true);
+            if (!Fontes.abrir(this, mp, nome)) { mp.release(); return null; }
+            mp.setLooping(repetir);
             mp.prepare();
-            volAmb = fadeIn ? 0f : VOL_AMBIENTE * volume;
-            mp.setVolume(volAmb, volAmb);
-            mp.start();
-            ambiente = mp;
-            if (fadeIn) subirVolume();
-            Log.i(ForNowPlugin.TAG, "som " + nome);
+            mp.setVolume(0f, 0f);
+            if (!repetir) {
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override public void onCompletion(MediaPlayer m) { if (m == ambiente && proximo == null && running && pausadoEm == 0) pularFaixa(); }
+                });
+            }
+            return mp;
         } catch (Exception e) {
             Log.w(ForNowPlugin.TAG, "som " + nome, e);
             try { mp.release(); } catch (Exception ignored) { }
+            return null;
         }
     }
 
-    /** The sound comes from a downloaded update of the page, if there is one, or from the app itself. */
-    private boolean abrirSom(MediaPlayer mp, String nome) {
-        try {
-            String base = getSharedPreferences(ForNowPlugin.BUNDLE_PREFS, Context.MODE_PRIVATE).getString("path", null);
-            if (base != null) {
-                File f = new File(base, "sons/" + nome + ".ogg");
-                if (f.exists()) { mp.setDataSource(f.getAbsolutePath()); return true; }
-            }
-        } catch (Exception ignored) { }
-        try (AssetFileDescriptor fd = getAssets().openFd("public/sons/" + nome + ".ogg")) {
-            mp.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
-            return true;
-        } catch (Exception e) {
-            Log.w(ForNowPlugin.TAG, "asset sons/" + nome, e);
-            return false;
+    /** Starts the background list from the current track (fades in through misturar). */
+    private void tocarLista(boolean doZero) {
+        pararAmbiente();
+        if (lista.length == 0) return;
+        for (int tent = 0; tent < lista.length; tent++) {
+            int k = (faixa + tent) % lista.length;
+            MediaPlayer mp = abrirFaixa(lista[k], lista.length == 1);
+            if (mp == null) continue;
+            faixa = k;
+            if (doZero) volAtual = 0f;
+            try { mp.setVolume(volAtual, volAtual); mp.start(); } catch (Exception ignored) { }
+            ambiente = mp;
+            Log.i(ForNowPlugin.TAG, "som " + lista[k] + " (" + (k + 1) + "/" + lista.length + ")");
+            return;
         }
     }
 
-    private void definirVolume(float v) {
-        volAmb = Math.max(0f, Math.min(1f, v));
-        try { if (ambiente != null) ambiente.setVolume(volAmb, volAmb); } catch (Exception ignored) { }
+    /** Next song now, with a short crossfade (the "next" button, or a song that ended early). */
+    private void pularFaixa() {
+        if (lista.length < 2 || ambiente == null) return;
+        if (proximo != null) terminarCruzamento();
+        comecarCruzamento(2000);
     }
 
-    private void subirVolume() {
-        final long t0 = System.currentTimeMillis();
-        final MediaPlayer alvo = ambiente;
-        handler.post(new Runnable() {
-            @Override public void run() {
-                if (ambiente == null || ambiente != alvo) return;
-                float f = Math.min(1f, (System.currentTimeMillis() - t0) / 3000f);
-                definirVolume(VOL_AMBIENTE * volume * f);
-                if (f < 1f) handler.postDelayed(this, 100);
-            }
-        });
+    private void comecarCruzamento(long ms) {
+        for (int tent = 1; tent < lista.length; tent++) {
+            int k = (faixa + tent) % lista.length;
+            MediaPlayer mp = abrirFaixa(lista[k], false);
+            if (mp == null) continue;
+            try { mp.start(); } catch (Exception ignored) { }
+            proximo = mp;
+            faixa = k;
+            cruzIni = System.currentTimeMillis();
+            cruzMs = ms;
+            Log.i(ForNowPlugin.TAG, "som " + lista[k] + " (" + (k + 1) + "/" + lista.length + ")");
+            return;
+        }
+    }
+
+    private void terminarCruzamento() {
+        MediaPlayer velho = ambiente;
+        ambiente = proximo;
+        proximo = null;
+        cruzIni = 0;
+        if (velho != null) { try { velho.stop(); } catch (Exception ignored) { } try { velho.release(); } catch (Exception ignored) { } }
+        ForNowPlugin.emit("guia", estadoJson("state"));
+    }
+
+    /**
+     * Sets the background volume every tick: fades in at the start, gets quieter while a voice clip
+     * plays, fades out over the last fimFade ms, and crossfades songs near the end of each one.
+     */
+    private void misturar(long faltaMs) {
+        if (ambiente == null) return;
+        float alvo = volSom * focoFator;
+        if (falando()) alvo *= 0.55f;
+        if (fimFade > 0 && faltaMs < fimFade) alvo *= Math.max(0f, faltaMs / (float) fimFade);
+        float passo = alvo < volAtual ? 0.06f : 0.035f;
+        if (Math.abs(alvo - volAtual) <= passo) volAtual = alvo;
+        else volAtual += alvo > volAtual ? passo : -passo;
+        if (lista.length > 1 && proximo == null) {
+            try {
+                int dur = ambiente.getDuration(), pos = ambiente.getCurrentPosition();
+                if (dur > 0 && dur - pos <= 5000) comecarCruzamento(Math.max(1500, dur - pos));
+            } catch (Exception ignored) { }
+        }
+        float w = 1f;
+        if (proximo != null) {
+            w = Math.min(1f, (System.currentTimeMillis() - cruzIni) / (float) cruzMs);
+            try { proximo.setVolume(volAtual * w, volAtual * w); } catch (Exception ignored) { }
+            if (w >= 1f) { terminarCruzamento(); w = 1f; }
+        }
+        float vA = proximo != null ? volAtual * (1f - w) : volAtual;
+        try { if (ambiente != null) ambiente.setVolume(vA, vA); } catch (Exception ignored) { }
     }
 
     private void apagarAmbiente(final long ms) {
+        if (proximo != null) terminarCruzamento();
         final MediaPlayer mp = ambiente;
         if (mp == null) return;
         ambiente = null;
-        final float v0 = volAmb;
+        final float v0 = volAtual;
         final long t0 = System.currentTimeMillis();
         handler.post(new Runnable() {
             @Override public void run() {
@@ -426,16 +569,22 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
         });
     }
 
-    private void pausarAmbiente() { try { if (ambiente != null && ambiente.isPlaying()) ambiente.pause(); } catch (Exception ignored) { } }
+    private void pausarAmbiente() {
+        if (proximo != null) terminarCruzamento();
+        try { if (ambiente != null && ambiente.isPlaying()) ambiente.pause(); } catch (Exception ignored) { }
+    }
 
     private void retomarAmbiente() { try { if (ambiente != null && !ambiente.isPlaying()) ambiente.start(); } catch (Exception ignored) { } }
 
     private void pararAmbiente() {
-        MediaPlayer mp = ambiente;
+        for (MediaPlayer mp : new MediaPlayer[] { ambiente, proximo }) {
+            if (mp == null) continue;
+            try { mp.stop(); } catch (Exception ignored) { }
+            try { mp.release(); } catch (Exception ignored) { }
+        }
         ambiente = null;
-        if (mp == null) return;
-        try { mp.stop(); } catch (Exception ignored) { }
-        try { mp.release(); } catch (Exception ignored) { }
+        proximo = null;
+        cruzIni = 0;
     }
 
     // ---------------------------------------------------------------- audio focus and headphones
@@ -476,8 +625,8 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     @Override
     public void onAudioFocusChange(int change) {
         if (change == AudioManager.AUDIOFOCUS_LOSS || change == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) pausarPorFora("audio focus");
-        else if (change == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) definirVolume(volAmb * 0.4f);
-        else if (change == AudioManager.AUDIOFOCUS_GAIN && pausadoEm == 0) definirVolume(VOL_AMBIENTE * volume);
+        else if (change == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) focoFator = 0.4f;
+        else if (change == AudioManager.AUDIOFOCUS_GAIN) focoFator = 1f;
     }
 
     private void ligarReceptor() {

@@ -134,6 +134,7 @@ public class ForNowPlugin extends Plugin {
     @PluginMethod
     public void guiaStart(PluginCall call) {
         Context ctx = getContext();
+        Previa.parar();
         Intent i = new Intent(ctx, GuiaService.class).setAction(GuiaService.ACTION_START).putExtra(GuiaService.EXTRA_PLANO, call.getData().toString());
         try {
             ContextCompat.startForegroundService(ctx, i);
@@ -169,7 +170,26 @@ public class ForNowPlugin extends Plugin {
         }
     }
 
-    // ------------------------------------------------------------ voice
+    // ------------------------------------------------------------ voice, songs and sounds
+
+    /** A short listen while choosing a voice, a song or a sound (app open only). */
+    @PluginMethod
+    public void previa(PluginCall call) {
+        final String nome = call.getString("nome", "");
+        Double vol = call.getDouble("vol", 0.8);
+        Long ms = call.getLong("ms", 15000L);
+        final float v = vol == null ? 0.8f : vol.floatValue();
+        final long dur = ms == null ? 15000L : ms;
+        final Context ctx = getContext();
+        new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() { @Override public void run() { Previa.tocar(ctx, nome, dur, v); } });
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void previaParar(PluginCall call) {
+        new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() { @Override public void run() { Previa.parar(); } });
+        call.resolve();
+    }
 
     @PluginMethod
     public void falar(PluginCall call) {
@@ -467,6 +487,9 @@ public class ForNowPlugin extends Plugin {
         String shellId = "";
         try { shellId = ctx.getString(R.string.fn_shell_id); } catch (Exception ignored) { }
         r.put("shellId", shellId);
+        boolean midia = false;
+        try { String[] l = ctx.getAssets().list("midia/voz/feminina"); midia = l != null && l.length > 0; } catch (Exception ignored) { }
+        r.put("midia", midia);
         r.put("sdk", Build.VERSION.SDK_INT);
         r.put("maker", Build.MANUFACTURER);
         r.put("model", Build.MODEL);

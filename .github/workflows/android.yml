@@ -4,15 +4,15 @@ name: Android app
 # publishes a release: ForNow.apk (install once) and web.zip (the automatic update).
 on:
   push:
-    branches: [main]
-    paths-ignore: ['README.md', 'store/**']
+    branches: [main, proxima-versao]
+    paths-ignore: ['README.md', 'store/**', 'audio/**', 'tools/audio-*.py', '.github/workflows/audio-pack.yml']
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: android
+  group: android-${{ github.ref_name }}
   cancel-in-progress: true
 
 # bash with pipefail, so a failing command before "| tee" still fails the step
@@ -189,9 +189,10 @@ jobs:
           name: test-out
           path: test-out
 
+  # only main publishes; the work branch is built and tested but never reaches the phone
   release:
     needs: [build, test]
-    if: needs.build.outputs.signed == 'true'
+    if: github.ref == 'refs/heads/main' && needs.build.outputs.signed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -232,4 +233,5 @@ jobs:
           echo "run ${{ github.run_number }} (${{ github.sha }}): build=${{ needs.build.result }} signed=${{ needs.build.outputs.signed }} test=${{ needs.test.result }} release=${{ needs.release.result }}" > SUMMARY.txt
           git add -A
           git -c user.name="For Now build" -c user.email="build@users.noreply.github.com" commit -qm "Build ${{ github.run_number }}"
-          git push -qf origin ci-results
+          B=ci-results; [ "${{ github.ref_name }}" = "main" ] || B=ci-results-${{ github.ref_name }}
+          git push -qf origin HEAD:$B
