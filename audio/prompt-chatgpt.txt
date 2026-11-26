@@ -1,0 +1,180 @@
+Quero que você gere um pacote de áudios para o meu app For Now usando a ElevenLabs e me entregue tudo num único arquivo ZIP chamado ForNow-audios.zip. Faça tudo de uma vez, sem me perguntar nada no meio. Se precisar parar, continue de onde parou quando eu disser "continue".
+
+REGRAS
+- Use a ElevenLabs para tudo: fala (Text to Speech), música (Eleven Music) e efeitos sonoros (Sound Effects).
+- Gere só 1 versão de cada item.
+- Não mude, não corrija e não traduza nenhum texto. Copie exatamente, inclusive os colchetes como [softly] e [long pause]: eles controlam o tom e as pausas.
+- Salve cada arquivo em MP3, com o nome e a pasta indicados.
+- Se os créditos acabarem ou alguma ferramenta não estiver disponível, pare, monte o ZIP com o que ficou pronto e me diga o que faltou.
+- No fim, me dê o link do ZIP e a lista dos arquivos com a duração de cada um.
+
+ORDEM
+1. Vozes na voz feminina (V00 a V10)
+2. Vozes na voz masculina (V00 a V10)
+3. Músicas M01 a M06
+4. Sons N01 a N05
+5. Músicas M07 a M11
+
+PARTE 1 — VOZES (Text to Speech)
+Modelo: Eleven v4 (se não houver, Eleven v3). Não use outro modelo, porque os outros leem os colchetes em voz alta.
+Voz feminina: "Miranda - Calm & Serene" (voice_id pycQyzKletH76EvhFjXL). Pasta: vozes/feminina/
+Voz masculina: "Bruno - Calm and Deep" (voice_id coDqCEkljuhSqVVLj9y7). Pasta: vozes/masculina/
+Nome de cada arquivo: o código do bloco (exemplo: vozes/feminina/V01.mp3 e vozes/masculina/V01.mp3).
+Cada bloco começa em "BLOCO" e vai até o próximo "BLOCO". Gere o texto do bloco inteiro num arquivo só.
+
+BLOCO V00
+[softly] Esta é a voz que vai te acompanhar aqui.
+
+BLOCO V01
+[softly] Sinta onde os pés encontram o chão. [long pause]
+Escolha um objeto à sua frente. [long pause]
+Repare numa cor ou num detalhe dele. [long pause]
+Agora perceba um som por perto. [long pause]
+Pode ficar só com isso por um momento. [long pause]
+Tudo bem. Volte para o que está em volta. [long pause]
+Encoste a mão em alguma coisa e repare na textura. [long pause]
+Repare se é frio ou morno, liso ou áspero. [long pause]
+Agora encontre com os olhos três coisas da mesma cor.
+
+BLOCO V02
+[softly] Deixe o ar entrar do jeito que vier. [long pause]
+Solte devagar, sem pressa. [long pause]
+Não precisa encher o peito nem prender o ar. [long pause]
+Só deixe a saída do ar ficar um pouco mais lenta. [long pause]
+Continue assim, no seu ritmo. [long pause]
+Escolha um som e fique com ele por um instante. [long pause]
+Quando perceber que começou a conversar com um pensamento, pode voltar ao som. [long pause]
+Não precisa esvaziar a cabeça. É só voltar, quantas vezes for. [long pause]
+Pode ficar só com o som. [long pause]
+Eu fico em silêncio agora. Continue com o som. [long pause]
+Fique mais um pouco. Não precisa fazer nada.
+
+BLOCO V03
+[softly] Se for confortável, feche as mãos de leve. [long pause]
+Agora solte. Repare na diferença. [long pause]
+Suba um pouco os ombros, sem forçar. [long pause]
+E deixe que desçam. Deixe os ombros descansarem. [long pause]
+Se alguma parte doer, pode só soltar, sem apertar. [long pause]
+Franza de leve a testa e os olhos. [long pause]
+Solte o rosto: a testa, os olhos, o maxilar. [long pause]
+Empurre os pés de leve contra o chão. [long pause]
+E solte as pernas. [long pause]
+Agora deixe o corpo pesar onde está apoiado. [long pause]
+Não precisa fazer mais nada. Fique o quanto quiser.
+
+BLOCO V04
+[softly] [slowly] Deixe o corpo pesar no colchão. [long pause]
+Solte os ombros. [long pause]
+Deixe as mãos pesadas. [long pause]
+Não precisa dormir agora. Descansar já conta. [long pause]
+Se vierem pensamentos, deixe que passem como barulho lá fora. [long pause]
+Eu vou ficar em silêncio.
+
+BLOCO V05
+[softly] Seu despertador está marcado. [long pause]
+O despertador está no Relógio do celular. [long pause]
+Este descanso não tem despertador. [long pause]
+Sinta o apoio do travesseiro. [long pause]
+Você pode descansar agora. Se não dormir, tudo bem: descansar já conta. [long pause]
+Você pode descansar agora. [long pause]
+Hora de voltar, sem pressa. [long pause]
+Mexa os dedos das mãos e dos pés. [long pause]
+Espreguice, se tiver vontade. [long pause]
+Quando quiser, abra bem os olhos e respire fundo uma vez.
+
+BLOCO V06
+[softly] Respiração quadrada. Inspire, segure, solte e faça uma pausa, todos no mesmo tempo. Siga o círculo. [long pause]
+Respiração quatro, sete, oito. Inspire contando até quatro, segure até sete e solte devagar até oito. [long pause]
+Respiração coerente. Inspire e solte no mesmo ritmo, devagar, como uma onda. [long pause]
+Expiração longa. Deixe a saída do ar ficar mais longa que a entrada. [long pause]
+Suspiro duplo. Puxe o ar pelo nariz, puxe mais um pouquinho, e solte tudo bem devagar pela boca. [long pause]
+Respiração no seu tempo. Siga o círculo. [long pause]
+Se ficar desconfortável, volte a respirar normalmente. Pode encurtar os tempos. [long pause]
+Pode voltar a respirar no seu ritmo. [long pause]
+Repare como o corpo está agora.
+
+BLOCO V07
+[softly] Inspire pelo nariz. [long pause]
+Segure o ar. [long pause]
+Solte o ar devagar. [long pause]
+Pausa. [long pause]
+Mais um pouquinho de ar. [long pause]
+E solte tudo, bem devagar. [long pause]
+Inspire. [long pause]
+Segure. [long pause]
+Solte.
+
+BLOCO V08
+[softly] Um. [long pause]
+Dois. [long pause]
+Três. [long pause]
+Quatro. [long pause]
+Cinco. [long pause]
+Seis. [long pause]
+Sete. [long pause]
+Oito.
+
+BLOCO V09
+[softly] [slowly] Deite do jeito mais confortável para você. [long pause]
+Deixe o celular de lado. Não precisa olhar para a tela. [long pause]
+Solte o ar devagar, um pouco mais longo que o normal. [long pause]
+Mais uma vez. Deixe a saída do ar ficar lenta. [long pause]
+Agora leve a atenção para os pés. [long pause]
+Deixe os pés pesados, afundando no colchão. [long pause]
+Suba para as pernas. Deixe as pernas soltas. [long pause]
+O quadril e a barriga também podem descansar. [long pause]
+Repare no peito subindo e descendo, sem controlar nada. [long pause]
+Agora as mãos. Deixe as mãos pesadas e mornas.
+
+BLOCO V10
+[softly] [slowly] Os braços, até os ombros. Deixe os ombros descerem. [long pause]
+O pescoço pode descansar no travesseiro. [long pause]
+Solte o maxilar, a língua, a testa e os olhos. [long pause]
+Se vierem pensamentos, deixe que passem, como nuvens. [long pause]
+Não precisa tentar dormir. Descansar já conta. [long pause]
+Imagine um lugar tranquilo, onde você gosta de estar. [long pause]
+Repare nas cores, nos sons e na temperatura desse lugar. [long pause]
+Deixe o corpo cada vez mais pesado. [long pause]
+Eu vou ficar em silêncio agora. A música continua por um tempo. [long pause]
+Boa noite.
+
+PARTE 2 — MÚSICAS (Eleven Music)
+Modelo: Eleven Music v2.5, instrumental, 3 minutos (180 segundos) cada. Pasta: musicas/. Nome: o código (exemplo: musicas/M01.mp3).
+
+M01: Slow, gentle solo piano in a late-Romantic impressionist style, warm felt-piano tone with soft sustain pedal, a simple lyrical melody over sparse arpeggios, around 60 BPM. Very calm and intimate, staying quiet throughout and fading out gently at the end. Instrumental, no percussion.
+
+M02: Very slow ambient solo piano for sleep, low and middle register only, long sustained notes with plenty of space between phrases, around 50 BPM, soft room reverb. Dreamy and tranquil, getting even softer toward the end. Instrumental, no percussion.
+
+M03: Peaceful classical adagio for string orchestra, warm violas and cellos with soft violins, long legato lines and gentle swells, slow tempo around 55 BPM. Serene and comforting with no dramatic climax, fading out softly. Instrumental, no percussion.
+
+M04: Slow Celtic harp solo playing a gentle traditional-style air in Dorian mode, with a soft ambient string pad underneath, around 65 BPM. Peaceful and nostalgic, warm airy production, fading out gently. Instrumental, no percussion.
+
+M05: Slow Gregorian-style chant sung by a small male choir in unison, wordless vowels only, long flowing phrases in a large stone cathedral with long natural reverb. Sacred, meditative and very calm, no instruments and no percussion.
+
+M06: Slow evolving ambient soundscape with warm analog synth pads, soft shimmering textures and a deep gentle drone, no beat, changing very gradually. Deeply relaxing and spacious, fading out slowly at the end.
+
+M07: Slow Celtic air played on a soft low whistle over fingerpicked harp and gentle strings, around 70 BPM. Misty and peaceful, warm acoustic production. Instrumental, no percussion.
+
+M08: Ethereal wordless female choir singing soft sustained harmonies over a warm ambient pad, slow and floating with long reverb. Angelic and calming, no percussion, fading out gently.
+
+M09: Meditative Tibetan singing bowls with long resonant tones over a low soft drone, slow and spacious, gentle and grounding. No percussion and no melodic instruments.
+
+M10: Slow fingerstyle classical guitar on nylon strings, warm and intimate close-mic sound, a simple gentle melody around 65 BPM. Calm and soothing. Instrumental, no percussion.
+
+M11: Gentle morning music with soft piano and light strings, starting very quietly and slowly brightening into a hopeful, warm melody around 72 BPM. Uplifting but calm. Instrumental, no drums.
+
+PARTE 3 — SONS DA NATUREZA (Sound Effects)
+Modelo: Sound Effects v3, 30 segundos cada, com a opção de loop ligada. Pasta: sons/. Nome: o código (exemplo: sons/N01.mp3).
+
+N01: Steady gentle rain falling on leaves and soil, soft and even, no thunder
+
+N02: Calm ocean waves rolling slowly onto a sandy beach, soft and distant
+
+N03: Quiet forest at night, soft crickets and a faint distant breeze
+
+N04: Small stream gently flowing over smooth stones, soft and continuous
+
+N05: Soft crackling fireplace, close-mic, gentle occasional pops
+
+ENTREGA
+Monte o ZIP ForNow-audios.zip com as pastas vozes/feminina, vozes/masculina, musicas e sons, e me dê o link para baixar.
