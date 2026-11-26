@@ -219,10 +219,15 @@ async function main() {
   await ev(`(() => { S.tela = 'inicio'; render(); return true; })()`);
 
   // ---- the widget, tile and shortcuts open the session straight away (fornow://pico)
+  // First drop the page's listeners, as Capacitor does when a page start runs late: the tap must
+  // still work, because the page asks for the action itself when it comes back to the front.
+  await ev(`Nat.call('removeAllListeners')`);
+  check('listeners dropped for the test (as a late page start does)', await ev(`Nat.call('ouvintes').then(o => !o.guia && !o.alarme && !o.launch)`), null, false);
   adb('shell', 'input', 'keyevent', 'KEYCODE_HOME'); await sleep(1000);
   adb('shell', 'am', 'start', '-W', '-a', 'android.intent.action.VIEW', '-d', 'fornow://pico', '-n', `${PKG}/.MainActivity`); await sleep(2500);
   await connect(); await pronto();
   check('fornow://pico (widget, tile, shortcut) starts the session', await waitFor(`Sessao.ativa && Sessao.modo === 'pico' && S.tela === 'sessao'`, 6000));
+  check('the page added its listeners back', await waitFor(`Nat.call('ouvintes').then(o => o.guia && o.alarme && o.launch)`, 6000), await ev(`Nat.call('ouvintes')`));
   screen('09-from-widget');
   await ev(`(() => { Sessao.sair(); return true; })()`); await sleep(600);
   const pkgInfo = adb('shell', 'dumpsys', 'package', PKG);
