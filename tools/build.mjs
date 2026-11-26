@@ -47,4 +47,8 @@ fs.writeFileSync(path.join(out, 'index.html'), html);
 const sons = path.join(root, 'web', 'sons');
 fs.rmSync(path.join(out, 'sons'), { recursive: true, force: true });
 if (fs.existsSync(sons)) fs.cpSync(sons, path.join(out, 'sons'), { recursive: true });
+// a fonte da voz (Lora, licença OFL, sem modificação) vai junto
+const fontes = path.join(root, 'web', 'fonts');
+fs.rmSync(path.join(out, 'fonts'), { recursive: true, force: true });
+if (fs.existsSync(fontes)) fs.cpSync(fontes, path.join(out, 'fonts'), { recursive: true });
 console.log(`web/www/index.html: versão ${build}, ${(html.length / 1024).toFixed(0)} KB`);

@@ -39,6 +39,9 @@ async def main():
                 u = route.request.url
                 if u.endswith('/index.html'):
                     await route.fulfill(status=200, content_type='text/html', body=html)
+                elif '/fonts/' in u:
+                    f = os.path.join(ROOT, 'web', 'www', 'fonts', u.split('/fonts/', 1)[1])
+                    await route.fulfill(status=200, content_type='font/ttf', body=open(f, 'rb').read()) if os.path.exists(f) else await route.fulfill(status=404, body='')
                 else:
                     await route.fulfill(status=200, content_type='application/javascript', body='')
             await page.route('https://fornow.test/**', site)

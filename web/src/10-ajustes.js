@@ -18,10 +18,13 @@ function aplicarTema() {
   const madrugada = ['madrugada', 'madDesperto', 'madLado', 'alarme'].includes(S.tela) || (S.tela === 'sessao' && Sessao.modo === 'madrugada') || dormindo;
   const escuro = madrugada || S.tela === 'cochiloSessao' || p.tema === 'escuro' || (p.tema === 'auto' && ehNoite());
   r.setAttribute('data-tema', escuro ? 'escuro' : 'claro');
+  /* o céu desta hora, nos dias claros */
+  const h = new Date().getHours();
+  r.setAttribute('data-ceu', h >= 5 && h < 10 ? 'manha' : h >= 16 && h < 20 ? 'tarde' : 'dia');
   if (madrugada) r.setAttribute('data-noite', '1'); else r.removeAttribute('data-noite');
   r.style.setProperty('--fs', (18 * (Number(p.texto) || 1)).toFixed(1) + 'px');
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', getComputedStyle(r).getPropertyValue('--bg').trim() || '#F4F1EC');
+  if (meta) meta.setAttribute('content', getComputedStyle(r).getPropertyValue('--ceu-1').trim() || '#D6E6EA');
   if (Nat.on) Nat.safe('setStyle', { style: escuro ? 'DARK' : 'LIGHT' }, 'SystemBars');
 }
 

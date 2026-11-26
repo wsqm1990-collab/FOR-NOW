@@ -34,6 +34,9 @@ async def main():
                 await route.fulfill(status=200, content_type='text/html', body=html)
             elif url.endswith('/capacitor.js'):
                 await route.fulfill(status=200, content_type='application/javascript', body='')
+            elif '/fonts/' in url:
+                f = os.path.join(ROOT, 'web', 'www', 'fonts', url.split('/fonts/', 1)[1])
+                await route.fulfill(status=200, content_type='font/ttf', body=open(f, 'rb').read()) if os.path.exists(f) else await route.fulfill(status=404, body='')
             elif '/sons/' in url:
                 f = os.path.join(ROOT, 'web', 'www', 'sons', url.split('/sons/', 1)[1])
                 await route.fulfill(status=200, content_type='audio/ogg', body=open(f, 'rb').read()) if os.path.exists(f) else await route.fulfill(status=404, body='')

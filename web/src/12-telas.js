@@ -60,19 +60,19 @@ function viewInicio() {
     const sug = Aprender.sugestao();
     if (sug) { S.sug = sug; cartoes.push(viewSugestao(sug)); }
   }
-  const item = (acao, titulo, det, cls = '') => `<button class="btn esq ${cls}" data-a="${acao}"><span><span>${esc(titulo)}</span>${det ? `<span class="det">${esc(det)}</span>` : ''}</span></button>`;
+  const item = (acao, ic, titulo, det, cls = '') => `<button class="linha-item ${cls}" data-a="${acao}">${icone(ic)}<span class="txt"><span class="t">${esc(titulo)}</span>${det ? `<span class="d">${esc(det)}</span>` : ''}</span></button>`;
   return `<section class="tela">
-    <div class="topo"><span class="marca">For Now</span><button class="icone" data-a="ajustes">${esc(t('settings'))}</button></div>
-    <button class="btn pico" data-a="pico">${esc(rotuloPrincipal())}</button>
+    <div class="topo inicio-topo"><span class="marca">For Now</span><button class="icone" data-a="ajustes">${esc(t('settings'))}</button></div>
+    <div class="pedra"><button class="btn pico" data-a="pico">${esc(rotuloPrincipal())}</button></div>
     ${cartoes.join('')}
-    <div class="pilha">
-      ${item('respirar', t('breathe'), t('breathe_det'))}
-      ${item('pazAbrir', t('peace'), t('peace_det'))}
-      ${item('musica', t('music'), t('music_det'))}
-      ${item('cochilo', t('nap'), t('nap_det'))}
-      ${item('madrugada', t('night'), t('night_det'))}
-      ${item('apoio', t('support'), '', 'suave')}
-    </div>
+    <nav class="lista-inicio">
+      ${item('respirar', 'respirar', t('breathe'), t('breathe_det'))}
+      ${item('pazAbrir', 'paz', t('peace'), t('peace_det'))}
+      ${item('musica', 'musica', t('music'), t('music_det'))}
+      ${item('cochilo', 'cochilo', t('nap'), t('nap_det'))}
+      ${item('madrugada', 'noite', t('night'), t('night_det'))}
+      ${item('apoio', 'apoio', t('support'), '', 'apoio')}
+    </nav>
     <div class="rodape-links">${botao('historico', t('history'), 'discreto', 'style="width:auto"')}${botao('revisao', t('review'), 'discreto', 'style="width:auto"')}</div>
   </section>`;
 }
@@ -131,7 +131,7 @@ function viewSessao() {
   const podeTrocar = m === 'pico' || m === 'paz';
   return `<section class="sessao">
     <div class="topo"><span class="marca">${esc(titulo)}</span><div class="grupo" style="justify-content:flex-end">
-      ${mostraSom ? `<button class="chip" data-a="sSom" aria-label="${esc(t('sound_aria', { s: nomeSom(somAtual) }))}">${esc(t('sound_x', { s: nomeSom(somAtual) }))}</button>` : ''}
+      ${mostraSom ? `<button class="chip chip-som" data-a="sSom" aria-label="${esc(t('sound_aria', { s: nomeSom(somAtual) }))}">${icone('musica')}${esc(nomeSom(somAtual))}</button>` : ''}
       <button class="chip" data-a="sVoz" aria-pressed="${voz}">${esc(voz ? t('voice_on') : t('text_only'))}</button></div></div>
     <div class="instr-caixa"><p id="instr" class="instr${fr.calado ? ' calado' : ''}" aria-live="polite">${esc(fr.texto)}</p></div>
     <p class="estado" id="estado">${pausado ? esc(t('paused')) : ''}</p>
@@ -445,15 +445,15 @@ function folhaSons(modo, atual) {
 /* ----- respirar ----- */
 function viewRespirar() {
   const p = prefs(), r = p.respirar;
-  const det = ex => ex === 'livre' ? Resp.fasesDe('livre').map(([f, s]) => `${tr(RESP_ROTULO[f])} ${s}`).join(' · ') : tr(RESP[ex].det);
-  const item = ex => `<button class="btn esq${r.ex === ex ? ' marcado' : ''}" data-a="respComecar" data-v="${ex}"><span><span>${esc(tr(RESP[ex].nome))}</span><span class="det">${esc(det(ex))}</span></span><span class="ic-play" aria-hidden="true">▶</span></button>`;
+  const det = ex => ex === 'livre' ? Resp.fasesDe('livre').map(([f, s]) => `${tr(RESP_ROTULO[f])} ${s}`).join(', ') : tr(RESP[ex].det);
+  const item = ex => `<button class="linha-item${r.ex === ex ? ' marcado' : ''}" data-a="respComecar" data-v="${ex}"><span class="txt"><span class="t">${esc(tr(RESP[ex].nome))}</span><span class="d">${esc(det(ex))}</span></span><span class="ic-play" aria-hidden="true">▶</span></button>`;
   const passo = campo => `<div class="item"><div class="txt">${esc(tr(RESP_ROTULO[campo]))}</div><div class="grupo passo">
       <button class="chip" data-a="respLivre" data-v="${campo}" data-d="-1" aria-label="${esc(t('less'))}">−</button>
       <span class="valor">${esc(t('sec_x', { n: r.livre[campo] }))}</span>
       <button class="chip" data-a="respLivre" data-v="${campo}" data-d="1" aria-label="${esc(t('more_btn'))}">+</button></div></div>`;
   return `<section class="tela">${topo(t('breathe'))}
     <p class="sub">${esc(t('breathe_intro'))}</p>
-    <div class="pilha">${Object.keys(RESP).map(item).join('')}</div>
+    <div class="lista-inicio">${Object.keys(RESP).map(item).join('')}</div>
     <div class="secao"><h2>${esc(t('your_times'))}</h2>${['in', 'hold', 'out', 'pausa'].map(passo).join('')}</div>
     <div class="secao"><h2>${esc(t('duration'))}</h2>${chips('respMin', String(r.min), [1, 3, 5, 10].map(n => [String(n), t('min_x', { n })]))}</div>
     <div class="secao"><h2>${esc(t('voice'))}</h2>${chips('ajVoz', String(p.voz.respirar !== false), [['true', t('voice_on')], ['false', t('text_only')]], 'data-m="respirar"')}</div>
@@ -470,10 +470,11 @@ function viewRespSessao(g) {
   }
   const pausado = !!g.pausadoEm, fr = Guia.frase(g);
   return `<section class="sessao resp">
-    <div class="topo"><span class="marca">${esc(nome)}</span><div class="grupo" style="justify-content:flex-end">
-      <button class="chip" data-a="sSom" aria-label="${esc(t('sound_aria', { s: nomeSom(g.som) }))}">${esc(t('sound_x', { s: nomeSom(g.som) }))}</button>
-      <button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button></div></div>
-    <div class="resp-caixa"><div class="circulo-halo" aria-hidden="true"></div><div class="circulo" id="circulo"><span id="resp-rotulo"></span><span id="resp-seg"></span></div></div>
+    <div class="topo">
+      <button class="chip chip-som" data-a="sSom" aria-label="${esc(t('sound_aria', { s: nomeSom(g.som) }))}">${icone('musica')}${esc(nomeSom(g.som))}</button>
+      <button class="chip" data-a="sVoz" aria-pressed="${g.voz}">${esc(g.voz ? t('voice_on') : t('text_only'))}</button></div>
+    <p class="resp-nome">${esc(nome)}</p>
+    <div class="resp-caixa"><div class="circulo-halo" aria-hidden="true"></div><div class="circulo" id="circulo"></div><div class="resp-texto"><span id="resp-rotulo"></span><span id="resp-seg"></span></div></div>
     <p id="instr" class="instr pequena${fr.calado ? ' calado' : ''}" aria-live="polite">${esc(fr.texto)}</p>
     <p class="estado" id="estado">${pausado ? esc(t('paused')) : ''}</p>
     <div class="barra">${pausado ? botao('sContinuar', t('resume')) : botao('sPausar', t('pause'))}${botao('sSair', t('leave'))}</div>
@@ -485,7 +486,7 @@ function viewMusica() {
   const m = prefs().musica;
   const grupos = CATEGORIAS.map(([c, n]) => [tr(n), FUNDOS.filter(f => f.c === c && (temMidia() || !f.v.startsWith('midia/')))]).filter(g => g[1].length);
   return `<section class="tela">${topo(t('music'))}
-    <button class="btn pico dormir" data-a="musDormir"><span>${esc(t('sleep_now'))}<small>${esc(t('sleep_det'))}</small></span></button>
+    <button class="btn dormir-agora" data-a="musDormir"><span>${esc(t('sleep_now'))}</span><small>${esc(t('sleep_det'))}</small></button>
     <div class="secao"><h2>${esc(t('plays_for'))}</h2>${chips('musTimer', String(m.timer), [['15', t('min_x', { n: 15 })], ['30', t('min_x', { n: 30 })], ['45', t('min_x', { n: 45 })], ['60', t('min_x', { n: 60 })], ['0', t('no_end')]])}</div>
     <div class="secao"><h2>${esc(t('sleep_voice'))}</h2>${chips('musVoz', String(m.vozDormir !== false), [['true', t('on')], ['false', t('off')]])}</div>
     <p class="sub">${esc(t('music_tap'))}</p>
@@ -520,3 +521,14 @@ function atualizarMusica() {
   if (n) { const v = Mus.nomeAtual(g); if (n.textContent !== v) n.textContent = v; }
   if (r) { const v = t('ends_in', { n: Mus.restaMin(g) }); if (r.textContent !== v) r.textContent = v; }
 }
+
+/* ícones de traço fino, na cor do texto de destaque */
+const ICONES = {
+  respirar: '<circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="7.6" opacity=".55"/>',
+  paz: '<path d="M5 19c0-8.2 5-13.2 14-14-0.8 9-5.8 14-14 14z"/><path d="M5 19l7.5-7.5"/>',
+  musica: '<path d="M9 17.5V6l10-2v11.5"/><circle cx="6.6" cy="17.6" r="2.4"/><circle cx="16.6" cy="15.6" r="2.4"/>',
+  cochilo: '<circle cx="12" cy="13" r="7"/><path d="M12 9.6V13l2.4 1.8"/><path d="M4.6 6.2l2.3-1.8M19.4 6.2l-2.3-1.8"/>',
+  noite: '<path d="M19.2 14.6A7.6 7.6 0 1 1 9.4 4.8a6.1 6.1 0 0 0 9.8 9.8z"/>',
+  apoio: '<path d="M6.7 4.6h2.5l1.3 3.6-1.8 1.3a10.2 10.2 0 0 0 5.8 5.8l1.3-1.8 3.6 1.3v2.5a1.6 1.6 0 0 1-1.7 1.6A15.4 15.4 0 0 1 5.1 6.3a1.6 1.6 0 0 1 1.6-1.7z"/>',
+};
+const icone = nome => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONES[nome] || ''}</svg>`;

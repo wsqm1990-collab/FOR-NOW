@@ -245,25 +245,25 @@ const MADRUGADA_DESPERTO = [
 const RESP = {
   quadrada: {
     nome: ['Box breathing', 'Respiração quadrada', 'Respiración cuadrada'],
-    det: ['In 4 · hold 4 · out 4 · pause 4', 'Inspire 4 · segure 4 · solte 4 · pausa 4', 'Inhala 4 · sostén 4 · suelta 4 · pausa 4'],
+    det: ['In 4, hold 4, out 4, pause 4', 'Inspire 4, segure 4, solte 4, pausa 4', 'Inhala 4, sostén 4, suelta 4, pausa 4'],
     fases: [['in', 4], ['hold', 4], ['out', 4], ['pausa', 4]],
     intro: ['Box breathing. Breathe in, hold, breathe out and pause, all for the same time. Follow the circle.', 'Respiração quadrada. Inspire, segure, solte e faça uma pausa, todos no mesmo tempo. Siga o círculo.', 'Respiración cuadrada. Inhala, sostén, suelta y haz una pausa, todo con el mismo tiempo. Sigue el círculo.'],
   },
   r478: {
     nome: ['4-7-8 breathing', 'Respiração 4-7-8', 'Respiración 4-7-8'],
-    det: ['In 4 · hold 7 · out 8', 'Inspire 4 · segure 7 · solte 8', 'Inhala 4 · sostén 7 · suelta 8'],
+    det: ['In 4, hold 7, out 8', 'Inspire 4, segure 7, solte 8', 'Inhala 4, sostén 7, suelta 8'],
     fases: [['in', 4], ['hold', 7], ['out', 8]], aviso: true,
     intro: ['Four, seven, eight breathing. Breathe in counting to four, hold to seven and let it out slowly to eight.', 'Respiração quatro, sete, oito. Inspire contando até quatro, segure até sete e solte devagar até oito.', 'Respiración cuatro, siete, ocho. Inhala contando hasta cuatro, sostén hasta siete y suelta despacio hasta ocho.'],
   },
   coerente: {
     nome: ['Coherent breathing', 'Respiração coerente', 'Respiración coherente'],
-    det: ['In 5 · out 5, like a wave', 'Inspire 5 · solte 5, como uma onda', 'Inhala 5 · suelta 5, como una ola'],
+    det: ['In 5 and out 5, like a wave', 'Inspire 5 e solte 5, como uma onda', 'Inhala 5 y suelta 5, como una ola'],
     fases: [['in', 5], ['out', 5]],
     intro: ['Coherent breathing. Breathe in and out at the same pace, slowly, like a wave.', 'Respiração coerente. Inspire e solte no mesmo ritmo, devagar, como uma onda.', 'Respiración coherente. Inhala y suelta al mismo ritmo, despacio, como una ola.'],
   },
   longa: {
     nome: ['Long exhale', 'Expiração longa', 'Exhalación larga'],
-    det: ['In 4 · out 6', 'Inspire 4 · solte 6', 'Inhala 4 · suelta 6'],
+    det: ['In 4, out 6', 'Inspire 4, solte 6', 'Inhala 4, suelta 6'],
     fases: [['in', 4], ['out', 6]],
     intro: ['Long exhale. Let the breath out last longer than the breath in.', 'Expiração longa. Deixe a saída do ar ficar mais longa que a entrada.', 'Exhalación larga. Deja que la salida del aire dure más que la entrada.'],
   },

@@ -345,7 +345,7 @@ const STR = {
   finish: ['Finish', 'Terminar', 'Terminar'],
   /* músicas e sono */
   music: ['Music and sleep', 'Músicas e sono', 'Música y sueño'],
-  music_det: ['Piano, Celtic, chants, nature · sleep timer', 'Piano, celta, cânticos, natureza · timer para dormir', 'Piano, celta, cánticos, naturaleza · temporizador'],
+  music_det: ['Piano, Celtic, chants and nature, with a sleep timer', 'Piano, celta, cânticos e natureza, com timer para dormir', 'Piano, celta, cánticos y naturaleza, con temporizador'],
   sleep_now: ['Sleep now', 'Dormir agora', 'Dormir ahora'],
   sleep_det: ['A voice relaxes your body and the music slowly fades out', 'Uma voz solta o corpo e a música vai sumindo devagar', 'Una voz relaja el cuerpo y la música se apaga despacio'],
   sleep_voice: ['Voice guiding at the start', 'Voz guiando no começo', 'Voz guiando al inicio'],
