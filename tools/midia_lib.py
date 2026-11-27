@@ -43,16 +43,18 @@ def medir(x):
     return i, tp
 
 
-def nivelar(x, alvo, pico=-1.5, limitar=False):
+def nivelar(x, alvo, pico=-1.5, limitar=False, max_lim=6.0):
     """One fixed gain: loudness to `alvo` LUFS, true peak never above `pico` dBFS.
-    With limitar (nature sounds), the full gain is used and only the brief peaks (a drop, a crackle)
-    are held down by a fast limiter, so a peaky recording is not left much quieter than the rest;
-    for sleep, softer pops are welcome anyway."""
+    With limitar (nature sounds), more gain is allowed and only the brief peaks (a drop, a crackle)
+    are held down by a fast limiter, so a peaky recording is not left much quieter than the rest.
+    The limiter takes at most `max_lim` dB off the loudest peak: a crackle keeps its snap, softer
+    but still natural (squashing it more changes the sound itself)."""
     i, tp = medir(x)
     g = alvo - i
     if g <= pico - tp or not limitar:
         g = min(g, pico - tp)
         return x * 10 ** (g / 20), g
+    g = min(g, pico - tp + max_lim)
     return limitar_picos(x * 10 ** (g / 20), 10 ** ((pico - 0.5) / 20)), g
 
 

@@ -123,23 +123,30 @@ def fonte_commons(it, pasta):
     return None, None
 
 
-def tratar(it, origem):
+def preparar(it, origem):
+    """The finished signal (before encoding), the gain used and the band balance of the source."""
     x = M.ler(origem)
     antes = M.bandas(x)
     if it['tipo'] == 'natureza':
         x = M.trecho_calmo(x, it.get('segundos', 120) + 4)
         x, g = M.nivelar(x, -25.0, limitar=True)
         y = M.laco(x, 4.0)
+    else:
+        x = M.cortar_silencio(x)
+        x = M.suavizar_picos(x)
+        x = M.fades(x, 1.5, 4.0)
+        y, g = M.nivelar(x, -23.0)
+    return y, g, antes
+
+
+def salvar(it, y, g, antes):
+    if it['tipo'] == 'natureza':
         nome = os.path.join(MIDIA, 'sons', it['id'] + '.ogg')
         M.gravar(y, nome, 112)
         dur = len(y) / M.SR
         voltas = max(1, round(dur / 15.0))
         M.gravar(oito_d(y, dur / voltas, True), os.path.join(MIDIA, '8d', 'sons', it['id'] + '.ogg'), 96)
     else:
-        x = M.cortar_silencio(x)
-        x = M.suavizar_picos(x)
-        x = M.fades(x, 1.5, 4.0)
-        y, g = M.nivelar(x, -23.0)
         nome = os.path.join(MIDIA, 'musicas', it['id'] + '.ogg')
         M.gravar(y, nome, 128)
         M.gravar(oito_d(y, 15.0, False), os.path.join(MIDIA, '8d', 'musicas', it['id'] + '.ogg'), 96)
@@ -148,19 +155,60 @@ def tratar(it, origem):
                f'bandas antes {antes} depois {M.bandas(y)}, {os.path.getsize(nome) // 1024} KB')
 
 
+def nota(y, antes):
+    """How well a candidate recording turned out (lower is better): how far short of the loudness
+    target it stayed, how much the limiter changed its sound (band balance), and a penalty for a
+    short loop (heard repeating in a long nap)."""
+    i, _ = M.medir(y)
+    mud = sum(abs(a - b) for a, b in zip(antes, M.bandas(y))) / len(antes)
+    curto = 3.0 if len(y) / M.SR < 100 else 0.0
+    return max(0.0, -25.0 - i) + mud + curto, i, mud
+
+
+def escolher(it, pasta):
+    """Several recordings of the same thing: each is made ready, and the one that sounds most like
+    itself at the app's level is kept (the others are listed in the report)."""
+    melhor = None
+    for op in it['opcoes']:
+        cand = {**it, **op}
+        rel.append(f'   opção #{op["numero"]} {op["titulo"]}')
+        origem, url = fonte_bigsoundbank(cand, pasta)
+        if not origem:
+            continue
+        y, g, antes = preparar(cand, origem)
+        n, i, mud = nota(y, antes)
+        rel.append(f'   opção #{op["numero"]}: {len(y) / M.SR:.0f} s, {i:.1f} LUFS, som mudou {mud:.1f} dB, nota {n:.1f}')
+        if melhor is None or n < melhor[0]:
+            melhor = (n, cand, url, y, g, antes)
+    if not melhor:
+        return None, None
+    _, cand, url, y, g, antes = melhor
+    rel.append(f'   escolhida: #{cand["numero"]} {cand["titulo"]}')
+    salvar(cand, y, g, antes)
+    return cand, url
+
+
 def main():
     man = json.load(open(sys.argv[1], encoding='utf-8'))
     creditos, falhas = [], 0
     with tempfile.TemporaryDirectory() as pasta:
         for it in man['itens']:
-            rel.append(f'{it["id"]} {it["titulo"]} ({it["fonte"]})')
+            rel.append(f'{it["id"]} {it.get("titulo", it["id"])} ({it["fonte"]})')
             try:
-                origem, url = {'bigsoundbank': fonte_bigsoundbank, 'archive': fonte_archive, 'commons': fonte_commons}[it['fonte']](it, pasta)
-                if not origem:
-                    rel.append('   FALHOU: nenhuma fonte de áudio funcionou')
-                    falhas += 1
-                    continue
-                tratar(it, origem)
+                if it.get('opcoes'):
+                    esc, url = escolher(it, pasta)
+                    if not esc:
+                        rel.append('   FALHOU: nenhuma opção funcionou')
+                        falhas += 1
+                        continue
+                    it = esc
+                else:
+                    origem, url = {'bigsoundbank': fonte_bigsoundbank, 'archive': fonte_archive, 'commons': fonte_commons}[it['fonte']](it, pasta)
+                    if not origem:
+                        rel.append('   FALHOU: nenhuma fonte de áudio funcionou')
+                        falhas += 1
+                        continue
+                    salvar(it, *preparar(it, origem))
                 creditos.append({'id': it['id'], 'titulo': it['titulo'], 'autor': it.get('autor', ''),
                                  'fonte': {'bigsoundbank': 'BigSoundBank.com', 'archive': 'Internet Archive', 'commons': 'Wikimedia Commons'}[it['fonte']],
                                  'licenca': it.get('licenca', 'CC0'), 'url': url})

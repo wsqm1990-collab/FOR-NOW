@@ -6,7 +6,10 @@
     {"id": "N02", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1046, "titulo": "Small Waves Facing the Ocean", "autor": "Joseph SARDIN", "segundos": 130},
     {"id": "N03", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1880, "titulo": "Campaign at Night #4", "autor": "Joseph SARDIN", "segundos": 180},
     {"id": "N04", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1354, "titulo": "Small Stream #4", "autor": "Joseph SARDIN", "segundos": 100},
-    {"id": "N05", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 2855, "titulo": "Fireplace #3", "autor": "Joseph SARDIN", "segundos": 150},
+    {"id": "N05", "tipo": "natureza", "fonte": "bigsoundbank", "titulo": "Fireplace", "segundos": 150, "opcoes": [
+      {"numero": 2855, "titulo": "Fireplace #3", "autor": "Joseph SARDIN"},
+      {"numero": 2856, "titulo": "Fireplace #4", "autor": "Joseph SARDIN"},
+      {"numero": 989, "titulo": "Big Branching Fire #3", "autor": "Joseph SARDIN"}]},
 
     {"id": "R01", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "Nocturne Op. 9 no. 2 in E flat major", "titulo": "Chopin — Nocturne Op. 9 No. 2", "autor": "Musopen"},
     {"id": "R02", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "NocturneOp.9No.1InBFlatMinor", "titulo": "Chopin — Nocturne Op. 9 No. 1", "autor": "Musopen"},
