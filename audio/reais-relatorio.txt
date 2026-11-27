@@ -2,12 +2,12 @@
 N01 Summer Rain on Terrace (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/1019.wav: não é áudio (61 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/1019.flac: ok (18463 KB, 157 s)
-   pronto: 140 s, ganho -1.2 dB, -30.7 LUFS, pico -1.5 dBFS, bandas antes [-13, 0, -3, -5, -7, -10, -19] depois [-13, 0, -4, -5, -7, -10, -19], 1747 KB
+   pronto: 140 s, ganho +4.4 dB, -25.1 LUFS, pico 0.3 dBFS, bandas antes [-13, 0, -3, -5, -7, -10, -19] depois [-13, 0, -4, -5, -7, -10, -19], 1748 KB
 N06 Rain in a Tent (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/0820.wav: não é áudio (60 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/0820.flac: HTTP Error 404: Not Found
    tentou https://bigsoundbank.com/UPLOAD/mp3/0820.mp3: ok (8186 KB, 210 s)
-   pronto: 120 s, ganho -0.2 dB, -28.2 LUFS, pico -1.5 dBFS, bandas antes [-15, -1, 0, -2, -4, -8, -20] depois [-18, -1, 0, -2, -4, -9, -20], 1892 KB
+   pronto: 120 s, ganho +3.0 dB, -25.0 LUFS, pico -1.9 dBFS, bandas antes [-15, -1, 0, -2, -4, -8, -20] depois [-18, -1, 0, -2, -4, -9, -20], 1892 KB
 N02 Small Waves Facing the Ocean (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/1046.wav: não é áudio (65 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/1046.flac: ok (15997 KB, 138 s)
@@ -23,7 +23,7 @@ N04 Small Stream #4 (bigsoundbank)
 N05 Fireplace #3 (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/2855.wav: não é áudio (59 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/2855.flac: ok (30584 KB, 182 s)
-   pronto: 150 s, ganho -2.7 dB, -38.4 LUFS, pico -1.5 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-13, -5, -3, -3, 0, -5, -9], 1862 KB
+   pronto: 150 s, ganho +10.9 dB, -33.7 LUFS, pico 0.9 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-6, -2, 0, -2, 0, -4, -8], 1898 KB
 R01 Chopin — Nocturne Op. 9 No. 2 (archive)
    tentou Nocturne Op. 9 no. 2 in E flat major.ogg (Ogg Vorbis): ok (277 s)
    pronto: 273 s, ganho +1.0 dB, -23.0 LUFS, pico -4.9 dBFS, bandas antes [-8, 0, -13, -21, -41, -61, -68] depois [-8, 0, -14, -21, -43, -62, -68], 4981 KB
