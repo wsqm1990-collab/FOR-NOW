@@ -1,0 +1,50 @@
+14 gravações prontas, 0 falha(s)
+N01 Summer Rain on Terrace (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/1019.wav: não é áudio (61 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/1019.flac: ok (18463 KB, 157 s)
+   pronto: 140 s, ganho -1.2 dB, -30.7 LUFS, pico -1.5 dBFS, bandas antes [-13, 0, -3, -5, -7, -10, -19] depois [-13, 0, -4, -5, -7, -10, -19], 1747 KB
+N06 Rain in a Tent (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/0820.wav: não é áudio (60 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/0820.flac: HTTP Error 404: Not Found
+   tentou https://bigsoundbank.com/UPLOAD/mp3/0820.mp3: ok (8186 KB, 210 s)
+   pronto: 120 s, ganho -0.2 dB, -28.2 LUFS, pico -1.5 dBFS, bandas antes [-15, -1, 0, -2, -4, -8, -20] depois [-18, -1, 0, -2, -4, -9, -20], 1892 KB
+N02 Small Waves Facing the Ocean (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/1046.wav: não é áudio (65 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/1046.flac: ok (15997 KB, 138 s)
+   pronto: 130 s, ganho +2.8 dB, -25.0 LUFS, pico -7.0 dBFS, bandas antes [-21, -3, 0, 0, -4, -8, -17] depois [-21, -3, 0, 0, -4, -8, -17], 1603 KB
+N03 Campaign at Night #4 (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/1880.wav: não é áudio (60 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/1880.flac: ok (65052 KB, 299 s)
+   pronto: 180 s, ganho -5.2 dB, -25.0 LUFS, pico -10.7 dBFS, bandas antes [-45, -44, -42, -8, 0, -19, -24] depois [-45, -43, -42, -8, 0, -19, -24], 3709 KB
+N04 Small Stream #4 (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/1354.wav: não é áudio (64 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/1354.flac: ok (29499 KB, 105 s)
+   pronto: 100 s, ganho +1.6 dB, -25.0 LUFS, pico -1.9 dBFS, bandas antes [-17, 0, -2, -4, -5, -9, -14] depois [-17, 0, -2, -4, -5, -9, -14], 1809 KB
+N05 Fireplace #3 (bigsoundbank)
+   tentou https://bigsoundbank.com/UPLOAD/wav/2855.wav: não é áudio (59 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/2855.flac: ok (30584 KB, 182 s)
+   pronto: 150 s, ganho -2.7 dB, -38.4 LUFS, pico -1.5 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-13, -5, -3, -3, 0, -5, -9], 1862 KB
+R01 Chopin — Nocturne Op. 9 No. 2 (archive)
+   tentou Nocturne Op. 9 no. 2 in E flat major.ogg (Ogg Vorbis): ok (277 s)
+   pronto: 273 s, ganho +1.0 dB, -23.0 LUFS, pico -4.9 dBFS, bandas antes [-8, 0, -13, -21, -41, -61, -68] depois [-8, 0, -14, -21, -43, -62, -68], 4981 KB
+R02 Chopin — Nocturne Op. 9 No. 1 (archive)
+   tentou NocturneOp.9No.1InBFlatMinor.ogg (Ogg Vorbis): ok (337 s)
+   pronto: 336 s, ganho +1.9 dB, -23.0 LUFS, pico -3.1 dBFS, bandas antes [-4, 0, -12, -22, -36, -55, -61] depois [-3, 0, -12, -22, -37, -55, -60], 5787 KB
+R03 Chopin — Nocturne Op. 27 No. 2 (archive)
+   tentou NocturneOp27No2.ogg (Ogg Vorbis): ok (378 s)
+   pronto: 375 s, ganho -0.1 dB, -23.0 LUFS, pico -6.2 dBFS, bandas antes [-2, 0, -9, -17, -30, -50, -70] depois [-2, 0, -9, -18, -31, -52, -70], 6519 KB
+R04 Chopin — Nocturne Op. 55 No. 2 (archive)
+   tentou Nocturne Op. 55 no. 2 in E flat major.ogg (Ogg Vorbis): ok (310 s)
+   pronto: 307 s, ganho +3.8 dB, -23.0 LUFS, pico -7.2 dBFS, bandas antes [-7, 0, -11, -22, -36, -55, -69] depois [-6, 0, -11, -22, -36, -56, -69], 5689 KB
+R05 Chopin — Nocturne Op. 62 No. 2 (archive)
+   tentou Nocturne Op. 62 no. 2 in E major.ogg (Ogg Vorbis): ok (340 s)
+   pronto: 335 s, ganho +0.8 dB, -23.0 LUFS, pico -7.4 dBFS, bandas antes [-8, 0, -9, -23, -35, -57, -69] depois [-8, 0, -10, -23, -36, -58, -68], 6097 KB
+R06 Chopin — Nocturne Op. 72 No. 1 (archive)
+   tentou NocturneOp.72No.1InEMinor.ogg (Ogg Vorbis): ok (273 s)
+   pronto: 270 s, ganho +2.5 dB, -23.0 LUFS, pico -4.2 dBFS, bandas antes [-12, 0, -7, -24, -36, -56, -69] depois [-11, 0, -8, -25, -37, -57, -69], 4908 KB
+R07 Bach — Goldberg Variations: Aria (archive)
+   tentou Kimiko Ishizaka - J.S. Bach- -Open- Goldberg Variations, BWV 988 (Piano) - 01 Aria.flac (24bit Flac): ok (300 s)
+   pronto: 298 s, ganho +4.5 dB, -23.0 LUFS, pico -6.3 dBFS, bandas antes [-8, 0, -16, -29, -50, -66, -66] depois [-8, 0, -16, -29, -50, -66, -65], 5562 KB
+R08 Satie — Gymnopédie No. 1 (commons)
+   tentou https://upload.wikimedia.org/wikipedia/commons/9/90/Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original: ok (184 s)
+   pronto: 181 s, ganho +4.2 dB, -23.0 LUFS, pico -5.2 dBFS, bandas antes [-10, 0, -20, -25, -44, -67, -64] depois [-10, 0, -19, -25, -44, -66, -64], 3258 KB

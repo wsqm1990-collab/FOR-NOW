@@ -1,0 +1,114 @@
+[
+ {
+  "id": "N01",
+  "titulo": "Summer Rain on Terrace",
+  "autor": "",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/flac/1019.flac"
+ },
+ {
+  "id": "N06",
+  "titulo": "Rain in a Tent",
+  "autor": "",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/mp3/0820.mp3"
+ },
+ {
+  "id": "N02",
+  "titulo": "Small Waves Facing the Ocean",
+  "autor": "Joseph SARDIN",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/flac/1046.flac"
+ },
+ {
+  "id": "N03",
+  "titulo": "Campaign at Night #4",
+  "autor": "Joseph SARDIN",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/flac/1880.flac"
+ },
+ {
+  "id": "N04",
+  "titulo": "Small Stream #4",
+  "autor": "Joseph SARDIN",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/flac/1354.flac"
+ },
+ {
+  "id": "N05",
+  "titulo": "Fireplace #3",
+  "autor": "Joseph SARDIN",
+  "fonte": "BigSoundBank.com",
+  "licenca": "CC0",
+  "url": "https://bigsoundbank.com/UPLOAD/flac/2855.flac"
+ },
+ {
+  "id": "R01",
+  "titulo": "Chopin — Nocturne Op. 9 No. 2",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/Nocturne%20Op.%209%20no.%202%20in%20E%20flat%20major.ogg"
+ },
+ {
+  "id": "R02",
+  "titulo": "Chopin — Nocturne Op. 9 No. 1",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/NocturneOp.9No.1InBFlatMinor.ogg"
+ },
+ {
+  "id": "R03",
+  "titulo": "Chopin — Nocturne Op. 27 No. 2",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/NocturneOp27No2.ogg"
+ },
+ {
+  "id": "R04",
+  "titulo": "Chopin — Nocturne Op. 55 No. 2",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/Nocturne%20Op.%2055%20no.%202%20in%20E%20flat%20major.ogg"
+ },
+ {
+  "id": "R05",
+  "titulo": "Chopin — Nocturne Op. 62 No. 2",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/Nocturne%20Op.%2062%20no.%202%20in%20E%20major.ogg"
+ },
+ {
+  "id": "R06",
+  "titulo": "Chopin — Nocturne Op. 72 No. 1",
+  "autor": "Musopen",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/musopen-chopin/NocturneOp.72No.1InEMinor.ogg"
+ },
+ {
+  "id": "R07",
+  "titulo": "Bach — Goldberg Variations: Aria",
+  "autor": "Kimiko Ishizaka",
+  "fonte": "Internet Archive",
+  "licenca": "CC0",
+  "url": "https://archive.org/download/OpenGoldbergVariations/Kimiko%20Ishizaka%20-%20J.S.%20Bach-%20-Open-%20Goldberg%20Variations%2C%20BWV%20988%20%28Piano%29%20-%2001%20Aria.flac"
+ },
+ {
+  "id": "R08",
+  "titulo": "Satie — Gymnopédie No. 1",
+  "autor": "Musopen",
+  "fonte": "Wikimedia Commons",
+  "licenca": "Public domain",
+  "url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
+ }
+]
