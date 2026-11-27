@@ -43,11 +43,28 @@ def medir(x):
     return i, tp
 
 
-def nivelar(x, alvo, pico=-1.5):
-    """One fixed gain: loudness to `alvo` LUFS, true peak never above `pico` dBFS."""
+def nivelar(x, alvo, pico=-1.5, limitar=False):
+    """One fixed gain: loudness to `alvo` LUFS, true peak never above `pico` dBFS.
+    With limitar (nature sounds), the full gain is used and only the brief peaks (a drop, a crackle)
+    are held down by a fast limiter, so a peaky recording is not left much quieter than the rest;
+    for sleep, softer pops are welcome anyway."""
     i, tp = medir(x)
-    g = min(alvo - i, pico - tp)
-    return x * 10 ** (g / 20), g
+    g = alvo - i
+    if g <= pico - tp or not limitar:
+        g = min(g, pico - tp)
+        return x * 10 ** (g / 20), g
+    return limitar_picos(x * 10 ** (g / 20), 10 ** ((pico - 0.5) / 20)), g
+
+
+def limitar_picos(x, lim, ms=8.0):
+    """Holds brief peaks under `lim`: the gain dips smoothly for a few milliseconds around each
+    peak and is 1 everywhere else (no pumping: nothing between the peaks is touched)."""
+    from scipy.ndimage import minimum_filter1d, uniform_filter1d
+    a = max(1, int(ms / 1000 * SR))
+    g = np.minimum(1.0, lim / (np.abs(x).max(axis=1) + 1e-12))
+    g = minimum_filter1d(g, size=2 * a + 1, mode='nearest')
+    g = uniform_filter1d(g, size=a, mode='nearest')
+    return x * g[:, None]
 
 
 def filtrar_ffmpeg(x, filtro):
@@ -120,11 +137,11 @@ def laco(x, cruz_s=4.0):
     return y
 
 
-def gravar(x, destino, kbps):
+def gravar(x, destino, kbps, vbr='on'):
     """Opus at a high bitrate, "audio" mode, from the processed full-quality signal."""
     os.makedirs(os.path.dirname(destino), exist_ok=True)
     p = subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 'f32le', '-ar', str(SR), '-ac', '2', '-i', '-',
-                        '-c:a', 'libopus', '-b:a', f'{kbps}k', '-vbr', 'on', '-application', 'audio', destino],
+                        '-c:a', 'libopus', '-b:a', f'{kbps}k', '-vbr', vbr, '-application', 'audio', destino],
                        input=x.astype(np.float32).tobytes(), capture_output=True)
     if p.returncode:
         sys.exit(p.stderr.decode())

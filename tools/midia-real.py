@@ -128,8 +128,8 @@ def tratar(it, origem):
     antes = M.bandas(x)
     if it['tipo'] == 'natureza':
         x = M.trecho_calmo(x, it.get('segundos', 120) + 4)
-        x = M.laco(x, 4.0)
-        y, g = M.nivelar(x, -25.0)
+        x, g = M.nivelar(x, -25.0, limitar=True)
+        y = M.laco(x, 4.0)
         nome = os.path.join(MIDIA, 'sons', it['id'] + '.ogg')
         M.gravar(y, nome, 112)
         dur = len(y) / M.SR
