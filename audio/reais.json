@@ -1,0 +1,20 @@
+{
+  "nota": "Gravações reais e livres (CC0 ou domínio público), baixadas e tratadas pelo GitHub (tools/midia-real.py). Natureza: BigSoundBank (CC0). Música: Musopen (CC0), Open Goldberg Variations (CC0), Musopen via Wikimedia Commons (domínio público).",
+  "itens": [
+    {"id": "N01", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1019, "titulo": "Summer Rain on Terrace", "segundos": 140},
+    {"id": "N06", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 820, "titulo": "Rain in a Tent", "segundos": 120},
+    {"id": "N02", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1046, "titulo": "Small Waves Facing the Ocean", "autor": "Joseph SARDIN", "segundos": 130},
+    {"id": "N03", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1880, "titulo": "Campaign at Night #4", "autor": "Joseph SARDIN", "segundos": 180},
+    {"id": "N04", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 1354, "titulo": "Small Stream #4", "autor": "Joseph SARDIN", "segundos": 100},
+    {"id": "N05", "tipo": "natureza", "fonte": "bigsoundbank", "numero": 2855, "titulo": "Fireplace #3", "autor": "Joseph SARDIN", "segundos": 150},
+
+    {"id": "R01", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "Nocturne Op. 9 no. 2 in E flat major", "titulo": "Chopin — Nocturne Op. 9 No. 2", "autor": "Musopen"},
+    {"id": "R02", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "NocturneOp.9No.1InBFlatMinor", "titulo": "Chopin — Nocturne Op. 9 No. 1", "autor": "Musopen"},
+    {"id": "R03", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "NocturneOp27No2", "titulo": "Chopin — Nocturne Op. 27 No. 2", "autor": "Musopen"},
+    {"id": "R04", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "Nocturne Op. 55 no. 2 in E flat major", "titulo": "Chopin — Nocturne Op. 55 No. 2", "autor": "Musopen"},
+    {"id": "R05", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "Nocturne Op. 62 no. 2 in E major", "titulo": "Chopin — Nocturne Op. 62 No. 2", "autor": "Musopen"},
+    {"id": "R06", "tipo": "musica", "fonte": "archive", "item": "musopen-chopin", "arquivo": "NocturneOp.72No.1InEMinor", "titulo": "Chopin — Nocturne Op. 72 No. 1", "autor": "Musopen"},
+    {"id": "R07", "tipo": "musica", "fonte": "archive", "item": "OpenGoldbergVariations", "procura": "aria", "titulo": "Bach — Goldberg Variations: Aria", "autor": "Kimiko Ishizaka"},
+    {"id": "R08", "tipo": "musica", "fonte": "commons", "arquivo": "File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg", "titulo": "Satie — Gymnopédie No. 1", "autor": "Musopen", "licenca": "Public domain"}
+  ]
+}

@@ -3,10 +3,9 @@ name: Audio pack
 # Downloads the audio made on ElevenLabs (links listed in audio/manifest.json, valid for some hours),
 # checks each file and publishes one ZIP as a pre-release. A pre-release is never the "latest"
 # release, so it never reaches the app's automatic updates.
+# Only by hand now: the ElevenLabs links have expired, and the app's media is made from the saved
+# pack and real recordings (tools/midia-real.py, real-pack.yml). Running it would rebuild native/midia.
 on:
-  push:
-    branches: [proxima-versao]
-    paths: ['audio/manifest.json', 'tools/audio-pack.py', 'tools/audio-split.py', 'tools/audio-app.py', '.github/workflows/audio-pack.yml']
   workflow_dispatch:
 
 permissions:

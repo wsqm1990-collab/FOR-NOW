@@ -1,0 +1,49 @@
+name: Real recordings
+
+# Downloads the free real recordings listed in audio/reais.json (nature: BigSoundBank CC0; music:
+# Musopen and Open Goldberg CC0, Wikimedia Commons public domain), makes the app's media from them
+# (tools/midia-real.py) and saves it on this branch with a report of what was used and measured.
+on:
+  push:
+    branches: [proxima-versao]
+    paths: ['audio/reais.json', 'tools/midia-real.py', 'tools/midia_lib.py', 'tools/som8d.py', '.github/workflows/real-pack.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: real-pack
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: proxima-versao
+
+      - name: Tools
+        run: |
+          command -v ffmpeg > /dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null; }
+          pip install --quiet numpy scipy
+
+      - name: Download and make the media
+        run: python3 tools/midia-real.py audio/reais.json
+
+      - name: Save on this branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add native/midia web/src/creditos.json audio/reais-relatorio.txt
+          if ! git diff --cached --quiet; then
+            git commit -q -m "Real recordings for the app (CC0 / public domain), run ${{ github.run_number }}"
+            git pull -q --rebase origin proxima-versao
+            git push -q origin HEAD:proxima-versao
+          fi

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Cuts each voice block (one ElevenLabs file per block, sentences separated by long pauses) into
 one clip per sentence, checks the count against audio/roteiro-pt.json and encodes the clips for the
-app (Opus in .ogg, mono, loudness-matched). Writes OUT/voz/<voz>/<id>.ogg, OUT/voz-pt.json
+app (Opus 64 kbps in .ogg, mono, one fixed gain per block: no pumping, no raised noise). Writes OUT/voz/<voz>/<id>.ogg, OUT/voz-pt.json
 (sentence text -> file) and OUT/divisao.txt (what was found for every block).
 Usage: python3 tools/audio-split.py PACKDIR OUT"""
 import hashlib, json, os, re, subprocess, sys
@@ -38,6 +38,17 @@ def trechos(f, ruido, minimo):
     return partes
 
 
+def ganho_fixo(f, alvo=-23.0, pico=-2.0):
+    """One fixed gain for the whole file (every clip of a block keeps its natural level):
+    measured integrated loudness to the target, never pushing the peak above `pico` dBFS.
+    (A dynamic normalizer per clip made the voice pump and raised the breaths and the noise.)"""
+    r = subprocess.run(['ffmpeg', '-hide_banner', '-nostats', '-i', f, '-af', 'ebur128=peak=true', '-f', 'null', '-'],
+                       capture_output=True, text=True).stderr
+    i = float(re.findall(r'I:\s+(-?[\d.]+) LUFS', r)[-1])
+    tp = float(re.findall(r'Peak:\s+(-?[\d.]+) dBFS', r)[-1])
+    return min(alvo - i, pico - tp)
+
+
 def chave(texto):
     return hashlib.sha1(texto.strip().encode('utf-8')).hexdigest()[:12]
 
@@ -66,14 +77,15 @@ for voz in ('feminina', 'masculina'):
             rel.append(f'ERRO {voz}/{b["id"]}: esperava {n} frases, achei {len(p)} ({", ".join(f"{x[1]-x[0]:.1f}s" for x in p)})')
             problemas += 1
             continue
-        rel.append(f'ok {voz}/{b["id"]}: {n} frases (ruído {escolha[0]} dB, pausa {escolha[1]} s): ' + ', '.join(f'{x[1]-x[0]:.1f}s' for x in achou))
+        g = ganho_fixo(f)
+        rel.append(f'ok {voz}/{b["id"]}: {n} frases (ruído {escolha[0]} dB, pausa {escolha[1]} s, ganho {g:+.1f} dB): ' + ', '.join(f'{x[1]-x[0]:.1f}s' for x in achou))
         for (a, z), texto in zip(achou, b['frases']):
             nome = chave(texto) + '.ogg'
             destino = os.path.join(out, 'voz', voz, nome)
             ini, fim = max(0.0, a - 0.12), z + 0.25
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-to', f'{fim:.3f}', '-i', f,
-                            '-af', 'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,loudnorm=I=-19:TP=-2:LRA=7',
-                            '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '40k', destino], check=True)
+                            '-af', f'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,volume={g:.2f}dB',
+                            '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '64k', '-application', 'audio', destino], check=True)
             mapa[voz][texto] = f'{voz}/{nome}'
 
 json.dump(mapa, open(os.path.join(out, 'voz-pt.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

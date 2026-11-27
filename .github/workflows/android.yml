@@ -5,7 +5,7 @@ name: Android app
 on:
   push:
     branches: [main, proxima-versao]
-    paths-ignore: ['README.md', 'store/**', 'audio/**', 'tools/audio-*.py', '.github/workflows/audio-pack.yml']
+    paths-ignore: ['README.md', 'store/**', 'audio/**', 'tools/audio-*.py', 'tools/midia-*.py', 'tools/midia_lib.py', 'tools/som8d.py', 'tools/camadas.py', '.github/workflows/audio-pack.yml', '.github/workflows/real-pack.yml']
   workflow_dispatch:
 
 permissions:
