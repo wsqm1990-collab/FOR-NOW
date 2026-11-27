@@ -20,10 +20,22 @@ N04 Small Stream #4 (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/1354.wav: não é áudio (64 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/1354.flac: ok (29499 KB, 105 s)
    pronto: 100 s, ganho +1.6 dB, -25.0 LUFS, pico -1.9 dBFS, bandas antes [-17, 0, -2, -4, -5, -9, -14] depois [-17, 0, -2, -4, -5, -9, -14], 1809 KB
-N05 Fireplace #3 (bigsoundbank)
+N05 Fireplace (bigsoundbank)
+   opção #2855 Fireplace #3
    tentou https://bigsoundbank.com/UPLOAD/wav/2855.wav: não é áudio (59 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/2855.flac: ok (30584 KB, 182 s)
-   pronto: 150 s, ganho +10.9 dB, -33.7 LUFS, pico 0.9 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-6, -2, 0, -2, 0, -4, -8], 1898 KB
+   opção #2855: 150 s, -35.4 LUFS, som mudou 2.0 dB, nota 12.4
+   opção #2856 Fireplace #4
+   tentou https://bigsoundbank.com/UPLOAD/wav/2856.wav: não é áudio (59 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/2856.flac: ok (15562 KB, 79 s)
+   opção #2856: 75 s, -35.2 LUFS, som mudou 1.6 dB, nota 14.8
+   opção #989 Big Branching Fire #3
+   tentou https://bigsoundbank.com/UPLOAD/wav/0989.wav: não é áudio (58 KB, 0 s)
+   tentou https://bigsoundbank.com/UPLOAD/flac/0989.flac: HTTP Error 404: Not Found
+   tentou https://bigsoundbank.com/UPLOAD/mp3/0989.mp3: ok (5003 KB, 128 s)
+   opção #989: 124 s, -43.9 LUFS, som mudou 0.1 dB, nota 19.0
+   escolhida: #2855 Fireplace #3
+   pronto: 150 s, ganho +3.3 dB, -35.4 LUFS, pico 0.9 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-10, -3, -1, -2, 0, -5, -8], 1883 KB
 R01 Chopin — Nocturne Op. 9 No. 2 (archive)
    tentou Nocturne Op. 9 no. 2 in E flat major.ogg (Ogg Vorbis): ok (277 s)
    pronto: 273 s, ganho +1.0 dB, -23.0 LUFS, pico -4.9 dBFS, bandas antes [-8, 0, -13, -21, -41, -61, -68] depois [-8, 0, -14, -21, -43, -62, -68], 4981 KB
