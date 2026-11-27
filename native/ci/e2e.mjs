@@ -288,6 +288,8 @@ async function main() {
   await click(A('sSair'), 800);
 
   // ---- a sound underneath the music, at the chosen volume
+  await ev(`(() => { S.tela = 'musica'; render(); })()`); await sleep(500);
+  await click(A('musUso', '[data-v="dormir"]'), 600);
   limparLog();
   await click(A('musTocar', '[data-v="R08"]'), 2500);
   await click(A('extraEscolher'), 800);
