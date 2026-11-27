@@ -69,11 +69,12 @@ jobs:
           python3 test/run-local.py . ci-out/browser-shots | tee ci-out/browser.log
           python3 test/narrow.py . ci-out/browser-shots | tee -a ci-out/browser.log
 
-      # Fingerprint of everything native: a web update is only offered to phones whose APK was
-      # built from the same native files; otherwise the app asks to install the new APK.
+      # Fingerprint of everything inside the APK but the page: native files and the recordings
+      # (songs, sounds, voices). A web update is only offered to phones whose APK was built from
+      # the same files; otherwise the app asks to install the new APK, so new sounds arrive too.
       - name: Native fingerprint
         run: |
-          ID=$(find native/android-src native/configure-android.mjs native/capacitor.config.json native/package.json -type f | LC_ALL=C sort | xargs sha256sum | sha256sum | cut -c1-12)
+          ID=$(find native/android-src native/midia native/configure-android.mjs native/capacitor.config.json native/package.json -type f | LC_ALL=C sort | xargs sha256sum | sha256sum | cut -c1-12)
           echo "SHELL_ID=$ID" >> "$GITHUB_ENV"
           echo "native fingerprint: $ID"
 
