@@ -310,14 +310,21 @@ async function main() {
   // ---- 8D, and a sound that repeats for a long time with no gap at the joint
   await ev(`(() => { setPref('oitoD', true); setPref('som.paz', 'midia/sons/N01.ogg'); S.tela = 'paz'; render(); })()`); await sleep(600);
   limparLog();
-  await click(A('paz', '[data-v="somLongo"]'), 33000);
+  await click(A('paz', '[data-v="somLongo"]'), 5000);
   let lc8 = logcat();
   check('8D: the rain plays in its 8D version', /som midia\/8d\/sons\/N01\.ogg \(1\/1\)/.test(lc8), (lc8.match(/som [^\n]+/g) || []).slice(0, 6));
-  check('the rain joins itself with no gap after 30 s (not Android\'s looping)', /som laço midia\/8d\/sons\/N01\.ogg/.test(lc8), (lc8.match(/som [^\n]+/g) || []).slice(0, 6));
   check('no sound failed to open', !/W ForNow.*som midia/.test(lc8), (lc8.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
   screen('17-peace-8d');
   await click(A('sSair'), 800);
-  await ev(`(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); S.tela = 'inicio'; render(); })()`); await sleep(400);
+  // the real rain is 140 s long; pink noise is a 60 s loop, so its joint comes sooner
+  await ev(`(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); setPref('som.paz', 'midia/ruidos/rosa.ogg'); S.tela = 'paz'; render(); })()`); await sleep(600);
+  limparLog();
+  await click(A('paz', '[data-v="somLongo"]'), 64000);
+  let lcl = logcat();
+  check('a 60 s loop (pink noise) joins itself with no gap (not Android\'s looping)', /som laço midia\/ruidos\/rosa\.ogg/.test(lcl), (lcl.match(/som [^\n]+/g) || []).slice(0, 6));
+  check('noise and tones open on the phone', /som midia\/ruidos\/rosa\.ogg/.test(lcl) && !/W ForNow.*som midia/.test(lcl), (lcl.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await click(A('sSair'), 800);
+  await ev(`(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('som.paz', 'midia/sons/N01.ogg'); S.tela = 'inicio'; render(); })()`); await sleep(400);
 
   // ---- create my mix: several layers play together and change live
   await ev(`(() => { S.tela = 'musica'; render(); })()`); await sleep(600);
