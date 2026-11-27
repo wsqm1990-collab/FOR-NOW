@@ -43,19 +43,38 @@ def medir(x):
     return i, tp
 
 
-def nivelar(x, alvo, pico=-1.5, limitar=False, max_lim=6.0):
+def nivelar(x, alvo, pico=-1.5, limitar=False, max_lim=12.0):
     """One fixed gain: loudness to `alvo` LUFS, true peak never above `pico` dBFS.
-    With limitar (nature sounds), more gain is allowed and only the brief peaks (a drop, a crackle)
-    are held down by a fast limiter, so a peaky recording is not left much quieter than the rest.
-    The limiter takes at most `max_lim` dB off the loudest peak: a crackle keeps its snap, softer
-    but still natural (squashing it more changes the sound itself)."""
+    With limitar (nature sounds), more gain is allowed and only the very tips of the brief peaks
+    (a drop, a crackle) are rounded off, so a peaky recording (a fireplace is mostly crackles) is
+    not left much quieter than the rest. At most `max_lim` dB comes off the loudest tip."""
     i, tp = medir(x)
     g = alvo - i
     if g <= pico - tp or not limitar:
         g = min(g, pico - tp)
         return x * 10 ** (g / 20), g
     g = min(g, pico - tp + max_lim)
-    return limitar_picos(x * 10 ** (g / 20), 10 ** ((pico - 0.5) / 20)), g
+    y = x * 10 ** (g / 20)
+    for _ in range(3):                  # each pass leaves smaller overs between samples
+        y = arredondar_pontas(y, pico - 0.8)
+    _, tp2 = medir(y)
+    if tp2 > pico:                      # what the rounding left between samples
+        y = y * 10 ** ((pico - tp2) / 20)
+        g += pico - tp2
+    return y, g
+
+
+def arredondar_pontas(x, teto_db, joelho_db=6.0):
+    """Rounds off only the tips of brief peaks: above the knee the level bends smoothly toward the
+    ceiling, sample by sample, at 4x the sample rate (so no harsh by-products). Unlike a limiter,
+    nothing around a peak is turned down, so the sound between crackles or drops is untouched."""
+    from scipy.signal import resample_poly
+    up = resample_poly(x, 4, 1, axis=0)
+    teto, t = 10 ** (teto_db / 20), 10 ** ((teto_db - joelho_db) / 20)
+    a = np.abs(up)
+    acima = a > t
+    up[acima] = np.sign(up[acima]) * (t + (teto - t) * np.tanh((a[acima] - t) / (teto - t)))
+    return resample_poly(up, 1, 4, axis=0)[:len(x)]
 
 
 def limitar_picos(x, lim, ms=8.0):
