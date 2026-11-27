@@ -24,6 +24,7 @@ const Guia = {
       voz: !!cfg.voz, som: somReal(cfg.som || 'silencio'), fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
       sons: sonsCfg ? sonsCfg.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
       camadas: camadas ? JSON.parse(JSON.stringify(camadas)) : null,
+      extra: cfg.extra && cfg.extra.v ? { v: somReal(cfg.extra.v), vol: cfg.extra.vol } : null,
     };
     if (cfg.camadas) g.som = 'mix:';
     if (Nat.on) {
@@ -33,7 +34,7 @@ const Guia = {
         passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
       };
       if (g.sons) plano.sons = g.sons.map(com8D);
-      if (g.camadas) plano.camadas = this.camadasPlano(g.camadas);
+      if (g.camadas || g.extra) plano.camadas = this.camadasDe(g);
       if (cfg.volSom != null) plano.volSom = cfg.volSom;
       Nat.safe('guiaStart', plano);
     } else GuiaWeb.iniciar(g);
@@ -113,13 +114,26 @@ const Guia = {
   /* lista de músicas: a próxima agora, com uma transição curta */
   /* as camadas como vão ao Android (na versão 8D, se ligada) */
   camadasPlano(camadas) { return Mix.plano(camadas).map(c => ({ sons: c.sons.map(com8D), vol: c.vol })); },
-  /* manda ao Android o fundo atual como camadas: o que muda entra e sai devagar, sem cortar */
+  /* tudo o que toca ao fundo, como camadas: o mix (ou o som / a lista) e o som extra por baixo */
+  camadasDe(g) {
+    const base = g.camadas ? this.camadasPlano(g.camadas)
+      : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(com8D), vol: 1 }];
+    if (g.extra && g.extra.v && g.extra.v !== 'silencio') base.push({ sons: [com8D(g.extra.v)], vol: Math.round(g.extra.vol * 100) / 100 });
+    return base;
+  },
+  /* manda ao Android o fundo atual: o que muda entra e sai devagar, sem cortar */
   enviarSons() {
     const g = this.g;
     if (!g || !Nat.on) return;
-    const camadas = g.camadas ? this.camadasPlano(g.camadas)
-      : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(com8D), vol: 1 }];
-    this.sync({ som: com8D(g.som), camadas });
+    this.sync({ som: com8D(g.som), camadas: this.camadasDe(g) });
+  },
+  /* o som extra por baixo da música, e o volume dele */
+  setExtra(v, vol) {
+    const g = this.g;
+    if (!g) return;
+    g.extra = v && v !== 'silencio' ? { v: somReal(v), vol } : null;
+    this.enviarSons();
+    this.salvar();
   },
   /* o mix sendo montado mudou */
   setCamadas(camadas) {
@@ -209,9 +223,11 @@ function clipe(texto) {
    no navegador, os sons feitos em código */
 function somReal(v) {
   if (!v) return 'silencio';
+  if (SUBSTITUI[v]) v = SUBSTITUI[v];
+  if (v.startsWith('midia/camadas/')) return 'silencio';
   if (v.startsWith('mix:')) return temMidia() && Mix.de(v) ? v : 'silencio';
-  if (temMidia()) return v === 'chuva' ? 'midia/sons/N01.ogg' : v === 'ondas' ? 'midia/sons/N02.ogg' : v;
-  if (v.startsWith('midia/')) return v === 'midia/sons/N02.ogg' ? 'ondas' : v.startsWith('midia/sons/') ? 'chuva' : 'silencio';
+  if (temMidia()) return v === 'chuva' ? 'midia/sons/N01.ogg' : v === 'ondas' ? 'midia/sons/N02.ogg' : v === 'grave' ? 'midia/ruidos/marrom.ogg' : v;
+  if (v.startsWith('midia/')) return v === 'midia/sons/N02.ogg' ? 'ondas' : v.startsWith('midia/sons/') ? 'chuva' : v.startsWith('midia/ruidos/') ? 'grave' : 'silencio';
   return v;
 }
 

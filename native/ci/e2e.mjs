@@ -265,7 +265,7 @@ async function main() {
   const stR = await ev(`Nat.call('guiaState')`);
   check('breathing runs in the Android service', stR && stR.running, stR);
   let lcr = logcat();
-  check('breathing plays its background music', /som midia\/musicas\/M06\.ogg/.test(lcr), (lcr.match(/(clip|som) [^\n]+/g) || []).slice(0, 6));
+  check('breathing plays its background sound (real waves)', /som midia\/sons\/N02\.ogg/.test(lcr), (lcr.match(/(clip|som) [^\n]+/g) || []).slice(0, 6));
   check('the voice guides the breathing', /clip midia\/voz\/feminina\//.test(lcr), null, false);
   await cabe('breathing session');
   screen('13-breathe-session');
@@ -276,16 +276,30 @@ async function main() {
   await cabe('music list');
   screen('14-music');
   limparLog();
-  await click(A('musTocar', '[data-v="M01"]'), 3000);
+  await click(A('musTocar', '[data-v="R01"]'), 3000);
   await cabe('music playing');
   screen('15-music-playing');
   await click(A('musProxima'), 4000);
   let lcm = logcat();
-  // Gentle piano is "to relax": it goes on with the other songs of that list (harp, flute)
-  check('music: the chosen song plays', /som midia\/musicas\/M01\.ogg \(1\/3\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
-  check('music: Next goes smoothly to the next song of the same list', /som midia\/musicas\/M04\.ogg \(2\/3\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  // A Chopin nocturne is "to relax": it goes on with the other songs of that list
+  check('music: the chosen song plays', /som midia\/musicas\/R01\.ogg \(1\/4\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
+  check('music: Next goes smoothly to the next song of the same list', /som midia\/musicas\/R04\.ogg \(2\/4\)/.test(lcm), (lcm.match(/som [^\n]+/g) || []).slice(0, 6));
   check('the screen shows the new song', await waitFor(`Guia.g && Guia.g.faixa === 1`, 6000), await ev(`Guia.g && Guia.g.faixa`), false);
   await click(A('sSair'), 800);
+
+  // ---- a sound underneath the music, at the chosen volume
+  limparLog();
+  await click(A('musTocar', '[data-v="R08"]'), 2500);
+  await click(A('extraEscolher'), 800);
+  await click('#folha ' + A('extraSom', '[data-v="midia/sons/N06.ogg"]'), 3000);
+  let lcu = logcat();
+  check('music: rain plays underneath the song, together', /som midia\/musicas\/R08\.ogg/.test(lcu) && /som midia\/sons\/N06\.ogg/.test(lcu) && /mix 2 camadas/.test(lcu),
+    (lcu.match(/(som|mix) [^\n]+/g) || []).slice(0, 8));
+  check('music: no layer failed to open', !/W ForNow.*som midia/.test(lcu), (lcu.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await cabe('music with a sound underneath');
+  screen('15b-music-rain-underneath');
+  await click(A('sSair'), 800);
+  await ev(`setPref('musica.fundo', null)`);
   await click(A('musDormir'), 2500);
   check('sleep now: dark screen', (await ev(`document.documentElement.dataset.noite`)) === '1');
   screen('16-sleep');
@@ -309,12 +323,12 @@ async function main() {
   screen('18-music-by-purpose');
   limparLog();
   await click(A('mixNovo'), 800);
-  await click(A('mixCamada', '[data-v="midia/camadas/pad.ogg"]'), 1500);
-  await click(A('mixCamada', '[data-v="midia/camadas/sinos.ogg"]'), 1500);
-  await click(A('mixCamada', '[data-v="midia/sons/N02.ogg"]'), 3000);
+  await click(A('mixCamada', '[data-v="midia/musicas/R03.ogg"]'), 1500);
+  await click(A('mixCamada', '[data-v="midia/sons/N01.ogg"]'), 1500);
+  await click(A('mixCamada', '[data-v="midia/binaural/delta.ogg"]'), 3000);
   let lcx = logcat();
   const stX = await ev(`Nat.call('guiaState')`);
-  check('mix: the layers play together on the phone', /som midia\/camadas\/pad\.ogg/.test(lcx) && /som midia\/camadas\/sinos\.ogg/.test(lcx) && /som midia\/sons\/N02\.ogg/.test(lcx) && /mix 3 camadas/.test(lcx) && stX && stX.running,
+  check('mix: a song, rain and a binaural tone play together on the phone', /som midia\/musicas\/R03\.ogg/.test(lcx) && /som midia\/sons\/N01\.ogg/.test(lcx) && /som midia\/binaural\/delta\.ogg/.test(lcx) && /mix 3 camadas/.test(lcx) && stX && stX.running,
     (lcx.match(/(som|mix) [^\n]+/g) || []).slice(0, 8));
   check('mix: no layer failed to open', !/W ForNow.*som midia/.test(lcx), (lcx.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
   await cabe('mixer');

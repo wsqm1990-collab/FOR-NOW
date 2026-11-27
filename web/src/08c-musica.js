@@ -6,6 +6,7 @@ const Mus = {
   /* as músicas começando pela escolhida: as do mesmo uso (relaxar, focar...), ou, para dormir e
      para fundo, só as do mesmo estilo (muda menos ainda) */
   lista(desde, como) {
+    desde = ID_SUBSTITUI[desde] || desde;
     const cat = (MUSICAS.find(m => m[0] === desde) || [])[2], uso = usoDe(caminhoMusica(desde));
     const ids = MUSICAS.filter(m => como === 'uso' ? usoDe(caminhoMusica(m[0])) === uso : !como || m[2] === cat).map(m => m[0]);
     const k = Math.max(0, ids.indexOf(desde));
@@ -13,7 +14,8 @@ const Mus = {
   },
   tocar(v, dormir) {
     const p = prefs(), m = p.musica;
-    const ehMusica = /^M\d\d$/.test(v), ehMix = v.startsWith('mix:');
+    v = ID_SUBSTITUI[v] || v;
+    const ehMusica = /^[MR]\d\d$/.test(v), ehMix = v.startsWith('mix:');
     if (ehMusica) setPref('musica.ultima', v);
     const sons = ehMix ? null : ehMusica ? this.lista(v, dormir ? 'estilo' : 'uso') : [v];
     const minutos = Number(m.timer) || 0;            /* 0 = sem fim (8 horas) */
@@ -28,6 +30,7 @@ const Mus = {
     Hist.salvar(Sessao.r);
     Guia.iniciar({
       tec: 'musica', tipo: dormir ? 'dormir' : 'musica', passos, sons, som: ehMix ? v : sons[0], voz: p.voz.musica !== false,
+      extra: m.fundo && m.fundo.v && m.fundo.v !== v ? m.fundo : null,
       totalMs: totalS * 1000, fimFadeMs: minutos ? Math.min(180000, totalS * 150) : 4000, volSom: 0.6,
     });
     Sessao.salvarEstado();
@@ -35,7 +38,7 @@ const Mus = {
     S.tela = 'sessao';
     render();
   },
-  dormir() { this.tocar(prefs().musica.ultima || 'M02', true); },
+  dormir() { this.tocar(prefs().musica.ultima || 'R03', true); },
   nomeAtual(g = Guia.g) {
     if (!g) return '';
     const v = g.sons && g.sons.length ? g.sons[Math.min(g.faixa || 0, g.sons.length - 1)] : g.som;

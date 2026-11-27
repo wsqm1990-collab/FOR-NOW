@@ -21,49 +21,68 @@ const FONTES = {
    os outros são feitos em código e servem no navegador e como reserva. */
 const SONS = [
   ['silencio', ['Silence', 'Silêncio', 'Silencio'], 'base'],
-  ['midia/sons/N01.ogg', ['Rain', 'Chuva', 'Lluvia'], 'natureza'],
+  /* gravações reais (BigSoundBank, CC0) */
+  ['midia/sons/N01.ogg', ['Summer rain', 'Chuva de verão', 'Lluvia de verano'], 'natureza'],
+  ['midia/sons/N06.ogg', ['Rain on a tent', 'Chuva na barraca', 'Lluvia en la carpa'], 'natureza'],
   ['midia/sons/N02.ogg', ['Sea', 'Mar', 'Mar'], 'natureza'],
-  ['midia/sons/N03.ogg', ['Forest at night', 'Floresta à noite', 'Bosque de noche'], 'natureza'],
+  ['midia/sons/N03.ogg', ['Countryside night', 'Noite no campo', 'Noche en el campo'], 'natureza'],
   ['midia/sons/N04.ogg', ['Stream', 'Riacho', 'Arroyo'], 'natureza'],
   ['midia/sons/N05.ogg', ['Fireplace', 'Lareira', 'Chimenea'], 'natureza'],
-  ['grave', ['Soft noise', 'Ruído suave', 'Ruido suave'], 'natureza'],
+  /* ruídos e batidas binaurais (feitos em código: tools/binaural.py) */
+  ['midia/ruidos/marrom.ogg', ['Brown noise', 'Ruído marrom', 'Ruido marrón'], 'ruido'],
+  ['midia/ruidos/rosa.ogg', ['Pink noise', 'Ruído rosa', 'Ruido rosa'], 'ruido'],
+  ['midia/ruidos/branco.ogg', ['White noise', 'Ruído branco', 'Ruido blanco'], 'ruido'],
+  ['midia/binaural/delta.ogg', ['Binaural delta, 2 Hz', 'Binaural delta, 2 Hz', 'Binaural delta, 2 Hz'], 'binaural'],
+  ['midia/binaural/teta.ogg', ['Binaural theta, 6 Hz', 'Binaural teta, 6 Hz', 'Binaural theta, 6 Hz'], 'binaural'],
+  ['midia/binaural/alfa.ogg', ['Binaural alpha, 10 Hz', 'Binaural alfa, 10 Hz', 'Binaural alfa, 10 Hz'], 'binaural'],
+  ['midia/binaural/beta.ogg', ['Binaural beta, 16 Hz', 'Binaural beta, 16 Hz', 'Binaural beta, 16 Hz'], 'binaural'],
+  ['midia/binaural/gama.ogg', ['Binaural gamma, 40 Hz', 'Binaural gama, 40 Hz', 'Binaural gamma, 40 Hz'], 'binaural'],
+  /* só no navegador (testes), quando não há gravações */
+  ['grave', ['Soft noise', 'Ruído suave', 'Ruido suave'], 'reserva'],
   ['chuva', ['Simple rain', 'Chuva simples', 'Lluvia simple'], 'reserva'],
   ['ondas', ['Simple waves', 'Ondas simples', 'Olas simples'], 'reserva'],
 ];
 const MUSICAS = [
-  ['M01', ['Gentle piano', 'Piano suave', 'Piano suave'], 'piano'],
-  ['M02', ['Piano for sleep', 'Piano para dormir', 'Piano para dormir'], 'piano'],
+  /* piano de verdade, gravações livres: Musopen (CC0), Open Goldberg (CC0), Musopen via Wikimedia Commons */
+  ['R01', ['Chopin: Nocturne Op. 9 No. 2', 'Chopin: Noturno Op. 9 nº 2', 'Chopin: Nocturno Op. 9 n.º 2'], 'piano'],
+  ['R02', ['Chopin: Nocturne Op. 9 No. 1', 'Chopin: Noturno Op. 9 nº 1', 'Chopin: Nocturno Op. 9 n.º 1'], 'piano'],
+  ['R03', ['Chopin: Nocturne Op. 27 No. 2', 'Chopin: Noturno Op. 27 nº 2', 'Chopin: Nocturno Op. 27 n.º 2'], 'piano'],
+  ['R04', ['Chopin: Nocturne Op. 55 No. 2', 'Chopin: Noturno Op. 55 nº 2', 'Chopin: Nocturno Op. 55 n.º 2'], 'piano'],
+  ['R05', ['Chopin: Nocturne Op. 62 No. 2', 'Chopin: Noturno Op. 62 nº 2', 'Chopin: Nocturno Op. 62 n.º 2'], 'piano'],
+  ['R06', ['Chopin: Nocturne Op. 72 No. 1', 'Chopin: Noturno Op. 72 nº 1', 'Chopin: Nocturno Op. 72 n.º 1'], 'piano'],
+  ['R07', ['Bach: Goldberg Aria', 'Bach: Ária das Variações Goldberg', 'Bach: Aria de las Variaciones Goldberg'], 'piano'],
+  ['R08', ['Satie: Gymnopédie No. 1', 'Satie: Gymnopédie nº 1', 'Satie: Gymnopédie n.º 1'], 'piano'],
+  /* feitas com ElevenLabs */
   ['M03', ['Strings, adagio', 'Cordas em adágio', 'Cuerdas en adagio'], 'classica'],
   ['M04', ['Celtic harp', 'Harpa celta', 'Arpa celta'], 'celta'],
-  ['M05', ['Gregorian chant', 'Canto gregoriano', 'Canto gregoriano'], 'canticos'],
-  ['M06', ['Deep ambient', 'Ambiente profundo', 'Ambiente profundo'], 'ambiente'],
   ['M07', ['Celtic flute', 'Celta com flauta', 'Celta con flauta'], 'celta'],
   ['M08', ['Ethereal choir', 'Coral etéreo', 'Coro etéreo'], 'canticos'],
-  ['M09', ['Singing bowls', 'Tigelas tibetanas', 'Cuencos tibetanos'], 'ambiente'],
   ['M10', ['Soft guitar', 'Violão suave', 'Guitarra suave'], 'violao'],
   ['M11', ['Gentle morning', 'Manhã suave', 'Mañana suave'], 'manha'],
 ];
 const CATEGORIAS = [
-  ['natureza', ['Nature', 'Natureza', 'Naturaleza']],
   ['piano', ['Piano', 'Piano', 'Piano']],
   ['classica', ['Classical', 'Clássica', 'Clásica']],
   ['celta', ['Celtic', 'Celta', 'Celta']],
-  ['canticos', ['Chants', 'Cânticos', 'Cánticos']],
-  ['ambiente', ['Ambient', 'Ambiente', 'Ambiente']],
+  ['canticos', ['Choir', 'Coral', 'Coro']],
   ['violao', ['Guitar', 'Violão', 'Guitarra']],
   ['manha', ['Morning', 'Manhã', 'Mañana']],
+  ['natureza', ['Nature', 'Natureza', 'Naturaleza']],
+  ['ruido', ['Noise', 'Ruídos', 'Ruidos']],
+  ['binaural', ['Binaural', 'Binaurais', 'Binaurales']],
 ];
+/* o que saiu do app e o que ficou no lugar (para escolhas e mixes antigos continuarem tocando) */
+const SUBSTITUI = {
+  'midia/musicas/M01.ogg': 'midia/musicas/R01.ogg', 'midia/musicas/M02.ogg': 'midia/musicas/R03.ogg',
+  'midia/musicas/M05.ogg': 'midia/musicas/M08.ogg', 'midia/musicas/M06.ogg': 'midia/musicas/R08.ogg',
+  'midia/musicas/M09.ogg': 'midia/musicas/R05.ogg',
+};
+const ID_SUBSTITUI = { M01: 'R01', M02: 'R03', M05: 'M08', M06: 'R08', M09: 'R05' };
 const caminhoMusica = id => `midia/musicas/${id}.ogg`;
 /* tudo o que pode tocar ao fundo, com o nome e a categoria */
 const FUNDOS = [...SONS.map(([v, n, c]) => ({ v, n, c })), ...MUSICAS.map(([id, n, c]) => ({ v: caminhoMusica(id), n, c, musica: id }))];
-/* instrumentos do "Criar meu mix": feitos para combinar sempre entre si (tools/camadas.py) */
-const CAMADAS = [
-  ['midia/camadas/pad.ogg', ['Warm pad', 'Pad quente', 'Pad cálido']],
-  ['midia/camadas/drone.ogg', ['Deep drone', 'Drone grave', 'Dron grave']],
-  ['midia/camadas/sinos.ogg', ['Soft bells', 'Sinos suaves', 'Campanas suaves']],
-  ['midia/camadas/piano.ogg', ['Piano notes', 'Notas de piano', 'Notas de piano']],
-  ['midia/camadas/coro.ogg', ['Soft choir', 'Coro suave', 'Coro suave']],
-];
+/* o mix não tem mais instrumentos feitos em código (soavam sintéticos) */
+const CAMADAS = [];
 const nomeSom = id => {
   if (id && id.startsWith('mix:')) { const m = Mix.de(id); return m ? m.nome : tr(SONS[0][1]); }
   const c = CAMADAS.find(x => x[0] === id);
@@ -85,28 +104,34 @@ const USO_DET = {
   dormir: ['To fall asleep: low, slow, barely changing.', 'Para pegar no sono: grave, lento, quase sem mudar.', 'Para dormirte: grave, lento, casi sin cambios.'],
 };
 const PERFIL = {
-  'midia/sons/N01.ogg': [[0.10, 0.35, 0.10, 0.45], ['Steady rain that covers noise outside', 'Chuva constante que abafa os barulhos de fora', 'Lluvia constante que tapa los ruidos de fuera']],
-  'midia/sons/N02.ogg': [[0.30, 0.05, 0.50, 0.15], ['Slow waves, at the pace of a calm breath', 'Ondas lentas, no ritmo de uma respiração calma', 'Olas lentas, al ritmo de una respiración tranquila']],
-  'midia/sons/N03.ogg': [[0.25, 0.05, 0.10, 0.60], ['Crickets and a light breeze: a quiet night', 'Grilos e brisa leve: uma noite tranquila', 'Grillos y brisa suave: una noche tranquila']],
-  'midia/sons/N04.ogg': [[0.30, 0.50, 0.15, 0.05], ['Running water, clear and continuous', 'Água correndo, som claro e contínuo', 'Agua corriendo, sonido claro y continuo']],
-  'midia/sons/N05.ogg': [[0.60, 0.10, 0.15, 0.15], ['Crackling fire, cozy', 'Fogo estalando, aconchegante', 'Fuego crepitando, acogedor']],
-  grave: [[0.05, 0.50, 0.10, 0.35], ['Low, even noise with no surprises', 'Ruído grave e uniforme, sem surpresas', 'Ruido grave y uniforme, sin sorpresas']],
-  'midia/musicas/M01.ogg': [[0.60, 0.25, 0.10, 0.05], ['Slow, light piano with a simple melody', 'Piano lento e leve, melodia simples', 'Piano lento y ligero, melodía sencilla']],
-  'midia/musicas/M02.ogg': [[0.15, 0.05, 0.10, 0.70], ['Very slow, low notes with lots of space', 'Notas graves e bem lentas, com muito espaço', 'Notas graves y muy lentas, con mucho espacio']],
+  'midia/sons/N01.ogg': [[0.10, 0.35, 0.10, 0.45], ['Real summer rain, heavy drops on a terrace', 'Chuva de verão de verdade, gotas grossas num terraço', 'Lluvia de verano real, gotas gruesas en una terraza']],
+  'midia/sons/N06.ogg': [[0.10, 0.30, 0.15, 0.45], ['Real rain on a tent, steady', 'Chuva de verdade batendo numa barraca, constante', 'Lluvia real sobre una carpa, constante']],
+  'midia/sons/N02.ogg': [[0.30, 0.05, 0.50, 0.15], ['Real small waves, at the pace of a calm breath', 'Ondas pequenas de verdade, no ritmo de uma respiração calma', 'Olas pequeñas reales, al ritmo de una respiración tranquila']],
+  'midia/sons/N03.ogg': [[0.25, 0.05, 0.10, 0.60], ['Crickets on a countryside night, recorded live', 'Grilos numa noite de campo, gravados ao vivo', 'Grillos en una noche de campo, grabados en vivo']],
+  'midia/sons/N04.ogg': [[0.30, 0.50, 0.15, 0.05], ['A real mountain stream, clear and continuous', 'Riacho de montanha de verdade, claro e contínuo', 'Arroyo de montaña real, claro y continuo']],
+  'midia/sons/N05.ogg': [[0.60, 0.10, 0.15, 0.15], ['A real fireplace, soft crackling', 'Lareira de verdade, estalos suaves', 'Chimenea real, crujidos suaves']],
+  'midia/ruidos/marrom.ogg': [[0.05, 0.50, 0.10, 0.35], ['Deep, even noise, like a distant river; covers other sounds', 'Ruído grave e uniforme, como um rio distante; cobre outros barulhos', 'Ruido grave y uniforme, como un río lejano; tapa otros ruidos']],
+  'midia/ruidos/rosa.ogg': [[0.10, 0.25, 0.15, 0.50], ['Balanced noise, like fine steady rain', 'Ruído equilibrado, como chuva fina e constante', 'Ruido equilibrado, como lluvia fina y constante']],
+  'midia/ruidos/branco.ogg': [[0.05, 0.65, 0.05, 0.25], ['Even hiss that covers voices and noise', 'Chiado uniforme que cobre vozes e barulhos', 'Siseo uniforme que tapa voces y ruidos']],
+  'midia/binaural/delta.ogg': [[0.05, 0.00, 0.15, 0.80], ['A tone in each ear, heard as a very slow pulse (2 per second). Headphones.', 'Um tom em cada ouvido, ouvido como um pulso bem lento (2 por segundo). Use fones.', 'Un tono en cada oído, que se oye como un pulso muy lento (2 por segundo). Usa auriculares.']],
+  'midia/binaural/teta.ogg': [[0.20, 0.00, 0.60, 0.20], ['Slow pulse (6 per second), common in meditation. Headphones.', 'Pulso lento (6 por segundo), comum em meditação. Use fones.', 'Pulso lento (6 por segundo), común en meditación. Usa auriculares.']],
+  'midia/binaural/alfa.ogg': [[0.60, 0.20, 0.15, 0.05], ['Pulse of 10 per second, linked to awake calm. Headphones.', 'Pulso de 10 por segundo, ligado à calma acordada. Use fones.', 'Pulso de 10 por segundo, ligado a la calma despierta. Usa auriculares.']],
+  'midia/binaural/beta.ogg': [[0.05, 0.85, 0.05, 0.05], ['Faster pulse (16 per second), for attention. Headphones.', 'Pulso mais rápido (16 por segundo), para atenção. Use fones.', 'Pulso más rápido (16 por segundo), para la atención. Usa auriculares.']],
+  'midia/binaural/gama.ogg': [[0.05, 0.85, 0.05, 0.05], ['Fast pulse (40 per second), used for concentration. Headphones.', 'Pulso rápido (40 por segundo), usado para concentração. Use fones.', 'Pulso rápido (40 por segundo), usado para concentrarse. Usa auriculares.']],
+  'midia/musicas/R01.ogg': [[0.60, 0.15, 0.15, 0.10], ['Real piano: a calm, singing melody', 'Piano de verdade: melodia cantada e tranquila', 'Piano real: melodía cantada y tranquila']],
+  'midia/musicas/R02.ogg': [[0.25, 0.05, 0.55, 0.15], ['Real piano, slow and soft, a little wistful', 'Piano de verdade, lento e suave, um pouco melancólico', 'Piano real, lento y suave, algo melancólico']],
+  'midia/musicas/R03.ogg': [[0.20, 0.05, 0.15, 0.60], ['Real piano, soft and flowing, unhurried', 'Piano de verdade, macio, fluindo sem pressa', 'Piano real, suave, fluye sin prisa']],
+  'midia/musicas/R04.ogg': [[0.60, 0.20, 0.10, 0.10], ['Real piano: two lines talking slowly', 'Piano de verdade: duas linhas conversando devagar', 'Piano real: dos líneas que conversan despacio']],
+  'midia/musicas/R05.ogg': [[0.20, 0.05, 0.60, 0.15], ['Real piano, serene and singing', 'Piano de verdade, sereno e cantado', 'Piano real, sereno y cantado']],
+  'midia/musicas/R06.ogg': [[0.15, 0.05, 0.20, 0.60], ['Real piano, simple and slow, gently rocking', 'Piano de verdade, simples e lento, que embala', 'Piano real, sencillo y lento, que mece']],
+  'midia/musicas/R07.ogg': [[0.20, 0.55, 0.15, 0.10], ['Real piano, clear and orderly, steady pace', 'Piano de verdade, claro e ordenado, ritmo constante', 'Piano real, claro y ordenado, ritmo constante']],
+  'midia/musicas/R08.ogg': [[0.20, 0.10, 0.15, 0.55], ['Real piano, very slow and spacious', 'Piano de verdade, bem lento e espaçoso', 'Piano real, muy lento y espacioso']],
   'midia/musicas/M03.ogg': [[0.25, 0.05, 0.60, 0.10], ['Long, gentle strings with no big moments', 'Cordas longas e suaves, sem momentos fortes', 'Cuerdas largas y suaves, sin momentos fuertes']],
   'midia/musicas/M04.ogg': [[0.60, 0.15, 0.15, 0.10], ['Light harp, a peaceful old tune', 'Harpa leve, melodia antiga e tranquila', 'Arpa ligera, melodía antigua y tranquila']],
-  'midia/musicas/M05.ogg': [[0.10, 0.05, 0.65, 0.20], ['Low voices together, slow and steady', 'Vozes graves em uníssono, lentas e firmes', 'Voces graves al unísono, lentas y firmes']],
-  'midia/musicas/M06.ogg': [[0.10, 0.10, 0.20, 0.60], ['Deep layers that barely change', 'Camadas graves que quase não mudam', 'Capas graves que casi no cambian']],
   'midia/musicas/M07.ogg': [[0.60, 0.15, 0.15, 0.10], ['Soft flute over harp, misty and calm', 'Flauta suave sobre harpa, calma e enevoada', 'Flauta suave sobre arpa, calma y brumosa']],
   'midia/musicas/M08.ogg': [[0.10, 0.00, 0.30, 0.60], ['Soft, long voices that float', 'Vozes suaves e longas que flutuam', 'Voces suaves y largas que flotan']],
-  'midia/musicas/M09.ogg': [[0.15, 0.05, 0.60, 0.20], ['Tones that ring and fade slowly', 'Sons que ressoam e somem devagar', 'Sonidos que resuenan y se apagan despacio']],
   'midia/musicas/M10.ogg': [[0.30, 0.55, 0.10, 0.05], ['Gentle guitar, no words, steady pace', 'Violão dedilhado, sem palavras, ritmo constante', 'Guitarra punteada, sin palabras, ritmo constante']],
   'midia/musicas/M11.ogg': [[0.25, 0.65, 0.05, 0.05], ['Light and bright, to start or keep going', 'Leve e clara, para começar ou seguir em frente', 'Ligera y clara, para empezar o seguir adelante']],
-  'midia/camadas/pad.ogg': [[0.35, 0.05, 0.30, 0.30], ['A soft, steady chord', 'Um acorde suave e contínuo', 'Un acorde suave y continuo']],
-  'midia/camadas/drone.ogg': [[0.10, 0.05, 0.35, 0.50], ['A low hum, almost still', 'Um som grave, quase parado', 'Un sonido grave, casi quieto']],
-  'midia/camadas/sinos.ogg': [[0.30, 0.15, 0.45, 0.10], ['Soft bells now and then', 'Sinos suaves de vez em quando', 'Campanas suaves de vez en cuando']],
-  'midia/camadas/piano.ogg': [[0.45, 0.35, 0.10, 0.10], ['Loose piano notes, with space', 'Notas de piano soltas, com espaço', 'Notas de piano sueltas, con espacio']],
-  'midia/camadas/coro.ogg': [[0.15, 0.00, 0.40, 0.45], ['Wordless voices, slowly moving', 'Vozes sem palavras, mudando devagar', 'Voces sin palabras, cambiando despacio']],
 };
 const usoDe = v => {
   if (v && v.startsWith('mix:')) { const m = Mix.de(v); return m ? m.cat : null; }
@@ -116,12 +141,12 @@ const usoDe = v => {
 const porQue = v => (PERFIL[v] ? tr(PERFIL[v][1]) : '');
 /* uma música como fundo: ela e as outras do mesmo estilo, uma depois da outra (null se não é música) */
 function listaDoEstilo(v) {
-  const m = /^midia\/musicas\/(M\d\d)\.ogg$/.exec(v || '');
+  const m = /^midia\/musicas\/([MR]\d\d)\.ogg$/.exec(v || '');
   return m ? Mus.lista(m[1], 'estilo') : null;
 }
 /* versão 8D: o som gira devagar em volta de você (com fones). Só no que vai para o Android. */
-const tem8D = v => /^midia\/(musicas|sons|camadas)\/\w+\.ogg$/.test(v || '') || v === 'grave';
-const com8D = v => (prefs().oitoD && temMidia() && tem8D(v)) ? (v === 'grave' ? 'midia/8d/sons/grave.ogg' : v.replace('midia/', 'midia/8d/')) : v;
+const tem8D = v => /^midia\/(musicas|sons)\/\w+\.ogg$/.test(v || '');
+const com8D = v => (prefs().oitoD && temMidia() && tem8D(v)) ? v.replace('midia/', 'midia/8d/') : v;
 /* gravações só existem no app instalado; no navegador ficam os sons feitos em código */
 const temMidia = () => !!(Nat.on && window.__fnMidia !== false);
 const listaSons = () => FUNDOS.filter(f => f.c !== 'reserva' && (temMidia() || !f.v.startsWith('midia/'))).map(f => [f.v, tr(f.n)]);

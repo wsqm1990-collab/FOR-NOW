@@ -50,6 +50,20 @@ const ACT = {
   musTocar: el => { if (Nat.on) Nat.safe('previaParar'); Mus.tocar(el.dataset.v, false); },
   musDormir: () => { if (Nat.on) Nat.safe('previaParar'); Mus.dormir(); },
   musTimer: el => { setPref('musica.timer', Number(el.dataset.v)); render(); },
+  musUso: el => { S.musUso = el.dataset.v; setPref('musica.uso', el.dataset.v); render(); },
+  /* o som por baixo da música */
+  extraEscolher: () => folhaExtra(),
+  extraSom: el => {
+    const v = el.dataset.v, g = Guia.g;
+    const vol = (g && g.extra && g.extra.vol) || (prefs().musica.fundo && prefs().musica.fundo.vol) || (v.startsWith('midia/binaural/') ? 0.3 : 0.45);
+    Guia.setExtra(v, vol);
+    setPref('musica.fundo', v === 'silencio' ? null : { v, vol });
+    fecharFolha();
+    render();
+  },
+  /* idioma do celular */
+  idiomaSim: el => { setPref('lang', el.dataset.v); setIdioma(el.dataset.v); LS.set('idiomaSugerido', true); enviarRotulos(); render(); },
+  idiomaNao: () => { LS.set('idiomaSugerido', true); render(); },
   musVoz: el => { setPref('musica.vozDormir', el.dataset.v === 'true'); render(); },
   musProxima: () => { Guia.proxima(); setTimeout(atualizarMusica, 300); },
   /* criar meu mix */
@@ -74,7 +88,7 @@ const ACT = {
     const folha = !$('#folha').hidden && S.folhaSons;
     if (Guia.g) Guia.enviarSons();
     else if (folha && v) ouvirSom(folha.atual);
-    else if (v && S.tela === 'musica') ouvirSom(caminhoMusica(prefs().musica.ultima || 'M02'));
+    else if (v && S.tela === 'musica') ouvirSom(caminhoMusica(prefs().musica.ultima || 'R03'));
     if (folha) folhaSons(folha.modo, folha.atual);
     render();
   },
@@ -202,6 +216,7 @@ const ACT = {
   diagCompartilhar: () => Nat.safe('compartilharTexto', { texto: Diag.relatorio(), titulo: 'For Now · report' }),
   acesso: () => { S.tela = 'acesso'; render(); },
   privacidade: () => { S.tela = 'privacidade'; render(); },
+  creditos: () => { S.tela = 'creditos'; render(); },
   apagarTudo: () => abrirFolha(`<p class="pergunta">${esc(t('delete_all_q'))}</p><p class="sub centro">${esc(t('delete_all_note'))}</p>${botao('apagarTudoSim', t('delete_all'), 'forte')}${botao('fecharFolha', t('back_word'), 'discreto')}`),
   apagarTudoSim: () => apagarTudo(),
 };
@@ -354,6 +369,7 @@ async function iniciar() {
     const el = e.target.closest && e.target.closest('[data-in]');
     if (!el) return;
     if (el.dataset.in === 'mixVol') { Mix.volume(el.dataset.v, Number(el.value) / 100); atualizarMixUso(); }
+    else if (el.dataset.in === 'extraVol') extraVolume(Number(el.value) / 100);
     else if (el.dataset.in === 'mixNome' && Mix.edit) Mix.edit.nome = el.value;
   });
   render();
@@ -378,3 +394,16 @@ async function iniciar() {
   setInterval(tique, 15000);
 }
 iniciar();
+
+/* o volume do som por baixo: muda ao vivo (no máximo a cada 150 ms) e fica guardado */
+let extraTimer = null, extraUltimo = 0;
+function extraVolume(vol) {
+  const g = Guia.g;
+  if (!g || !g.extra) return;
+  g.extra.vol = vol;
+  setPref('musica.fundo', { v: g.extra.v, vol });
+  clearTimeout(extraTimer);
+  const enviar = () => { extraUltimo = Date.now(); Guia.enviarSons(); };
+  const espera = 150 - (Date.now() - extraUltimo);
+  if (espera <= 0) enviar(); else extraTimer = setTimeout(enviar, espera);
+}

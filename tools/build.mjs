@@ -16,7 +16,10 @@ const head = HEAD.map(f => (f.endsWith('.css') ? `<style>\n${read(f)}\n</style>`
 const body = BODY.map(read).join('\n');
 /* frases gravadas (texto -> arquivo dentro do app), feito pelo tools/audio-app.py */
 const vozPt = fs.existsSync(path.join(src, 'voz-pt.json')) ? read('voz-pt.json') : '{}';
-const js = `/* ===== voz-pt.json ===== */\nconst VOZ_PT = ${JSON.stringify(JSON.parse(vozPt))};\n` + JS.map(f => `/* ===== ${f} ===== */\n` + read(f)).join('\n');
+const creditos = fs.existsSync(path.join(src, 'creditos.json')) ? read('creditos.json') : '[]';
+const js = `/* ===== voz-pt.json ===== */\nconst VOZ_PT = ${JSON.stringify(JSON.parse(vozPt))};\n`
+  + `/* ===== creditos.json ===== */\nconst CREDITOS = ${JSON.stringify(JSON.parse(creditos))};\n`
+  + JS.map(f => `/* ===== ${f} ===== */\n` + read(f)).join('\n');
 if (js.includes('</script')) throw new Error('um script contém </script>');
 
 // Se uma versão recém-baixada não conseguir abrir em 15 s, o app volta para a anterior.

@@ -23,9 +23,9 @@ const PADRAO = {
   voz: { pico: true, paz: true, cochilo: true, madrugada: true, respirar: true, musica: true },
   vozTipo: 'feminina',          // feminina | masculina (gravadas, em português) | android (a voz do celular)
   velocidade: 0.9,
-  som: { pico: 'midia/sons/N01.ogg', paz: 'midia/sons/N01.ogg', cochilo: 'silencio', madrugada: 'silencio', respirar: 'midia/musicas/M06.ogg' },
+  som: { pico: 'midia/sons/N01.ogg', paz: 'midia/sons/N01.ogg', cochilo: 'silencio', madrugada: 'silencio', respirar: 'midia/sons/N02.ogg' },
   respirar: { ex: 'quadrada', min: 3, vib: true, livre: { in: 4, hold: 2, out: 6, pausa: 0 } },
-  musica: { timer: 30, vozDormir: true, ultima: 'M02' },
+  musica: { timer: 30, vozDormir: true, ultima: 'R03', fundo: null },   // fundo: { v, vol } por baixo da música
   oitoD: false,                 // sons e músicas em 8D (girando em volta; com fones)
   cochiloMin: 20,
   cochiloVoz: true,

@@ -1,6 +1,6 @@
 /* ---------- meus mixes ----------
-   Um mix junta instrumentos (feitos para combinar sempre entre si) ou uma música pronta, com sons
-   da natureza, cada um no seu volume. Enquanto monta, você ouve ao vivo (pelo Android).
+   Um mix junta uma música (se quiser) com sons da natureza, ruídos e batidas binaurais, cada um no
+   seu volume. Enquanto monta, você ouve ao vivo (pelo Android).
    Ao salvar, o app decide sozinho para que ele serve (relaxar, focar, acalmar ou dormir) somando
    o peso de cada som pelo volume dele no conjunto, e diz por quê. Dá para trocar, se discordar. */
 const Mix = {
@@ -8,7 +8,12 @@ const Mix = {
   ultimoEnvio: 0,
   envioTimer: null,
 
-  todos() { return LS.get('mixes', []) || []; },
+  /* os mixes salvos; os de antes, com sons que saíram do app, trocam esses sons pelos novos */
+  todos() {
+    return (LS.get('mixes', []) || []).map(m => Object.assign({}, m, {
+      camadas: (m.camadas || []).map(c => Object.assign({}, c, { v: SUBSTITUI[c.v] || c.v })).filter(c => !c.v.startsWith('midia/camadas/')),
+    })).filter(m => m.camadas.length);
+  },
   de(v) { const id = String(v || '').replace(/^mix:/, ''); return this.todos().find(m => m.id === id) || null; },
 
   /* para que serve um conjunto, e os dois sons que mais pesaram nisso */
@@ -45,12 +50,11 @@ const Mix = {
     const i = e.camadas.findIndex(c => c.v === v);
     if (i >= 0) e.camadas.splice(i, 1);
     else {
-      const musica = v.startsWith('midia/musicas/'), instrumento = v.startsWith('midia/camadas/');
-      /* uma música pronta toca com a natureza, sem os instrumentos (cada música tem o seu tom) */
-      if (musica) e.camadas = e.camadas.filter(c => !c.v.startsWith('midia/musicas/') && !c.v.startsWith('midia/camadas/'));
-      if (instrumento) e.camadas = e.camadas.filter(c => !c.v.startsWith('midia/musicas/'));
-      if (e.camadas.length >= 6) e.camadas.shift();
-      e.camadas.push({ v, vol: musica ? 0.8 : 0.6 });
+      const musica = v.startsWith('midia/musicas/');
+      /* uma música de cada vez (duas músicas juntas desafinam); o resto vai por baixo */
+      if (musica) e.camadas = e.camadas.filter(c => !c.v.startsWith('midia/musicas/'));
+      if (e.camadas.length >= 5) e.camadas.splice(e.camadas.findIndex(c => !c.v.startsWith('midia/musicas/')), 1);
+      e.camadas.push({ v, vol: musica ? 0.85 : v.startsWith('midia/binaural/') ? 0.35 : 0.5 });
     }
     this.ouvir();
   },
@@ -105,7 +109,7 @@ const Mix = {
     /* quem usava este mix como fundo volta ao silêncio */
     const p = prefs();
     for (const k of Object.keys(p.som)) if (p.som[k] === 'mix:' + id) setPref('som.' + k, 'silencio');
-    if (p.musica.ultima === 'mix:' + id) setPref('musica.ultima', 'M02');
+    if (p.musica.fundo && p.musica.fundo.v === 'mix:' + id) setPref('musica.fundo', null);
     this.edit = null;
   },
 };
