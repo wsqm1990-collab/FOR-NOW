@@ -2,12 +2,12 @@
 N01 Summer Rain on Terrace (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/1019.wav: não é áudio (61 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/1019.flac: ok (18463 KB, 157 s)
-   pronto: 140 s, ganho +4.4 dB, -25.1 LUFS, pico 0.3 dBFS, bandas antes [-13, 0, -3, -5, -7, -10, -19] depois [-13, 0, -4, -5, -7, -10, -19], 1748 KB
+   pronto: 140 s, ganho +4.4 dB, -25.1 LUFS, pico -2.8 dBFS, bandas antes [-13, 0, -3, -5, -7, -10, -19] depois [-13, 0, -4, -5, -7, -10, -19], 1754 KB
 N06 Rain in a Tent (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/0820.wav: não é áudio (60 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/0820.flac: HTTP Error 404: Not Found
    tentou https://bigsoundbank.com/UPLOAD/mp3/0820.mp3: ok (8186 KB, 210 s)
-   pronto: 120 s, ganho +3.0 dB, -25.0 LUFS, pico -1.9 dBFS, bandas antes [-15, -1, 0, -2, -4, -8, -20] depois [-18, -1, 0, -2, -4, -9, -20], 1892 KB
+   pronto: 120 s, ganho +3.0 dB, -25.0 LUFS, pico -3.9 dBFS, bandas antes [-15, -1, 0, -2, -4, -8, -20] depois [-18, -1, 0, -2, -4, -9, -20], 1891 KB
 N02 Small Waves Facing the Ocean (bigsoundbank)
    tentou https://bigsoundbank.com/UPLOAD/wav/1046.wav: não é áudio (65 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/1046.flac: ok (15997 KB, 138 s)
@@ -24,18 +24,18 @@ N05 Fireplace (bigsoundbank)
    opção #2855 Fireplace #3
    tentou https://bigsoundbank.com/UPLOAD/wav/2855.wav: não é áudio (59 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/2855.flac: ok (30584 KB, 182 s)
-   opção #2855: 150 s, -35.4 LUFS, som mudou 2.0 dB, nota 12.4
+   opção #2855: 150 s, -29.8 LUFS, som mudou 2.1 dB, nota 6.9
    opção #2856 Fireplace #4
    tentou https://bigsoundbank.com/UPLOAD/wav/2856.wav: não é áudio (59 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/2856.flac: ok (15562 KB, 79 s)
-   opção #2856: 75 s, -35.2 LUFS, som mudou 1.6 dB, nota 14.8
+   opção #2856: 75 s, -29.4 LUFS, som mudou 1.7 dB, nota 9.1
    opção #989 Big Branching Fire #3
    tentou https://bigsoundbank.com/UPLOAD/wav/0989.wav: não é áudio (58 KB, 0 s)
    tentou https://bigsoundbank.com/UPLOAD/flac/0989.flac: HTTP Error 404: Not Found
    tentou https://bigsoundbank.com/UPLOAD/mp3/0989.mp3: ok (5003 KB, 128 s)
-   opção #989: 124 s, -43.9 LUFS, som mudou 0.1 dB, nota 19.0
+   opção #989: 124 s, -39.3 LUFS, som mudou 0.6 dB, nota 14.9
    escolhida: #2855 Fireplace #3
-   pronto: 150 s, ganho +3.3 dB, -35.4 LUFS, pico 0.9 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-10, -3, -1, -2, 0, -5, -8], 1883 KB
+   pronto: 150 s, ganho +9.3 dB, -29.8 LUFS, pico -2.0 dBFS, bandas antes [-14, -6, -4, -3, 0, -3, -9] depois [-10, -2, -1, -2, 0, -4, -7], 1889 KB
 R01 Chopin — Nocturne Op. 9 No. 2 (archive)
    tentou Nocturne Op. 9 no. 2 in E flat major.ogg (Ogg Vorbis): ok (277 s)
    pronto: 273 s, ganho +1.0 dB, -23.0 LUFS, pico -4.9 dBFS, bandas antes [-8, 0, -13, -21, -41, -61, -68] depois [-8, 0, -14, -21, -43, -62, -68], 4981 KB
