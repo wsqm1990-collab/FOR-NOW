@@ -299,7 +299,7 @@ async def main():
         await tap(A('musica'), 300)
         check('music starts with four purposes to choose from', await page.locator(A('musUso')).count() == 4)
         await tap(A('musUso', '[data-v="acalmar"]'), 300)
-        nomes = [x.split('\n')[0].strip() for x in await page.locator(A('musTocar')).all_inner_texts()]
+        nomes = [x.split('\n')[0].strip().replace('\xa0', ' ') for x in await page.locator(A('musTocar')).all_inner_texts()]
         check('choosing "soothe" lists only what is made for it', nomes == ['Chopin: Nocturne Op. 9 No. 1', 'Chopin: Nocturne Op. 62 No. 2', 'Strings, adagio', 'Sea', 'Binaural theta, 6 Hz'], nomes)
         await page.screenshot(path=OUT + '/26-musicas.png', full_page=True)
         await tap(A('musTocar', '[data-v="M03"]'), 400)
@@ -381,7 +381,7 @@ async def main():
         tiles = [x.strip() for x in await page.locator(A('musUso')).all_inner_texts()]
         check('the music screen asks what it is for: relax, focus, soothe, sleep', tiles == ['Relax', 'Focus', 'Soothe', 'Sleep'], tiles)
         await tap(A('musUso', '[data-v="dormir"]'), 300)
-        sono = await page.locator('section').first.inner_text()
+        sono = (await page.locator('section').first.inner_text()).replace('\xa0', ' ')
         check('each sound and song says why (real rain and Satie, under Sleep)', 'Summer rain' in sono and 'Real summer rain, heavy drops on a terrace' in sono and 'Satie: Gymnopédie No. 1' in sono and 'Binaural delta, 2 Hz' in sono, sono[:300])
         grupos = [x.strip() for x in await page.locator('section .secao h2').all_inner_texts()]
         check('inside a purpose, songs, real nature and tones are apart', grupos[:3] == ['Music', 'Nature, recorded live', 'Noise and binaural tones'], grupos)
@@ -403,7 +403,7 @@ async def main():
         u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
         check('the volume slider sets how loud the rain is underneath', [c['vol'] for c in u['camadas']] == [0.85, 0.25, 0.35], u['camadas'])
         uso = (await page.locator('#mix-uso').inner_text())
-        check('the app decides by itself what the mix is for, and says why', 'This mix is for: Sleep' in uso and 'chopin' in uso.lower(), uso)
+        check('the app decides by itself what the mix is for, and says why (names as written)', 'This mix is for: Sleep' in uso and '“Chopin: Nocturne Op. 27 No. 2”' in uso, uso)
         await page.screenshot(path=OUT + '/33-criar-mix.png', full_page=True)
         await tap(A('mixCamada', '[data-v="midia/musicas/R06.ogg"]'), 400)
         e = await page.evaluate("Mix.edit.camadas.map(c => c.v)")

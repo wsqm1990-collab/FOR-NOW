@@ -23,7 +23,7 @@ const Mix = {
     if (!tot.some(x => x > 0)) return { uso: null, razoes: [] };
     const i = tot.indexOf(Math.max(...tot));
     const razoes = camadas.filter(c => PERFIL[c.v]).map(c => [c.v, PERFIL[c.v][0][i] * c.vol])
-      .sort((a, b) => b[1] - a[1]).slice(0, 2).map(([v]) => nomeSom(v).toLowerCase());
+      .sort((a, b) => b[1] - a[1]).slice(0, 2).map(([v]) => `“${nomeSom(v)}”`);
     return { uso: USOS[i], razoes };
   },
   usoFinal(m) { return m.uso && m.uso !== 'auto' ? m.uso : (this.classificar(m.camadas).uso || 'relaxar'); },
