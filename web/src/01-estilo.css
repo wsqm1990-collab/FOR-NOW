@@ -179,7 +179,7 @@ label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;
   border: 1px solid var(--line); border-radius: 1.3rem; background: var(--surface); color: var(--fg); cursor: pointer; padding: 0.7rem 0.4rem;
 }
 .uso-tile .ic { width: 1.9rem; height: 1.9rem; }
-.uso-tile .t { font-family: var(--voz); font-size: clamp(1rem, 5vw, 1.15rem); font-weight: 550; text-align: center; max-width: 100%; hyphens: auto; }
+.uso-tile .t { font-family: var(--voz); font-size: min(1.15rem, 5.2vw); font-weight: 550; text-align: center; max-width: 100%; }
 .uso-relaxar { --tom: #C98F5A; } .uso-focar { --tom: #3E8A7E; } .uso-acalmar { --tom: #4F7FB0; } .uso-dormir { --tom: #6A5FA8; }
 :root[data-tema="escuro"] .uso-relaxar { --tom: #E0A979; } :root[data-tema="escuro"] .uso-focar { --tom: #74C2B3; }
 :root[data-tema="escuro"] .uso-acalmar { --tom: #8DB3DD; } :root[data-tema="escuro"] .uso-dormir { --tom: #A99CE6; }
