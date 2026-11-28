@@ -205,6 +205,25 @@ for voz in ('feminina', 'masculina'):
             rel.append(f'   não ouvida: {r}')
         problemas += len(ruins)
 
+# the check: each finished clip is heard again on its own, and must say its sentence and nothing else
+avisos, certos, total = [], 0, 0
+for voz, m in mapa.items():
+    for frase, arq in m.items():
+        total += 1
+        y = ler(os.path.join(out, 'voz', arq))
+        segs, _ = modelo.transcribe(y, language=lang, beam_size=5, condition_on_previous_text=False, vad_filter=False)
+        ouvido = [p for s_ in segs for p in norm(s_.text)]
+        esperado = palavras(frase)
+        sm = difflib.SequenceMatcher(a=esperado, b=ouvido, autojunk=False)
+        iguais = sum(x.size for x in sm.get_matching_blocks())
+        cob, sobra = iguais / max(1, len(esperado)), len(ouvido) - iguais
+        if cob >= 0.9 and sobra <= 1:
+            certos += 1
+        else:
+            avisos.append(f'   {voz}: "{frase}" -> ouvido "{" ".join(ouvido)}" ({cob:.0%} das palavras, {sobra} a mais)')
+rel.append(f'conferência: {certos} de {total} clipes dizem a sua frase e nada mais')
+rel.extend(avisos)
+
 json.dump(mapa, open(os.path.join(out, f'voz-{lang}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 resumo = f'{sum(len(v) for v in mapa.values())} frases cortadas pelo que foi dito; {problemas} problema(s)'
 open(os.path.join(out, 'divisao.txt'), 'w', encoding='utf-8').write(resumo + '\n' + '\n'.join(rel) + '\n')
