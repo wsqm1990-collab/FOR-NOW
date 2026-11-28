@@ -92,7 +92,7 @@ for voz in ('feminina', 'masculina'):
         x = ler(f)
         dur = len(x) / SR
         env, k = energia(x)
-        segs, _ = modelo.transcribe(f, language=lang, word_timestamps=True, beam_size=5,
+        segs, _ = modelo.transcribe(x, language=lang, word_timestamps=True, beam_size=5,    # 16 kHz mono, decoded by ffmpeg
                                     condition_on_previous_text=False, vad_filter=False)
         ws = []
         for s in segs:
