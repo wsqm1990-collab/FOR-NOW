@@ -1,0 +1,5 @@
+--------- beginning of main
+11-28 03:04:57.590  4519  4519 I ForNow  : fala result=0 lang=en-US text=Pick one object in front of you.
+11-28 03:05:02.603  4519  4519 I ForNow  : fala result=0 lang=en-US text=Notice a color or a detail on it.
+11-28 03:05:10.419  4519  4519 I ForNow  : fala result=0 lang=en-US text=Now notice a sound nearby.
+11-28 03:05:18.438  4519  4519 I ForNow  : fala result=0 lang=en-US text=You can just stay with that for a moment.

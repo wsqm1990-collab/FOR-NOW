@@ -1,0 +1,227 @@
+--------- beginning of main
+11-28 03:06:46.536  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:46.537  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091192, pluginId: ForNow, methodName: guiaStart
+11-28 03:06:46.538  4519  4519 V Capacitor: callback: 90091192, pluginId: ForNow, methodName: guiaStart, methodData: {"id":"mwztwxonszona","ini":1795835206535,"voz":true,"som":"silencio","volume":1,"fimFade":3000,"rate":0.9,"lang":"pt-BR","labels":{"title":"For Now","text":"Sessão em andamento","paused":"Pausado","pause":"Pausar","resume":"Continuar","end":"Encerrar","channel":"Sessões"},"passos":[{"t":"Sinta onde os pés encontram o chão.","s":8,"a":"midia\/voz\/feminina\/1b4ccd8f41d7.ogg","v":0},{"t":"Escolha um objeto à sua frente.","s":5,"a":"midia\/voz\/feminina\/24a51e671516.ogg","v":0},{"t":"Repare numa cor ou num detalhe dele.","s":8,"a":"midia\/voz\/feminina\/011ffd395b74.ogg","v":0},{"t":"Agora perceba um som por perto.","s":8,"a":"midia\/voz\/feminina\/a4ff84f55a26.ogg","v":0},{"t":"Pode ficar só com isso por um momento.","s":14,"a":"midia\/voz\/feminina\/febe6763d441.ogg","v":0}]}
+11-28 03:06:46.539  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:46.539  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091193, pluginId: SystemBars, methodName: setStyle
+11-28 03:06:46.539  4519  4519 V Capacitor: callback: 90091193, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+--------- beginning of system
+11-28 03:06:46.541   524  2054 I ActivityManager: Background started FGS: Allowed [callingPackage: com.wsqm1990.fornow; callingUid: 10192; uidState: TOP ; uidBFSL: [BFSL]; intent: Intent { act=com.wsqm1990.fornow.GUIA_START cmp=com.wsqm1990.fornow/.GuiaService (has extras) }; code:PROC_STATE_TOP; tempAllowListReason:<setPendingIntentAllowlistDuration,reason:NotificationManagerService,pendingintent:u0a166:com.wsqm1990.fornow/.AlarmeActivity,reasonCode:NOTIFICATION_SERVICE,duration:30000,callingUid:10166>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:2; bindFromPackage:null: isBindService:false]
+11-28 03:06:46.546  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:06:46.546  3059  3145 I GoogleTTSServiceImpl: currentLocale = pt-BR
+11-28 03:06:46.547  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:06:46.547  3059  3145 I GoogleTTSServiceImpl: currentLocale = pt-BR
+11-28 03:06:46.547  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:06:46.547  3059  3145 I GoogleTTSServiceImpl: For default lang pt-br is name pt-BR-language (pt-br-x-afs-server)
+11-28 03:06:46.548  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:06:46.548  3059  3145 I GoogleTTSServiceImpl: currentLocale = pt-BR
+11-28 03:06:46.550  3059  5046 I VoiceDataDownloader: voicesToFetch pt-br
+11-28 03:06:46.550  3059  5046 I VoiceDataDownloader: fetchVoiceInternal pt-br
+11-28 03:06:46.550  3059  3260 I VoiceDataManager: start to download voice pt-br
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Download of pt-br started.
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Registered slicing strategy for pt-br
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Getting pack name pt-br-x-multi-r42
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Adding pack pt-br-x-multi-r42 to superpack.
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Getting pack name pt-br-x-multi-seanet-r42
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Adding pack pt-br-x-multi-seanet-r42 to superpack.
+11-28 03:06:46.550  3059  3260 I VoiceDataDownloader: Syncing superpack pt-br
+11-28 03:06:46.551  3059  3302 I SP      : Registering pt-br.42, url: null, constraints: *:*:*:*, flags: *, requested: 42, current: -1
+11-28 03:06:46.574  3059  3302 I SP      : Successfully got manifest for pt-br-manifest: manifests:pt-br-42
+11-28 03:06:46.578  3059  3302 I SP      : Syncing pt-br (42) with slices: [{pt-br-x-multi-r42, m:*:*:*}], metadata: false
+11-28 03:06:46.587  3059  3302 I SP      : Requesting download of URL https://dl.google.com/android/tts/v26/pt-br/pt-br-x-multi-r42.zvoice to pt-br-x-multi-r42.zvoice.fetched (constraints: m:b:u:l)
+11-28 03:06:46.592   338  6181 I resolv  : GetAddrInfoHandler::run: {100 100 100 983140 10148 0}
+11-28 03:06:46.592   338  6183 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-28 03:06:46.592   338  6183 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7ed4f2a19e50
+11-28 03:06:46.592   338  6183 I resolv  : doQuery: rcode=0, ancount=8, return value=159
+11-28 03:06:46.592   338  6182 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-28 03:06:46.593   338  6182 I resolv  : resolv_cache_lookup: FOUND IN CACHE entry=0x7ed4f2a136d0
+11-28 03:06:46.593   338  6182 I resolv  : doQuery: rcode=0, ancount=4, return value=143
+11-28 03:06:46.593  3059  6180 D TrafficStats: tagSocket(83) with statsTag=0xffffffff, statsUid=-1
+11-28 03:06:46.612  3059  6180 W DynamiteModule: Local module descriptor class for com.google.android.gms.providerinstaller.dynamite not found.
+11-28 03:06:46.614  5353  5740 W ProviderHelper: Unknown dynamite feature providerinstaller.dynamite
+11-28 03:06:46.615  3059  6180 I DynamiteModule: Considering local module com.google.android.gms.providerinstaller.dynamite:0 and remote module com.google.android.gms.providerinstaller.dynamite:0
+11-28 03:06:46.615  3059  6180 W ProviderInstaller: Failed to load providerinstaller module: No acceptable module com.google.android.gms.providerinstaller.dynamite found. Local version is 0 and remote version is 0.
+11-28 03:06:46.619  3059  6180 D nativeloader: Configuring clns-7 for other apk /system/framework/org.apache.http.legacy.jar. target_sdk_version=33, uses_libraries=ALL, library_path=/product/priv-app/PrebuiltGmsCore/lib/x86_64:/product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+11-28 03:06:46.622  3059  6180 D nativeloader: Configuring clns-8 for other apk /system/framework/com.android.media.remotedisplay.jar. target_sdk_version=33, uses_libraries=ALL, library_path=/product/priv-app/PrebuiltGmsCore/lib/x86_64:/product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+11-28 03:06:46.623  3059  6180 D nativeloader: Configuring clns-9 for other apk /system/framework/com.android.location.provider.jar. target_sdk_version=33, uses_libraries=ALL, library_path=/product/priv-app/PrebuiltGmsCore/lib/x86_64:/product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms
+11-28 03:06:46.624  3059  6180 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+11-28 03:06:46.624  3059  6180 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+11-28 03:06:46.626  3059  6180 D nativeloader: Configuring product-clns-10 for unbundled product apk /product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk. target_sdk_version=33, uses_libraries=, library_path=/product/priv-app/PrebuiltGmsCore/lib/x86_64:/product/priv-app/PrebuiltGmsCore/PrebuiltGmsCore.apk!/lib/x86_64:/product/lib64:/system/product/lib64, permitted_path=/data:/mnt/expand:/data/user/0/com.google.android.gms:/product/lib64:/system/product/lib64
+11-28 03:06:46.632  3059  6180 V NativeCrypto: Registering com/google/android/gms/org/conscrypt/NativeCrypto's 295 native methods...
+11-28 03:06:46.636  4262  4367 W Bugle   : TextClassifierLibManagerImpl: Reclaiming memory at level: 40
+11-28 03:06:46.641  3059  6180 I ProviderInstaller: Installed default security provider GmsCore_OpenSSL
+11-28 03:06:46.745   524   524 W NotificationHistory: Attempted to add notif for locked/gone/disabled user 0
+11-28 03:06:46.747  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:06:46.747  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:06:46.763   835   899 D EGL_emulation: app_time_stats: avg=1416.28ms min=15.91ms max=2816.64ms count=2
+11-28 03:06:46.784  4519  4519 I ForNow  : tts language pt-BR result=1
+11-28 03:06:46.785   524   820 I MediaFocusControl: requestAudioFocus() from uid/pid 10192/4519 AA=USAGE_MEDIA/CONTENT_TYPE_SPEECH clientId=android.media.AudioManager@8dd1ba9com.wsqm1990.fornow.GuiaService@f38b330 callingPack=com.wsqm1990.fornow req=2 flags=0x0 sdk=36
+11-28 03:06:46.785   524   820 I AudioService.FadeOutManager: unfadeOutUid() uid:10192
+11-28 03:06:46.789  4519  4519 I ForNow  : guia start id=mwztwxonszona passos=5 som=silencio lista=0 camadas=0 voz=true total=43000
+11-28 03:06:46.792  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:46.795  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:46.803   476  4492 D NuPlayerDriver: NuPlayerDriver(0x7b29f8913650) created, clientPid(4519)
+11-28 03:06:46.804   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.media.omx@1.0::IOmx/default in either framework or device VINTF manifest.
+11-28 03:06:46.804   476  4492 D MediaPlayerService: OMX service is not available
+11-28 03:06:46.806   476  6188 D GenericSource: FileSource remote
+11-28 03:06:46.809   476  6187 I GenericSource: start
+11-28 03:06:46.809  4519  4519 I ForNow  : clip midia/voz/feminina/1b4ccd8f41d7.ogg
+11-28 03:06:46.811   476  6192 D CCodec  : allocate(c2.android.opus.decoder)
+11-28 03:06:46.812   476  6192 I CCodec  : setting up 'default' as default (vendor) store
+11-28 03:06:46.813   476  6192 I CCodec  : Created component [c2.android.opus.decoder]
+11-28 03:06:46.813   476  6192 D CCodecConfig: read media type: audio/opus
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.max-count.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: output.subscribed-indices.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.pool-ids.values
+11-28 03:06:46.814   476  6192 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-28 03:06:46.814   476  6192 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:06:46.814   476  6192 D CCodecConfig: c2 config diff is Dict {
+11-28 03:06:46.814   476  6192 D CCodecConfig:   c2::u32 coded.bitrate.value = 6000
+11-28 03:06:46.814   476  6192 D CCodecConfig:   c2::u32 input.buffers.max-size.value = 5760
+11-28 03:06:46.814   476  6192 D CCodecConfig:   c2::u32 input.delay.value = 0
+11-28 03:06:46.814   476  6192 D CCodecConfig:   string input.media-type.value = "audio/opus"
+11-28 03:06:46.814   476  6192 D CCodecConfig:   string output.media-type.value = "audio/raw"
+11-28 03:06:46.814   476  6192 D CCodecConfig:   c2::u32 raw.channel-count.value = 1
+11-28 03:06:46.814   476  6192 D CCodecConfig:   c2::u32 raw.sample-rate.value = 48000
+11-28 03:06:46.814   476  6192 D CCodecConfig: }
+11-28 03:06:46.815   476  6192 D MediaCodec: flushMediametrics
+11-28 03:06:46.815   476  6192 D CCodec  : [c2.android.opus.decoder] buffers are bound to CCodec for this session
+11-28 03:06:46.815   476  6192 D CCodecConfig: no c2 equivalents for durationUs
+11-28 03:06:46.815   476  6192 D CCodecConfig: no c2 equivalents for csd-1
+11-28 03:06:46.815   476  6192 D CCodecConfig: no c2 equivalents for csd-2
+11-28 03:06:46.815   476  6192 D CCodecConfig: no c2 equivalents for flags
+11-28 03:06:46.815   476  6192 W Codec2Client: query -- param skipped: index = 1107298332.
+11-28 03:06:46.815   476  6192 D CCodec  : encoding statistics level = 0
+11-28 03:06:46.815   476  6192 D CCodec  : setup formats input: AMessage(what = 0x00000000) = {
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t bitrate = 6000
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t channel-count = 1
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t max-input-size = 5760
+11-28 03:06:46.815   476  6192 D CCodec  :   string mime = "audio/opus"
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:06:46.815   476  6192 D CCodec  : }
+11-28 03:06:46.815   476  6192 D CCodec  : setup formats output: AMessage(what = 0x00000000) = {
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t channel-count = 1
+11-28 03:06:46.815   476  6192 D CCodec  :   string mime = "audio/raw"
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t channel-mask = 1
+11-28 03:06:46.815   476  6192 D CCodec  :   int32_t android._config-pcm-encoding = 2
+11-28 03:06:46.815   476  6192 D CCodec  : }
+11-28 03:06:46.815   476  6192 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:06:46.815   476  6192 I MediaCodec: MediaCodec will operate in async mode
+11-28 03:06:46.815   476  6191 D MediaCodec: keep callback message for reclaim
+11-28 03:06:46.816   476  6192 W Codec2Client: query -- param skipped: index = 1342179345.
+11-28 03:06:46.816   476  6192 W Codec2Client: query -- param skipped: index = 2415921170.
+11-28 03:06:46.816   484  1266 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x74c84de4fc28 cached: 0/0M, 0/0% in use; allocs: 133, 97% recycled; transfers: 133, 97% unfetched
+11-28 03:06:46.816   476  6192 D CCodecBufferChannel: [c2.android.opus.decoder#281] Created input block pool with allocatorID 16 => poolID 20 - OK (0)
+11-28 03:06:46.817   476  5837 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7b2a58915d18 cached: 0/0M, 0/0% in use; allocs: 140, 94% recycled; transfers: 272, 97% unfetched
+11-28 03:06:46.817   476  6192 I CCodecBufferChannel: [c2.android.opus.decoder#281] Created output block pool with allocatorID 16 => poolID 29 - OK
+11-28 03:06:46.817   476  6192 D CCodecBufferChannel: [c2.android.opus.decoder#281] Configured output block pool ids 29 => OK
+11-28 03:06:46.818  4519  4541 D EGL_emulation: app_time_stats: avg=482.90ms min=12.42ms max=836.24ms count=3
+11-28 03:06:46.818   484  6193 D SimpleC2Component: Using output block pool with poolID 29 => got 29 - 0
+11-28 03:06:46.819   484  6193 I C2SoftOpusDec: Configuring decoder: 48000 Hz, 1 channels
+11-28 03:06:46.820   400   417 D AudioFlinger: Client defaulted notificationFrames to 12512 for frameCount 25024
+11-28 03:06:46.820   400   417 D AF::TrackHandle: OpPlayAudio: track:67 usage:1 not muted
+11-28 03:06:46.823   400   417 D audioserver: FGS Logger Transaction failed
+11-28 03:06:46.823   400   417 D audioserver: -129
+11-28 03:06:46.824   476  6190 D AudioTrack: getTimestamp_l(27): device stall time corrected using current time 184282521868
+11-28 03:06:46.887  5418  6195 I Authzen : [DeviceStateSyncManager] Skipping sync since last one was 26736ms ago.
+11-28 03:06:46.892   400   509 D AudioFlinger: mixer(0x71d73979b930) throttle end: throttle time(33)
+11-28 03:06:46.980   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:06:46.982   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:06:46.991  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:06:46.991  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:06:47.225   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:06:47.227   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:06:47.593   835   835 D StatusBarIconController: ignoring old pipeline callback because the new wifi icon is enabled
+11-28 03:06:47.697  3059  3302 I SP      : Sync for pt-br succeeded in 1121 ms: {added: [pt-br-x-multi-r42], metadata: false
+11-28 03:06:47.703  3059  3302 I SP      : GC for 'pt-br' (10) with ttl of 0 ms took 0 ms (0/0/0)
+11-28 03:06:47.703  3059  3260 I VoiceDataDownloader: Superpack download completed.
+11-28 03:06:47.703  3059  3260 I VoiceDataDownloader: Download pt-br Success true
+11-28 03:06:47.704  3059  3260 I VoiceDataManager: Downloaded voice pt-br
+11-28 03:06:47.706  3059  3260 I VoiceDataDownloader: getAvailableVoicesInfo en-us
+11-28 03:06:47.706  3059  3260 I VoiceDataDownloader: getAvailableVoicesInfo pt-br
+11-28 03:06:47.706  3059  3260 I VoiceGenerator: Cache cleared
+11-28 03:06:48.416   338   358 I netd    : tetherGetStats() -> {[]} <0.38ms>
+11-28 03:06:48.423   338   358 I netd    : bandwidthRemoveInterfaceQuota(eth0) <0.55ms>
+11-28 03:06:48.423   338   361 I netd    : bandwidthSetGlobalAlert(2097152) <0.63ms>
+11-28 03:06:48.423   338   358 I netd    : bandwidthSetInterfaceQuota(eth0, 9223372036854775807) <0.61ms>
+11-28 03:06:48.426   524   834 D NetworkStatsObservers: Unregistering RequestInfo from pid/uid:524/1000(android) for DataUsageRequest [ requestId=11, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=3553944 ] accessLevel:3
+11-28 03:06:48.426   524   756 D NetworkStatsObservers: Registering observer for RequestInfo from pid/uid:524/1000(android) for DataUsageRequest [ requestId=12, networkTemplate=NetworkTemplate: matchRule=MOBILE, matchSubscriberIds=[310260...], matchWifiNetworkKeys=[], metered=YES, defaultNetwork=NO, thresholdInBytes=3551432 ] accessLevel:3
+11-28 03:06:48.444   338   358 I netd    : tetherGetStats() -> {[]} <0.33ms>
+11-28 03:06:48.532  4262  4262 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_EXECUTE_QUEUED_GenericWorkerQueueAction elapsedRealTime: 185990 currentTimeMillis: 1795835208532
+11-28 03:06:48.532  4262  6168 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_BACKGROUND_QUEUED_GenericWorkerQueueAction elapsedRealTime: 185990 currentTimeMillis: 1795835208532
+11-28 03:06:48.535  4262  4377 I BugleJobs: GenericWorkerQueueAction: Work found
+11-28 03:06:48.536  4262  6169 I BugleJobs: GenericWorkerQueueAction: Rescheduling immediately to continue processing since we didn't yet reach the end.
+11-28 03:06:48.538  4262  4377 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_RESPONSE_QUEUED_GenericWorkerQueueAction elapsedRealTime: 185995 currentTimeMillis: 1795835208538
+11-28 03:06:48.540  4262  4367 W Bugle   : TextClassifierLibManagerImpl: Reclaiming memory at level: 40
+11-28 03:06:48.542   524   608 W ProcessStats: Tracking association SourceState{a3eda09 com.google.android.apps.messaging/10130 ImpBg #10107} whose proc state 6 is better than process ProcessState{aebe339 android.process.acore/10087 pkg=com.android.providers.contacts (sub)} proc state 8 (40 skipped)
+11-28 03:06:48.545  4262  4262 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_EXECUTE_QUEUED_GenericWorkerQueueAction elapsedRealTime: 186002 currentTimeMillis: 1795835208545
+11-28 03:06:48.545  4262  6169 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_BACKGROUND_QUEUED_GenericWorkerQueueAction elapsedRealTime: 186002 currentTimeMillis: 1795835208545
+11-28 03:06:48.546  4262  6168 I BugleJobs: GenericWorkerQueueAction: Bailing early, no work found, no failed work found
+11-28 03:06:48.546  4262  6168 I BugleDataModel: ActionExecutorImpl: Timestamp for ACTION_RESPONSE_QUEUED_GenericWorkerQueueAction elapsedRealTime: 186004 currentTimeMillis: 1795835208546
+11-28 03:06:48.549  4262  4367 W Bugle   : TextClassifierLibManagerImpl: Reclaiming memory at level: 40
+11-28 03:06:49.212   476  6192 D CCodecBufferChannel: [c2.android.opus.decoder#281] buffers after EOS ignored (0 us)
+11-28 03:06:49.212   476  6190 D AudioTrack: stop(27): called with 137928 frames delivered
+11-28 03:06:49.721   476  4492 D NuPlayerDriver: stop(0x7b29f8913650)
+11-28 03:06:49.721  4519  4519 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-28 03:06:49.721  4519  4519 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-28 03:06:49.721   476  4492 D NuPlayerDriver: reset(0x7b29f8913650) at state 8
+11-28 03:06:49.722   476  6192 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:06:49.722   484  1266 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:06:49.722   484  1266 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:06:49.724   476  6187 D NuPlayerDriver: notifyResetComplete(0x7b29f8913650)
+11-28 03:06:49.724   476  6192 D MediaCodec: flushMediametrics
+11-28 03:06:49.724   476  4492 W AMessage: failed to post message as target looper for handler 0 is gone.
+11-28 03:06:49.724  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:06:49.771   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:06:49.771   400   509 D audioserver: -129
+11-28 03:06:49.783   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:06:49.783   400   509 D audioserver: -129
+11-28 03:06:50.364   835   835 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+11-28 03:06:50.373   524   608 D OomAdjuster: Not killing cached processes
+11-28 03:06:50.597   835   835 D StatusBarIconController: ignoring old pipeline callback because the new wifi icon is enabled
+11-28 03:06:51.817   476  5833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 0
+11-28 03:06:51.817   484   833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 0
+11-28 03:06:52.638   347  5082 D android.hardware.audio@7.1-impl.ranchu: threadLoop: entering standby, frames: 2972416
+--------- beginning of kernel
+11-28 03:06:53.103     0     0 W healthd : battery l=100 v=5000 t=25.0 h=2 st=2 c=900000 fc=3000000 cc=10 chg=a
+11-28 03:06:53.818     0     0 I logd    : logdr: UID=2000 GID=2000 PID=6203 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+11-28 03:06:53.565  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:53.566  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091194, pluginId: ForNow, methodName: guiaStop
+11-28 03:06:53.566  4519  4519 V Capacitor: callback: 90091194, pluginId: ForNow, methodName: guiaStop, methodData: {"id":"mwztwxonszona"}
+11-28 03:06:53.566  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:53.568  4519  4519 V Capacitor/ForNowPlugin: Notifying listeners for event guia
+11-28 03:06:53.568  4519  4519 I ForNow  : guia finish complete=false by=app id=mwztwxonszona
+11-28 03:06:53.569   524  2280 I MediaFocusControl: abandonAudioFocus() from uid/pid 10192/4519 clientId=android.media.AudioManager@8dd1ba9com.wsqm1990.fornow.GuiaService@f38b330
+11-28 03:06:53.572  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091195, pluginId: ForNow, methodName: brilho
+11-28 03:06:53.572  4519  4519 V Capacitor: callback: 90091195, pluginId: ForNow, methodName: brilho, methodData: {"nivel":-1}
+11-28 03:06:53.573  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:53.573  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091196, pluginId: SystemBars, methodName: setStyle
+11-28 03:06:53.573  4519  4519 V Capacitor: callback: 90091196, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:06:53.574  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"stopped","id":"mwztwxonszona","ini":1795835206535,"pausa":0,"pausadoEm":0,"running":false,"faixa":0,"faixas":0,"by":"app","endedAt":1795835213566,"complete":false}
+11-28 03:06:53.578  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:53.578  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:53.579  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:53.584   835   899 D EGL_emulation: app_time_stats: avg=1136.73ms min=13.47ms max=6320.55ms count=6
+11-28 03:06:53.611  4519  4541 D EGL_emulation: app_time_stats: avg=6793.11ms min=6793.11ms max=6793.11ms count=1
+11-28 03:06:53.909  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:53.910  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091197, pluginId: ForNow, methodName: ouvintes
+11-28 03:06:53.910  4519  4519 V Capacitor: callback: 90091197, pluginId: ForNow, methodName: ouvintes, methodData: {}
+11-28 03:06:53.912  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"guia":true,"alarme":true,"launch":true}
+11-28 03:06:54.378  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:06:54.379  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091198, pluginId: SystemBars, methodName: setStyle
+11-28 03:06:54.379  4519  4519 V Capacitor: callback: 90091198, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:06:54.380  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:06:54.644  5353  5353 D BoundBrokerSvc: onUnbind: Intent { act=com.google.android.gms.clearcut.service.START dat=chimera-action:/... cmp=com.google.android.gms/.chimera.PersistentDirectBootAwareApiService }
+11-28 03:06:54.818   484   833 D BufferPoolAccessor2.0: bufferpool2 0x74c84de4fc28 : 0(0 size) total buffers - 0(0 size) used buffers - 140/144 (recycle/alloc) - 4/144 (fetch/transfer)
+11-28 03:06:54.818   476  5833 D BufferPoolAccessor2.0: bufferpool2 0x7b2a5890fbf8 : 0(0 size) total buffers - 0(0 size) used buffers - 142/150 (recycle/alloc) - 8/294 (fetch/transfer)
+11-28 03:06:54.818   484   833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+11-28 03:06:54.818   476  5833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+11-28 03:06:55.049  6208  6208 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+11-28 03:06:55.049  6208  6208 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+11-28 03:06:55.055   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+11-28 03:06:55.055  6208  6209 I Gralloc4: mapper 4.x is not supported
+11-28 03:06:55.312     0     0 I servicemanager: Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest.

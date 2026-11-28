@@ -1,0 +1,80 @@
+PASS app opens to the home screen
+PASS native bridge is on
+PASS the APK carries the same native fingerprint as version.json (so page updates reach it)
+PASS the page is listening to Android's events
+PASS English is the main language
+PASS screen size
+PASS home: every button fits on screen
+PASS spike shows the first sentence within 3 s of the tap
+PASS the session runs in the Android service
+PASS spike: every button fits on screen
+PASS the session notification is neutral (no session details)
+PASS with the screen off, the session kept speaking
+PASS text-to-speech accepted the sentences
+PASS back in the app, the same session is still on
+PASS Switch changes the technique at once
+PASS the new technique is playing on the phone
+PASS Leave stops the session on the phone
+PASS history keeps the session as "left before the end"
+PASS pause reaches the phone
+PASS peace, paused: every button fits on screen
+PASS resume reaches the phone
+PASS nap screen shows either Start or the honest "not guaranteed" panel
+PASS nap: every button fits on screen
+PASS with permission, Start appears
+PASS Android confirmed the test alarm
+PASS the alarm is an alarm clock in Android
+PASS the test alarm rang
+PASS it rang within 10 s of the time
+PASS the Turn off screen opened over the lock screen
+PASS opening the app while it rings shows the Turn off screen
+PASS the alarm is still ringing until it is turned off
+PASS Turn off stops the alarm
+PASS the page left the alarm screen
+PASS the diagnostics log has predicted, rang and turned off
+PASS listeners dropped for the test (as a late page start does)
+PASS fornow://pico (widget, tile, shortcut) starts the session
+PASS the page added its listeners back
+PASS the quick settings tile and the widget are installed
+PASS night screen is dark
+PASS night: every button fits on screen
+PASS English speaks with the recorded voice
+PASS no English recording failed to open
+PASS Portuguese works
+PASS Portuguese home: every button fits on screen
+PASS the recordings are inside the app
+PASS Portuguese speaks with the recorded voice
+PASS no recording failed to open
+PASS breathing list: every button fits on screen
+PASS breathing runs in the Android service
+PASS breathing plays its background sound (real waves)
+PASS the voice guides the breathing
+PASS breathing session: every button fits on screen
+PASS leaving breathing stops the sound
+PASS music list: every button fits on screen
+PASS music playing: every button fits on screen
+PASS music: the chosen song plays
+PASS music: Next goes smoothly to the next song of the same list
+PASS the screen shows the new song
+PASS music: rain plays underneath the song, together
+PASS music: no layer failed to open
+PASS music with a sound underneath: every button fits on screen
+PASS music: 528 Hz joins the rain underneath, as a tone made on the phone (3 layers)
+PASS the tone made no error on the phone (start, pause, resume)
+PASS music with a frequency underneath: every button fits on screen
+PASS sleep now: dark screen
+PASS 8D: the rain plays in its 8D version
+PASS no sound failed to open
+PASS a 60 s loop (pink noise) joins itself with no gap (not Android's looping)
+PASS noise and tones open on the phone
+PASS music by purpose: every button fits on screen
+PASS mix: a song, rain and a binaural tone play together on the phone
+PASS mix: no layer failed to open
+PASS mixer: every button fits on screen
+PASS mix: leaving the mixer stops its sound
+PASS update: the app switched to the new version
+PASS update: the new version confirmed itself
+PASS update: history kept
+PASS update: still on the new version after a restart
+PASS no uncaught JavaScript errors
+PASS no console errors

@@ -1,0 +1,1027 @@
+--------- beginning of main
+11-28 03:08:50.648  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:50.649  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091261, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:50.649  4519  4519 V Capacitor: callback: 90091261, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:50.650  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:50.956   338  6494 I resolv  : GetAddrInfoHandler::run: {100 100 100 983140 10192 0}
+11-28 03:08:50.956   338  6496 I resolv  : res_nmkquery: (QUERY, IN, A)
+11-28 03:08:50.956   338  6495 I resolv  : res_nmkquery: (QUERY, IN, AAAA)
+11-28 03:08:50.959   338  6495 I resolv  : res_nsend: used send_dg 273 terrno: 0
+11-28 03:08:50.959   338  6495 I resolv  : doQuery: rcode=0, ancount=8, return value=273
+11-28 03:08:50.961   338  6496 I resolv  : res_nsend: used send_dg 177 terrno: 0
+11-28 03:08:50.961   338  6496 I resolv  : doQuery: rcode=0, ancount=8, return value=177
+11-28 03:08:51.456  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:51.457  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091262, pluginId: ForNow, methodName: guiaStart
+11-28 03:08:51.457  4519  4519 V Capacitor: callback: 90091262, pluginId: ForNow, methodName: guiaStart, methodData: {"id":"mwztzm2k6cwhx","ini":1795835331452,"voz":false,"som":"mix:","volume":1,"fimFade":4000,"rate":0.9,"lang":"pt-BR","labels":{"title":"For Now","text":"Sessão em andamento","paused":"Pausado","pause":"Pausar","resume":"Continuar","end":"Encerrar","channel":"Sessões"},"passos":[{"t":"","s":3600,"a":"","v":0}],"camadas":[{"sons":["midia\/musicas\/R03.ogg","midia\/musicas\/R04.ogg","midia\/musicas\/R05.ogg","midia\/musicas\/R06.ogg","midia\/musicas\/R07.ogg","midia\/musicas\/R08.ogg","midia\/musicas\/R01.ogg","midia\/musicas\/R02.ogg"],"vol":0.85}],"volSom":0.7}
+11-28 03:08:51.458  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:51.458  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091263, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:51.459  4519  4519 V Capacitor: callback: 90091263, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+--------- beginning of system
+11-28 03:08:51.460   524  1695 I ActivityManager: Background started FGS: Allowed [callingPackage: com.wsqm1990.fornow; callingUid: 10192; uidState: TOP ; uidBFSL: [BFSL]; intent: Intent { act=com.wsqm1990.fornow.GUIA_START cmp=com.wsqm1990.fornow/.GuiaService (has extras) }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:2; bindFromPackage:null: isBindService:false]
+11-28 03:08:51.460   524  1695 D OomAdjuster: Not killing cached processes
+11-28 03:08:51.465   524  1695 I MediaFocusControl: requestAudioFocus() from uid/pid 10192/4519 AA=USAGE_MEDIA/CONTENT_TYPE_SPEECH clientId=android.media.AudioManager@e95f4bbcom.wsqm1990.fornow.GuiaService@a6bdd4a callingPack=com.wsqm1990.fornow req=2 flags=0x0 sdk=36
+11-28 03:08:51.465   524  1695 I AudioService.FadeOutManager: unfadeOutUid() uid:10192
+11-28 03:08:51.469   476  3046 D NuPlayerDriver: NuPlayerDriver(0x7b29f8917fd0) created, clientPid(4519)
+11-28 03:08:51.470   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.media.omx@1.0::IOmx/default in either framework or device VINTF manifest.
+11-28 03:08:51.470   476  3046 D MediaPlayerService: OMX service is not available
+11-28 03:08:51.480   476  6499 D GenericSource: FileSource remote
+11-28 03:08:51.508   476  6498 I GenericSource: start
+11-28 03:08:51.508  4519  4519 I ForNow  : som midia/musicas/R03.ogg (1/8)
+11-28 03:08:51.510   476  6503 D CCodec  : allocate(c2.android.opus.decoder)
+11-28 03:08:51.512   476  6503 I CCodec  : setting up 'default' as default (vendor) store
+11-28 03:08:51.512  4519  4519 I ForNow  : guia start id=mwztzm2k6cwhx passos=1 som=mix: lista=8 camadas=1 voz=false total=3600000
+11-28 03:08:51.513   476  6503 I CCodec  : Created component [c2.android.opus.decoder]
+11-28 03:08:51.513   476  6503 D CCodecConfig: read media type: audio/opus
+11-28 03:08:51.513   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.max-count.values
+11-28 03:08:51.513   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: output.subscribed-indices.values
+11-28 03:08:51.513   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-28 03:08:51.514   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-28 03:08:51.514   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-28 03:08:51.514   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.pool-ids.values
+11-28 03:08:51.514   476  6503 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-28 03:08:51.514   476  6503 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:08:51.515   476  6503 D CCodecConfig: c2 config diff is Dict {
+11-28 03:08:51.515   476  6503 D CCodecConfig:   c2::u32 coded.bitrate.value = 6000
+11-28 03:08:51.515   476  6503 D CCodecConfig:   c2::u32 input.buffers.max-size.value = 5760
+11-28 03:08:51.515   476  6503 D CCodecConfig:   c2::u32 input.delay.value = 0
+11-28 03:08:51.515   476  6503 D CCodecConfig:   string input.media-type.value = "audio/opus"
+11-28 03:08:51.515   476  6503 D CCodecConfig:   string output.media-type.value = "audio/raw"
+11-28 03:08:51.515   476  6503 D CCodecConfig:   c2::u32 raw.channel-count.value = 1
+11-28 03:08:51.515   476  6503 D CCodecConfig:   c2::u32 raw.sample-rate.value = 48000
+11-28 03:08:51.515   476  6503 D CCodecConfig: }
+11-28 03:08:51.517  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:51.521  4519  4541 D EGL_emulation: app_time_stats: avg=540.26ms min=12.80ms max=841.50ms count=3
+11-28 03:08:51.522   476  6503 D MediaCodec: flushMediametrics
+11-28 03:08:51.522   476  6503 D CCodec  : [c2.android.opus.decoder] buffers are bound to CCodec for this session
+11-28 03:08:51.522   476  6503 D CCodecConfig: no c2 equivalents for durationUs
+11-28 03:08:51.522   476  6503 D CCodecConfig: no c2 equivalents for csd-1
+11-28 03:08:51.522   476  6503 D CCodecConfig: no c2 equivalents for csd-2
+11-28 03:08:51.522   476  6503 D CCodecConfig: no c2 equivalents for flags
+11-28 03:08:51.522  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:51.523   476  6503 D CCodecConfig: c2 config diff is   c2::u32 raw.channel-count.value = 2
+11-28 03:08:51.523   476  6503 W Codec2Client: query -- param skipped: index = 1107298332.
+11-28 03:08:51.523   476  6503 D CCodec  : encoding statistics level = 0
+11-28 03:08:51.523   476  6503 D CCodec  : setup formats input: AMessage(what = 0x00000000) = {
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t bitrate = 6000
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t channel-count = 2
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t max-input-size = 5760
+11-28 03:08:51.523   476  6503 D CCodec  :   string mime = "audio/opus"
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:08:51.523   476  6503 D CCodec  : }
+11-28 03:08:51.523   476  6503 D CCodec  : setup formats output: AMessage(what = 0x00000000) = {
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t channel-count = 2
+11-28 03:08:51.523   476  6503 D CCodec  :   string mime = "audio/raw"
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t channel-mask = 3
+11-28 03:08:51.523   476  6503 D CCodec  :   int32_t android._config-pcm-encoding = 2
+11-28 03:08:51.523   476  6503 D CCodec  : }
+11-28 03:08:51.523   476  6503 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:08:51.524   476  6503 I MediaCodec: MediaCodec will operate in async mode
+11-28 03:08:51.524   476  6502 D MediaCodec: keep callback message for reclaim
+11-28 03:08:51.524   476  6503 W Codec2Client: query -- param skipped: index = 1342179345.
+11-28 03:08:51.524   476  6503 W Codec2Client: query -- param skipped: index = 2415921170.
+11-28 03:08:51.528   484   874 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x74c84de535f8 cached: 0/0M, 0/0% in use; allocs: 3001, 100% recycled; transfers: 3001, 99% unfetched
+11-28 03:08:51.529   484   874 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x74c84de53ce8 cached: 0/0M, 0/0% in use; allocs: 264, 98% recycled; transfers: 264, 98% unfetched
+11-28 03:08:51.529   476  6503 D CCodecBufferChannel: [c2.android.opus.decoder#457] Created input block pool with allocatorID 16 => poolID 37 - OK (0)
+11-28 03:08:51.529   476  5843 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7b2a5891c9c8 cached: 0/0M, 0/0% in use; allocs: 3008, 99% recycled; transfers: 6008, 99% unfetched
+11-28 03:08:51.529   476  6503 I CCodecBufferChannel: [c2.android.opus.decoder#457] Created output block pool with allocatorID 16 => poolID 46 - OK
+11-28 03:08:51.530   476  5843 D BufferPoolAccessor2.0: Destruction - bufferpool2 0x7b2a58911318 cached: 0/0M, 0/0% in use; allocs: 270, 97% recycled; transfers: 534, 99% unfetched
+11-28 03:08:51.530   476  6503 D CCodecBufferChannel: [c2.android.opus.decoder#457] Configured output block pool ids 46 => OK
+11-28 03:08:51.530   484  6504 D SimpleC2Component: Using output block pool with poolID 46 => got 46 - 0
+11-28 03:08:51.531   484  6504 I C2SoftOpusDec: Configuring decoder: 48000 Hz, 2 channels
+11-28 03:08:51.535   400   400 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000008) and output flags (00000002)
+11-28 03:08:51.535   400   400 D AudioFlinger: Client defaulted notificationFrames to 12512 for frameCount 25024
+11-28 03:08:51.536   400   400 D AF::TrackHandle: OpPlayAudio: track:85 usage:1 not muted
+11-28 03:08:51.540   400   400 D audioserver: FGS Logger Transaction failed
+11-28 03:08:51.540   400   400 D audioserver: -129
+11-28 03:08:51.665   524   524 W NotificationHistory: Attempted to add notif for locked/gone/disabled user 0
+11-28 03:08:51.666  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:08:51.667  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:08:51.679   835   899 D EGL_emulation: app_time_stats: avg=1490.58ms min=15.53ms max=2965.62ms count=2
+11-28 03:08:51.715  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:08:51.716  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:08:51.747   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:51.749   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:51.942   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:51.944   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+--------- beginning of kernel
+11-28 03:08:53.103     0     0 W healthd : battery l=100 v=5000 t=25.0 h=2 st=2 c=900000 fc=3000000 cc=10 chg=a
+11-28 03:08:52.965  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:52.966  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091264, pluginId: ForNow, methodName: guiaUpdate
+11-28 03:08:52.967  4519  4519 V Capacitor: callback: 90091264, pluginId: ForNow, methodName: guiaUpdate, methodData: {"id":"mwztzm2k6cwhx","som":"mix:","camadas":[{"sons":["midia\/musicas\/R03.ogg","midia\/musicas\/R04.ogg","midia\/musicas\/R05.ogg","midia\/musicas\/R06.ogg","midia\/musicas\/R07.ogg","midia\/musicas\/R08.ogg","midia\/musicas\/R01.ogg","midia\/musicas\/R02.ogg"],"vol":0.85},{"sons":["midia\/sons\/N01.ogg"],"vol":0.5}]}
+11-28 03:08:52.967  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:52.969  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091265, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:52.969  4519  4519 V Capacitor: callback: 90091265, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:52.973   476  4492 D NuPlayerDriver: NuPlayerDriver(0x7b29f8913110) created, clientPid(4519)
+11-28 03:08:52.973   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.media.omx@1.0::IOmx/default in either framework or device VINTF manifest.
+11-28 03:08:52.974   476  4492 D MediaPlayerService: OMX service is not available
+11-28 03:08:52.976   476  6507 D GenericSource: FileSource remote
+11-28 03:08:52.980   476  6506 I GenericSource: start
+11-28 03:08:52.980  4519  4519 I ForNow  : som midia/sons/N01.ogg (1/1)
+11-28 03:08:52.980  4519  4519 I ForNow  : mix 2 camadas
+11-28 03:08:52.983   476  6511 D CCodec  : allocate(c2.android.opus.decoder)
+11-28 03:08:52.983  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:52.984   476  6511 I CCodec  : setting up 'default' as default (vendor) store
+11-28 03:08:52.985   476  6511 I CCodec  : Created component [c2.android.opus.decoder]
+11-28 03:08:52.985   476  6511 D CCodecConfig: read media type: audio/opus
+11-28 03:08:52.986   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.max-count.values
+11-28 03:08:52.986   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: output.subscribed-indices.values
+11-28 03:08:52.986   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: input.buffers.allocator-ids.values
+11-28 03:08:52.986   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.allocator-ids.values
+11-28 03:08:52.987   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.allocator-ids.values
+11-28 03:08:52.987   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: output.buffers.pool-ids.values
+11-28 03:08:52.987   476  6511 D ReflectedParamUpdater: extent() != 1 for single value type: algo.buffers.pool-ids.values
+11-28 03:08:52.987   476  6511 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:08:52.987   476  6511 D CCodecConfig: c2 config diff is Dict {
+11-28 03:08:52.987   476  6511 D CCodecConfig:   c2::u32 coded.bitrate.value = 6000
+11-28 03:08:52.987   476  6511 D CCodecConfig:   c2::u32 input.buffers.max-size.value = 5760
+11-28 03:08:52.987   476  6511 D CCodecConfig:   c2::u32 input.delay.value = 0
+11-28 03:08:52.987   476  6511 D CCodecConfig:   string input.media-type.value = "audio/opus"
+11-28 03:08:52.987   476  6511 D CCodecConfig:   string output.media-type.value = "audio/raw"
+11-28 03:08:52.987   476  6511 D CCodecConfig:   c2::u32 raw.channel-count.value = 1
+11-28 03:08:52.987   476  6511 D CCodecConfig:   c2::u32 raw.sample-rate.value = 48000
+11-28 03:08:52.987   476  6511 D CCodecConfig: }
+11-28 03:08:52.989   476  6511 D MediaCodec: flushMediametrics
+11-28 03:08:52.989   476  6511 D CCodec  : [c2.android.opus.decoder] buffers are bound to CCodec for this session
+11-28 03:08:52.989   476  6511 D CCodecConfig: no c2 equivalents for durationUs
+11-28 03:08:52.989   476  6511 D CCodecConfig: no c2 equivalents for csd-1
+11-28 03:08:52.989   476  6511 D CCodecConfig: no c2 equivalents for csd-2
+11-28 03:08:52.989   476  6511 D CCodecConfig: no c2 equivalents for flags
+11-28 03:08:52.989   476  6511 D CCodecConfig: c2 config diff is   c2::u32 raw.channel-count.value = 2
+11-28 03:08:52.989   476  6511 W Codec2Client: query -- param skipped: index = 1107298332.
+11-28 03:08:52.989   476  6511 D CCodec  : encoding statistics level = 0
+11-28 03:08:52.989   476  6511 D CCodec  : setup formats input: AMessage(what = 0x00000000) = {
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t bitrate = 6000
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t channel-count = 2
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t max-input-size = 5760
+11-28 03:08:52.989   476  6511 D CCodec  :   string mime = "audio/opus"
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:08:52.989   476  6511 D CCodec  : }
+11-28 03:08:52.989   476  6511 D CCodec  : setup formats output: AMessage(what = 0x00000000) = {
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t channel-count = 2
+11-28 03:08:52.989   476  6511 D CCodec  :   string mime = "audio/raw"
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t sample-rate = 48000
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t channel-mask = 3
+11-28 03:08:52.989   476  6511 D CCodec  :   int32_t android._config-pcm-encoding = 2
+11-28 03:08:52.989   476  6511 D CCodec  : }
+11-28 03:08:52.989   476  6511 I CCodecConfig: query failed after returning 7 values (BAD_INDEX)
+11-28 03:08:52.989   476  6511 I MediaCodec: MediaCodec will operate in async mode
+11-28 03:08:52.989   476  6510 D MediaCodec: keep callback message for reclaim
+11-28 03:08:52.995   476  6511 W Codec2Client: query -- param skipped: index = 1342179345.
+11-28 03:08:52.995   476  6511 W Codec2Client: query -- param skipped: index = 2415921170.
+11-28 03:08:52.996  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:52.996   476  6511 D CCodecBufferChannel: [c2.android.opus.decoder#451] Created input block pool with allocatorID 16 => poolID 38 - OK (0)
+11-28 03:08:52.997   476  6511 I CCodecBufferChannel: [c2.android.opus.decoder#451] Created output block pool with allocatorID 16 => poolID 47 - OK
+11-28 03:08:53.000   476  6511 D CCodecBufferChannel: [c2.android.opus.decoder#451] Configured output block pool ids 47 => OK
+11-28 03:08:53.000   484  6512 D SimpleC2Component: Using output block pool with poolID 47 => got 47 - 0
+11-28 03:08:53.000   484  6512 I C2SoftOpusDec: Configuring decoder: 48000 Hz, 2 channels
+11-28 03:08:53.003   400  6426 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000008) and output flags (00000002)
+11-28 03:08:53.004   400  6426 D AudioFlinger: Client defaulted notificationFrames to 12512 for frameCount 25024
+11-28 03:08:53.005   400  6426 D AF::TrackHandle: OpPlayAudio: track:86 usage:1 not muted
+11-28 03:08:53.006   400  6426 D audioserver: FGS Logger Transaction failed
+11-28 03:08:53.006   400  6426 D audioserver: -129
+11-28 03:08:53.010   476  6509 D AudioTrack: getTimestamp_l(46): device stall time corrected using current time 310467807818
+11-28 03:08:53.014  4519  4541 D EGL_emulation: app_time_stats: avg=1491.65ms min=1491.65ms max=1491.65ms count=1
+11-28 03:08:53.185  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:08:53.185  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:08:53.196   835   899 D EGL_emulation: app_time_stats: avg=252.85ms min=13.82ms max=1216.49ms count=6
+11-28 03:08:53.409   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:53.410   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:53.649   524   524 I ResourceTimer: GetResourceValue count=7902 pvalues=1000,4000,5000,11000
+11-28 03:08:53.649   524   524 I ResourceTimer: RetrieveAttributes count=10713 pvalues=1000,1000,2000,9000
+11-28 03:08:53.834   476  5833 D BufferPoolAccessor2.0: bufferpool2 0x7b2a589168a8 : 0(0 size) total buffers - 0(0 size) used buffers - 241/249 (recycle/alloc) - 8/496 (fetch/transfer)
+11-28 03:08:53.834   476  5833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+11-28 03:08:53.834   484   833 D BufferPoolAccessor2.0: bufferpool2 0x74c84de50568 : 0(0 size) total buffers - 0(0 size) used buffers - 241/245 (recycle/alloc) - 5/245 (fetch/transfer)
+11-28 03:08:53.834   484   833 D BufferPoolAccessor2.0: evictor expired: 1, evicted: 1
+11-28 03:08:53.909  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:53.909  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091266, pluginId: ForNow, methodName: ouvintes
+11-28 03:08:53.909  4519  4519 V Capacitor: callback: 90091266, pluginId: ForNow, methodName: ouvintes, methodData: {}
+11-28 03:08:53.911  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"guia":true,"alarme":true,"launch":true}
+11-28 03:08:54.473  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:54.474  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091267, pluginId: ForNow, methodName: guiaUpdate
+11-28 03:08:54.474  4519  4519 V Capacitor: callback: 90091267, pluginId: ForNow, methodName: guiaUpdate, methodData: {"id":"mwztzm2k6cwhx","som":"mix:","camadas":[{"sons":["midia\/musicas\/R03.ogg","midia\/musicas\/R04.ogg","midia\/musicas\/R05.ogg","midia\/musicas\/R06.ogg","midia\/musicas\/R07.ogg","midia\/musicas\/R08.ogg","midia\/musicas\/R01.ogg","midia\/musicas\/R02.ogg"],"vol":0.85},{"sons":["midia\/sons\/N01.ogg"],"vol":0.5},{"sons":["tom:149:151:0.04311:0.1"],"vol":0.35}]}
+11-28 03:08:54.476  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:54.476  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091268, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:54.476  4519  4519 V Capacitor: callback: 90091268, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:54.478   400  6426 W AudioFlinger: createTrack_l(): mismatch between requested flags (00000008) and output flags (00000002)
+11-28 03:08:54.479   400  6426 D AudioFlinger: Client defaulted notificationFrames to 12000 for frameCount 24000
+11-28 03:08:54.479   400  6426 D AF::TrackHandle: OpPlayAudio: track:87 usage:1 not muted
+11-28 03:08:54.481   400  6426 D audioserver: FGS Logger Transaction failed
+11-28 03:08:54.482   400  6426 D audioserver: -129
+11-28 03:08:54.482  4519  4519 I ForNow  : som tom:149:151:0.04311:0.1 (1/1)
+11-28 03:08:54.482  4519  4519 I ForNow  : mix 3 camadas
+11-28 03:08:54.488  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:54.495  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:54.513  4519  4541 D EGL_emulation: app_time_stats: avg=1499.22ms min=1499.22ms max=1499.22ms count=1
+11-28 03:08:54.660   524   608 W ProcessStats: Tracking association SourceState{71e045c com.google.android.googlequicksearchbox:search/10132 Service #10275} whose proc state 8 is better than process ProcessState{50f275e com.google.android.gms/10131 pkg=com.google.android.gms} proc state 14 (31 skipped)
+11-28 03:08:54.690  1575  2107 W AiAiEcho: LyftNotificationParser Ridesharing ETA not enabled
+11-28 03:08:54.690  1575  2107 W AiAiEcho: SmartspaceNotificationPredictor no parser can handle this notification or notification is invalid
+11-28 03:08:54.696   835   899 D EGL_emulation: app_time_stats: avg=499.95ms min=49.63ms max=1249.82ms count=3
+11-28 03:08:54.716   524   615 D ActivityManager: freezing 4979 com.google.android.settings.intelligence
+11-28 03:08:54.775   400   509 D AudioMixer: previous float ramp hasn't finished, prev:0.011993  set_to:0.011993
+11-28 03:08:54.775   400   509 D AudioMixer: previous int ramp hasn't finished, prev:3219279  set_to:3211264
+11-28 03:08:54.775   400   509 D AudioMixer: previous float ramp hasn't finished, prev:0.011993  set_to:0.011993
+11-28 03:08:54.775   400   509 D AudioMixer: previous int ramp hasn't finished, prev:3219279  set_to:3211264
+11-28 03:08:54.925   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:54.926   835   897 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
+11-28 03:08:56.133   338   358 I netd    : setProcSysNet(4, 2, wlan0, retrans_time_ms, 750) <0.08ms>
+11-28 03:08:56.133   338   358 I netd    : setProcSysNet(4, 2, wlan0, ucast_solicit, 10) <0.01ms>
+11-28 03:08:56.133   338   358 I netd    : setProcSysNet(6, 2, wlan0, retrans_time_ms, 750) <0.02ms>
+11-28 03:08:56.133   338   358 I netd    : setProcSysNet(6, 2, wlan0, ucast_solicit, 10) <0.01ms>
+11-28 03:08:56.835   476  5833 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 0
+11-28 03:08:56.835   484   833 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 0
+11-28 03:08:56.845   476  6503 D BufferPoolAccessor2.0: bufferpool2 0x7b2a5890ebc8 : 8(46080 size) total buffers - 5(28800 size) used buffers - 277/289 (recycle/alloc) - 16/574 (fetch/transfer)
+11-28 03:08:56.845   484  6504 D BufferPoolAccessor2.0: bufferpool2 0x74c84de4f098 : 4(368640 size) total buffers - 1(92160 size) used buffers - 280/285 (recycle/alloc) - 5/284 (fetch/transfer)
+11-28 03:08:57.751     0     0 I logd    : logdr: UID=2000 GID=2000 PID=6515 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
+11-28 03:08:57.497  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:57.498  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091269, pluginId: ForNow, methodName: guiaState
+11-28 03:08:57.498  4519  4519 V Capacitor: callback: 90091269, pluginId: ForNow, methodName: guiaState, methodData: {}
+11-28 03:08:57.499  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"state","id":"mwztzm2k6cwhx","ini":1795835331452,"pausa":0,"pausadoEm":0,"running":true,"faixa":0,"faixas":8,"ended":false}
+11-28 03:08:57.569  6520  6520 W BpBinder: Linking to death on android.gui.ISurfaceComposer but there are no threads (yet?) listening to incoming transactions. See ProcessState::startThreadPool and ProcessState::setThreadPoolMaxThreadCount. Generally you should setup the binder threadpool before other initialization steps.
+11-28 03:08:57.569  6520  6520 W ProcessState: Extra binder thread started, but 0 threads requested. Do not use *startThreadPool when zero threads are requested.
+11-28 03:08:57.574   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+11-28 03:08:57.574  6520  6521 I Gralloc4: mapper 4.x is not supported
+11-28 03:08:57.831     0     0 I servicemanager: Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest.
+11-28 03:08:57.630  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:57.632  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091270, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:57.632  4519  4519 V Capacitor: callback: 90091270, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:57.632  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:57.633  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091271, pluginId: ForNow, methodName: guiaStop
+11-28 03:08:57.633  4519  4519 V Capacitor: callback: 90091271, pluginId: ForNow, methodName: guiaStop, methodData: {"id":"mwztzm2k6cwhx"}
+11-28 03:08:57.635   476  4492 D NuPlayerDriver: stop(0x7b29f8917fd0)
+11-28 03:08:57.657  4519  4519 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-28 03:08:57.657  4519  4519 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-28 03:08:57.657   476  4492 D NuPlayerDriver: reset(0x7b29f8917fd0) at state 8
+11-28 03:08:57.658   484  6504 D SimpleC2Component: work form old generation: was 1 now 0
+11-28 03:08:57.659   476  6503 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:08:57.659   484   874 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:08:57.660   476  6502 D MediaCodec: flushMediametrics
+11-28 03:08:57.661   476  6498 D NuPlayerDriver: notifyResetComplete(0x7b29f8917fd0)
+11-28 03:08:57.661   476  4492 W AMessage: failed to post message as target looper for handler 0 is gone.
+11-28 03:08:57.661   476  4492 D NuPlayerDriver: stop(0x7b29f8913110)
+11-28 03:08:57.682  4519  4519 V MediaPlayer: resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+11-28 03:08:57.682  4519  4519 V MediaPlayer: cleanDrmObj: mDrmObj=null mDrmSessionId=null
+11-28 03:08:57.682   476  3226 D NuPlayerDriver: reset(0x7b29f8913110) at state 8
+11-28 03:08:57.683   476  6511 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:08:57.683   484   880 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:08:57.683   484   880 I hw-BpHwBinder: onLastStrongRef automatically unlinking death recipients
+11-28 03:08:57.683   476  6510 D MediaCodec: flushMediametrics
+11-28 03:08:57.684   476  6506 D NuPlayerDriver: notifyResetComplete(0x7b29f8913110)
+11-28 03:08:57.684   476  3226 W AMessage: failed to post message as target looper for handler 0 is gone.
+11-28 03:08:57.686  4519  4519 V Capacitor/ForNowPlugin: Notifying listeners for event guia
+11-28 03:08:57.687  4519  4519 I ForNow  : guia finish complete=false by=app id=mwztzm2k6cwhx
+11-28 03:08:57.688   524  2054 I MediaFocusControl: abandonAudioFocus() from uid/pid 10192/4519 clientId=android.media.AudioManager@e95f4bbcom.wsqm1990.fornow.GuiaService@a6bdd4a
+11-28 03:08:57.690  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:57.690  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:57.691  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"stopped","id":"mwztzm2k6cwhx","ini":1795835331452,"pausa":0,"pausadoEm":0,"running":false,"faixa":0,"faixas":0,"by":"app","endedAt":1795835337634,"complete":false}
+11-28 03:08:57.692  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:08:57.692  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:08:57.692  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:08:57.692  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:08:57.692  4519  4519 W MediaPlayer: mediaplayer went away with unhandled events
+11-28 03:08:57.718   835   899 D EGL_emulation: app_time_stats: avg=1007.23ms min=49.18ms max=2755.17ms count=3
+11-28 03:08:57.719  4519  4541 D EGL_emulation: app_time_stats: avg=3205.19ms min=3205.19ms max=3205.19ms count=1
+11-28 03:08:57.790   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.790   400   509 D audioserver: -129
+11-28 03:08:57.802   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.802   400   509 D audioserver: -129
+11-28 03:08:57.813   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.813   400   509 D audioserver: -129
+11-28 03:08:57.813   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.813   400   509 D audioserver: -129
+11-28 03:08:57.825   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.825   400   509 D audioserver: -129
+11-28 03:08:57.825   400   509 D audioserver: FGS Logger Transaction failed
+11-28 03:08:57.825   400   509 D audioserver: -129
+11-28 03:08:58.636  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:58.637  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091272, pluginId: ForNow, methodName: guiaState
+11-28 03:08:58.637  4519  4519 V Capacitor: callback: 90091272, pluginId: ForNow, methodName: guiaState, methodData: {}
+11-28 03:08:58.639  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"state","id":"mwztzm2k6cwhx","ini":1795835331452,"pausa":0,"pausadoEm":0,"running":false,"faixa":0,"faixas":0,"ended":true,"complete":false,"endedAt":1795835337634}
+11-28 03:08:58.643  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:58.643  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091273, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:58.643  4519  4519 V Capacitor: callback: 90091273, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:58.646  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:59.087  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:59.088  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091274, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:59.088  4519  4519 V Capacitor: callback: 90091274, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:59.090  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:59.115  4519  4541 D EGL_emulation: app_time_stats: avg=698.29ms min=449.39ms max=947.19ms count=2
+11-28 03:08:59.492  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:59.493  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091275, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:59.494  4519  4519 V Capacitor: callback: 90091275, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:59.495  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:59.496  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091276, pluginId: ForNow, methodName: vozStatus
+11-28 03:08:59.496  4519  4519 V Capacitor: callback: 90091276, pluginId: ForNow, methodName: vozStatus, methodData: {"lang":"pt-BR"}
+11-28 03:08:59.499  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:08:59.500  3059  3145 I GoogleTTSServiceImpl: currentLocale = pt-BR
+11-28 03:08:59.507  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:08:59.508  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"status":"ok","motor":"com.google.android.tts"}
+11-28 03:08:59.509  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:08:59.510  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091277, pluginId: SystemBars, methodName: setStyle
+11-28 03:08:59.510  4519  4519 V Capacitor: callback: 90091277, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:08:59.519  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:00.029  1575  2032 I AiAiEcho: Predicting[0]: 
+11-28 03:09:00.029  1575  2032 I AiAiEcho: EchoTargets: 
+11-28 03:09:00.029  1575  2032 I AiAiEcho: Filtered by AiAi flag check: 
+11-28 03:09:00.029  1575  2032 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata: 
+11-28 03:09:00.030  1575  2032 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface lockscreen with targets# 0 (types=[])
+11-28 03:09:00.031   835   899 D EGL_emulation: app_time_stats: avg=1156.43ms min=11.41ms max=2301.45ms count=2
+11-28 03:09:00.042   835   835 W PageIndicator: Total number of pages invalid: 0. Assuming 1 page.
+11-28 03:09:00.102  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:00.103  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091278, pluginId: ForNow, methodName: setLabels
+11-28 03:09:00.104  4519  4519 V Capacitor: callback: 90091278, pluginId: ForNow, methodName: setLabels, methodData: {"tile":"It's hard","widget":"It's hard right now","pico":"It's hard right now","paz":"A little peace","cochilo":"Nap","madrugada":"Awake in the night","alarmTitle":"Time to wake up","alarmOff":"Turn off","alarmChannel":"Alarm","alarmTest":"Alarm test"}
+11-28 03:09:00.104  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:00.105  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091279, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:00.105  4519  4519 V Capacitor: callback: 90091279, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:00.105  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:00.106  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091280, pluginId: ForNow, methodName: vozStatus
+11-28 03:09:00.107  4519  4519 V Capacitor: callback: 90091280, pluginId: ForNow, methodName: vozStatus, methodData: {"lang":"en-US"}
+11-28 03:09:00.108   835   835 D TileServices: Couldn't find tile for ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.PicoTile}(0)
+11-28 03:09:00.108  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:00.109  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:00.110  3059  3145 W RankedDispatcher: The requested voice is not available for this app identifier
+11-28 03:09:00.111  3059  3145 I GoogleTTSServiceImpl: currentLocale = en-US
+11-28 03:09:00.121  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"status":"ok","motor":"com.google.android.tts"}
+11-28 03:09:00.123  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:00.124  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091281, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:00.124  4519  4519 V Capacitor: callback: 90091281, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:00.127  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:00.135  4519  4541 D EGL_emulation: app_time_stats: avg=339.85ms min=11.12ms max=603.21ms count=3
+11-28 03:09:00.364   835   835 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+11-28 03:09:00.680   347  5082 D android.hardware.audio@7.1-impl.ranchu: threadLoop: entering standby, frames: 8996672
+11-28 03:09:00.712  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:00.712  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091282, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:00.713  4519  4519 V Capacitor: callback: 90091282, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:00.714  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.199  4519  4519 W Capacitor/Console: File: https://localhost/capacitor.js - Line 2 - Msg: Capacitor plugin "WebView" already registered. Cannot register plugins twice.
+11-28 03:09:01.200  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.201  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 90091283, pluginId: WebView, methodName: setServerBasePath
+11-28 03:09:01.201  4519  4519 V Capacitor: callback: 90091283, pluginId: WebView, methodName: setServerBasePath, methodData: {"path":"\/data\/user\/0\/com.wsqm1990.fornow\/files\/bundles\/100029"}
+11-28 03:09:01.205  4519  4568 D Capacitor: Handling local request: https://localhost/
+11-28 03:09:01.206  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.220  4519  4569 D Capacitor: Handling local request: https://localhost/capacitor.js
+11-28 03:09:01.242  4519  4519 W Capacitor/Console: File: https://localhost/capacitor.js - Line 2 - Msg: Capacitor plugin "SystemBars" already registered. Cannot register plugins twice.
+11-28 03:09:01.243  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.245  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548619, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:01.245  4519  4519 V Capacitor: callback: 47548619, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:01.246  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.246  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548620, pluginId: ForNow, methodName: addListener
+11-28 03:09:01.247  4519  4519 V Capacitor: callback: 47548620, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"guia"}
+11-28 03:09:01.247  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.248  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548621, pluginId: ForNow, methodName: addListener
+11-28 03:09:01.248  4519  4519 V Capacitor: callback: 47548621, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"alarme"}
+11-28 03:09:01.249  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.250  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548622, pluginId: ForNow, methodName: addListener
+11-28 03:09:01.250  4519  4519 V Capacitor: callback: 47548622, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"launch"}
+11-28 03:09:01.251  4519  4568 D Capacitor: Handling local request: https://localhost/fonts/Lora-Variable.ttf
+11-28 03:09:01.251  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.252  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548623, pluginId: App, methodName: addListener
+11-28 03:09:01.253  4519  4519 V Capacitor: callback: 47548623, pluginId: App, methodName: addListener, methodData: {"eventName":"backButton"}
+11-28 03:09:01.253  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.254  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548624, pluginId: ForNow, methodName: guiaState
+11-28 03:09:01.254  4519  4519 V Capacitor: callback: 47548624, pluginId: ForNow, methodName: guiaState, methodData: {}
+11-28 03:09:01.260  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.262  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"state","id":"mwztzm2k6cwhx","ini":1795835331452,"pausa":0,"pausadoEm":0,"running":false,"faixa":0,"faixas":0,"ended":true,"complete":false,"endedAt":1795835337634}
+11-28 03:09:01.264  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.265  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548625, pluginId: ForNow, methodName: launchAction
+11-28 03:09:01.265  4519  4519 V Capacitor: callback: 47548625, pluginId: ForNow, methodName: launchAction, methodData: {}
+11-28 03:09:01.279  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"acao":""}
+11-28 03:09:01.281  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.282  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548626, pluginId: ForNow, methodName: alarmeStatus
+11-28 03:09:01.282  4519  4519 V Capacitor: callback: 47548626, pluginId: ForNow, methodName: alarmeStatus, methodData: {}
+11-28 03:09:01.287  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"exato":true,"notif":true,"telaCheia":true,"bateria":false,"volumeAlarme":6,"volumeAlarmeMax":7,"naoPerturbe":1,"proximo":0,"cochilo":0,"teste":0,"tocando":false,"fabricante":"Google google"}
+11-28 03:09:01.289  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.290  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548627, pluginId: ForNow, methodName: keepBundle
+11-28 03:09:01.291  4519  4519 V Capacitor: callback: 47548627, pluginId: ForNow, methodName: keepBundle, methodData: {"path":"\/data\/user\/0\/com.wsqm1990.fornow\/files\/bundles\/100029"}
+11-28 03:09:01.293  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.295  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548628, pluginId: ForNow, methodName: cleanBundles
+11-28 03:09:01.295  4519  4519 V Capacitor: callback: 47548628, pluginId: ForNow, methodName: cleanBundles, methodData: {"keep":["100029","100029"]}
+11-28 03:09:01.297  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.298  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548629, pluginId: ForNow, methodName: setLabels
+11-28 03:09:01.299  4519  4519 V Capacitor: callback: 47548629, pluginId: ForNow, methodName: setLabels, methodData: {"tile":"It's hard","widget":"It's hard right now","pico":"It's hard right now","paz":"A little peace","cochilo":"Nap","madrugada":"Awake in the night","alarmTitle":"Time to wake up","alarmOff":"Turn off","alarmChannel":"Alarm","alarmTest":"Alarm test"}
+11-28 03:09:01.301  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:01.302  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548630, pluginId: ForNow, methodName: info
+11-28 03:09:01.303  4519  4519 V Capacitor: callback: 47548630, pluginId: ForNow, methodName: info, methodData: {}
+11-28 03:09:01.303   835   835 D TileServices: Couldn't find tile for ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.PicoTile}(0)
+11-28 03:09:01.305  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.307  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.308  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:01.310  4519  4541 D EGL_emulation: app_time_stats: avg=391.56ms min=11.29ms max=601.03ms count=3
+11-28 03:09:01.317  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"versionName":"0.1.29","versionCode":29,"installer":"","shell":2,"shellId":"cae001e134e9","midia":true,"sdk":34,"maker":"Google","model":"sdk_gphone64_x86_64","talkback":false}
+11-28 03:09:01.691   524   820 D OomAdjuster: Not killing cached processes
+11-28 03:09:01.692   524   820 I MediaFocusControl: abandonAudioFocus() from uid/pid 10192/4519 clientId=android.media.AudioManager@e95f4bbcom.wsqm1990.fornow.GuiaService@a6bdd4a
+11-28 03:09:02.789  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:02.790  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548631, pluginId: ForNow, methodName: ouvintes
+11-28 03:09:02.790  4519  4519 V Capacitor: callback: 47548631, pluginId: ForNow, methodName: ouvintes, methodData: {}
+11-28 03:09:02.792  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"guia":true,"alarme":true,"launch":true}
+11-28 03:09:02.792  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:02.793  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548632, pluginId: ForNow, methodName: launchAction
+11-28 03:09:02.793  4519  4519 V Capacitor: callback: 47548632, pluginId: ForNow, methodName: launchAction, methodData: {}
+11-28 03:09:02.794  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"acao":""}
+11-28 03:09:02.795  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:02.796  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548633, pluginId: ForNow, methodName: alarmeStatus
+11-28 03:09:02.796  4519  4519 V Capacitor: callback: 47548633, pluginId: ForNow, methodName: alarmeStatus, methodData: {}
+11-28 03:09:02.799  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"exato":true,"notif":true,"telaCheia":true,"bateria":false,"volumeAlarme":6,"volumeAlarmeMax":7,"naoPerturbe":1,"proximo":0,"cochilo":0,"teste":0,"tocando":false,"fabricante":"Google google"}
+11-28 03:09:02.835   484   833 D BufferPoolAccessor2.0: bufferpool2 0x74c84de4f098 : 0(0 size) total buffers - 0(0 size) used buffers - 322/327 (recycle/alloc) - 5/327 (fetch/transfer)
+11-28 03:09:02.835   476  5833 D BufferPoolAccessor2.0: bufferpool2 0x7b2a589110c8 : 0(0 size) total buffers - 0(0 size) used buffers - 253/261 (recycle/alloc) - 8/520 (fetch/transfer)
+11-28 03:09:02.835   476  5833 D BufferPoolAccessor2.0: bufferpool2 0x7b2a5890ebc8 : 0(0 size) total buffers - 0(0 size) used buffers - 322/334 (recycle/alloc) - 16/662 (fetch/transfer)
+11-28 03:09:02.835   484   833 D BufferPoolAccessor2.0: bufferpool2 0x74c84de51c88 : 0(0 size) total buffers - 0(0 size) used buffers - 253/257 (recycle/alloc) - 4/257 (fetch/transfer)
+11-28 03:09:02.836   476  5833 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 2
+11-28 03:09:02.836   484   833 D BufferPoolAccessor2.0: evictor expired: 2, evicted: 2
+11-28 03:09:04.704   524   615 D ActivityManager: freezing 1047 com.android.settings
+11-28 03:09:04.704   524   615 D ActivityManager: freezing 3393 com.android.dynsystem:dynsystem
+11-28 03:09:04.704   524   615 D ActivityManager: freezing 3361 com.android.dynsystem
+11-28 03:09:04.704   524   615 D ActivityManager: freezing 2472 com.android.localtransport
+11-28 03:09:04.705   524   615 D ActivityManager: freezing 1737 com.android.keychain
+11-28 03:09:06.289  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:06.290  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548634, pluginId: ForNow, methodName: ouvintes
+11-28 03:09:06.290  4519  4519 V Capacitor: callback: 47548634, pluginId: ForNow, methodName: ouvintes, methodData: {}
+11-28 03:09:06.291  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"guia":true,"alarme":true,"launch":true}
+11-28 03:09:06.292  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:06.292  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548635, pluginId: ForNow, methodName: launchAction
+11-28 03:09:06.293  4519  4519 V Capacitor: callback: 47548635, pluginId: ForNow, methodName: launchAction, methodData: {}
+11-28 03:09:06.294  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"acao":""}
+11-28 03:09:06.294  4519  4519 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:06.295  4519  4519 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 47548636, pluginId: ForNow, methodName: alarmeStatus
+11-28 03:09:06.295  4519  4519 V Capacitor: callback: 47548636, pluginId: ForNow, methodName: alarmeStatus, methodData: {}
+11-28 03:09:06.299  4519  4519 I Capacitor/Console: File:  - Line 333 - Msg: {"exato":true,"notif":true,"telaCheia":true,"bateria":false,"volumeAlarme":6,"volumeAlarmeMax":7,"naoPerturbe":1,"proximo":0,"cochilo":0,"teste":0,"tocando":false,"fabricante":"Google google"}
+11-28 03:09:08.214   524   543 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+11-28 03:09:08.215   524   543 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+11-28 03:09:08.215   524   543 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+11-28 03:09:08.215   524   543 I DropBoxManagerService: add tag=system_server_strictmode isTagEnabled=true flags=0x2
+11-28 03:09:08.776   835   835 D StatusBarIconController: ignoring old pipeline callback because the new wifi icon is enabled
+11-28 03:09:10.354   524  1695 I ActivityManager: Force stopping com.wsqm1990.fornow appid=10192 user=0: from pid 6541
+11-28 03:09:10.355   476  3226 I ResourceManagerMetrics: pushConcurrentUsageReport: No Video Codec Entry for Application[pid(4519): uid(10192)]
+11-28 03:09:10.355   476  3226 I ResourceManagerMetrics: pushConcurrentUsageReport: Concurrent Codec Usage Report for the Process[pid(4519): uid(10192)] is Peak { AudioDec[ SW: 2 ] } Peak Pixels: 0
+11-28 03:09:10.355   524   542 D DisplayManagerService: Drop pending events for gone uid 10192
+11-28 03:09:10.356   524  1695 I ActivityManager: Killing 4519:com.wsqm1990.fornow/u0a192 (adj 0): stop com.wsqm1990.fornow due to from pid 6541
+11-28 03:09:10.357   524  1695 D OomAdjuster: Not killing cached processes
+11-28 03:09:10.357   524  1695 I ActivityManager: Killing 4563:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0a192i0 (adj 0): isolated not needed
+11-28 03:09:10.357  4563  4563 I cr_ChildProcessService: Destroying ChildProcessService pid=4563
+11-28 03:09:10.359   524  1695 W ActivityTaskManager: Force removing ActivityRecord{bd95fbc u0 com.wsqm1990.fornow/.MainActivity t8 f}}: app died, no saved state
+11-28 03:09:10.359   835   869 V WindowManagerShell: Transition requested: android.os.BinderProxy@42d9cb TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=8 displayId=0 isRunning=false baseIntent=Intent { flg=0x10000000 cmp=com.wsqm1990.fornow/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} numActivities=0 lastActiveTime=168280 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@8d4c5a8} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+11-28 03:09:10.364   835   835 D StatusBarIconController: ignoring old pipeline callbacks, because the new mobile icons are enabled
+11-28 03:09:10.364   524   555 I libprocessgroup: Successfully killed process cgroup uid 99000 pid 4563 in 5ms
+11-28 03:09:10.374  1575  2032 I AiAiEcho: Predicting[0]: 
+11-28 03:09:10.375  1575  2032 I AiAiEcho: EchoTargets: 
+11-28 03:09:10.375  1575  2032 I AiAiEcho: Filtered by AiAi flag check: 
+11-28 03:09:10.375  1575  2032 I AiAiEcho: Ranked targets strategy: SORT, count: 0, ranking metadata: 
+11-28 03:09:10.376   524  1578 W AppSearchIcing: icing-search-engine.cc:283: Error: 5, Message: Document (com.google.android.googlequicksearchbox$OneSearchZeroStateGoogleSuggestions/default, zp) not found.
+11-28 03:09:10.377  1575  2032 I AiAiEcho: #postPredictionTargets: Sending updates to UISurface home with targets# 0 (types=[])
+11-28 03:09:10.637     0     0 W binder_debug: 7 callbacks suppressed
+11-28 03:09:10.637     0     0 I binder  : undelivered transaction 621727, process died.
+11-28 03:09:10.380  1093  1953 D OneSearchSuggestProvider: Created the binder channel successfully for end point service =com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService , mChannel=z1{delegate=s1{logId=21, target=directaddress:///AndroidComponentAddress%5BIntent%20%7B%20act=grpc.io.action.BIND%20cmp=com.google.android.googlequicksearchbox/com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService%20%7D%5D}} , mOneSearchConnection=X1.T@81c49ad
+11-28 03:09:10.382   524  1695 W ProcessStats: Tracking association SourceState{71e045c com.google.android.googlequicksearchbox:search/10132 Service #10282} whose proc state 8 is better than process ProcessState{50f275e com.google.android.gms/10131 pkg=com.google.android.gms} proc state 14 (7 skipped)
+11-28 03:09:10.384   987   987 I Zygote  : Process 4563 exited due to signal 9 (Killed)
+11-28 03:09:10.392   403   403 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+11-28 03:09:10.396   524  3055 D TextToSpeechManagerPerUserService: Unbinding TTS engine: com.google.android.tts. Reason: client process death is reported
+11-28 03:09:10.397   339   339 I Zygote  : Process 4519 exited due to signal 9 (Killed)
+11-28 03:09:10.398   524   545 W WindowManager: Failed to deliver inset control state change to w=Window{8820945 u0 com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity}
+11-28 03:09:10.398   524   545 W WindowManager: android.os.DeadObjectException
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.BinderProxy.transactNative(Native Method)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.IWindow$Stub$Proxy.insetsControlChanged(IWindow.java:479)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowState.notifyInsetsControlChanged(WindowState.java:3802)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.InsetsStateController.lambda$notifyPendingInsetsControlChanged$3(InsetsStateController.java:343)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.InsetsStateController.$r8$lambda$8yykPRG1GyNq_J17QvL9d5xANMc(InsetsStateController.java:0)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.InsetsStateController$$ExternalSyntheticLambda2.run(R8$$SyntheticClass:0)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowAnimator.executeAfterPrepareSurfacesRunnables(WindowAnimator.java:294)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowAnimator.animate(WindowAnimator.java:202)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowAnimator.lambda$new$1(WindowAnimator.java:99)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowAnimator.$r8$lambda$aHNu1uhcqxihX5NZc4McDDQPAyw(WindowAnimator.java:0)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.wm.WindowAnimator$$ExternalSyntheticLambda1.doFrame(R8$$SyntheticClass:0)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1337)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.Choreographer$CallbackRecord.run(Choreographer.java:1348)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.Choreographer.doCallbacks(Choreographer.java:952)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.Choreographer.doFrame(Choreographer.java:878)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.view.Choreographer$FrameDisplayEventReceiver.run(Choreographer.java:1322)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.Handler.handleCallback(Handler.java:958)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.Looper.loopOnce(Looper.java:205)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.Looper.loop(Looper.java:294)
+11-28 03:09:10.398   524   545 W WindowManager: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+11-28 03:09:10.398   524   545 W WindowManager: 	at com.android.server.ServiceThread.run(ServiceThread.java:46)
+11-28 03:09:10.398   524   602 I WindowManager: WIN DEATH: Window{8820945 u0 com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity}
+11-28 03:09:10.399   524   602 W InputManager-JNI: Input channel object '8820945 com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity (client)' was disposed without first being removed with the input manager!
+11-28 03:09:10.400  1022  1323 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-28 03:09:10.404  1046  1046 D CarrierSvcBindHelper: onHandleForceStop: [com.wsqm1990.fornow]
+11-28 03:09:10.405  1022  1323 D BtGatt.ScanManager: uid 10131 isForeground true scanMode -1
+11-28 03:09:10.405  1022  1323 D BtGatt.ScanManager: uid 10131 isForeground true scanMode 1
+11-28 03:09:10.407   524  1634 I ImeTracker: com.wsqm1990.fornow:4fc836b3: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_REMOVE_CLIENT
+11-28 03:09:10.408   524  1634 I ImeTracker: com.wsqm1990.fornow:4fc836b3: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-28 03:09:10.410  1046  1046 D CarrierSvcBindHelper: No carrier app for: 0
+11-28 03:09:10.412   524   544 V WindowManager: Unknown focus tokens, dropping reportFocusChanged
+11-28 03:09:10.412   524   914 V ActivityManager: Got obituary of 4519:com.wsqm1990.fornow
+11-28 03:09:10.413   524   542 D DisplayManagerService: Drop pending events for gone uid 99000
+11-28 03:09:10.419   524   524 W TextToSpeechManagerPerUserService: Disconnected from TTS engine
+11-28 03:09:10.422   524   524 I TextToSpeechManagerPerUserService: Failed running callback method: android.os.DeadObjectException
+11-28 03:09:10.422   524   524 W ServiceConnector.Impl: mayInterruptIfRunning not supported - ignoring
+11-28 03:09:10.434   524   541 V WindowManager: Sent Transition #18 createdAt=11-28 03:09:10.359 via request=TransitionRequestInfo { type = CLOSE, triggerTask = TaskInfo{userId=0 taskId=8 displayId=0 isRunning=false baseIntent=Intent { flg=0x10000000 cmp=com.wsqm1990.fornow/.MainActivity } baseActivity=null topActivity=null origActivity=null realActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} numActivities=0 lastActiveTime=168280 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{48df06d Task{e213b45 #8 type=standard A=10192:com.wsqm1990.fornow}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=null launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+11-28 03:09:10.434   524   541 V WindowManager:     startWCT=WindowContainerTransaction { changes = {} hops = [] errorCallbackToken=null taskFragmentOrganizer=null }
+11-28 03:09:10.434   524   541 V WindowManager:     info={id=18 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{RemoteToken{48df06d Task{e213b45 #8 type=standard A=10192:com.wsqm1990.fornow}}} m=CLOSE f=NONE leash=Surface(name=Task=8)/@0xf6dd697 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{RemoteToken{18f018f Task{9318867 #1 type=home}}} m=TO_FRONT f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xab5b3bc sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{null m=TO_FRONT f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{afc41df token=android.os.Binder@e9c587e})/@0x7087bed sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:10.435   835   869 V WindowManagerShell: onTransitionReady android.os.BinderProxy@42d9cb: {id=18 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@69ceffd} m=CLOSE f=NONE leash=Surface(name=Task=8)/@0xec188c1 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@c9f74f2} m=TO_FRONT f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x6583866 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{null m=TO_FRONT f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{afc41df token=android.os.Binder@e9c587e})/@0x9a347a7 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:10.435   835   869 V WindowManagerShell: Playing animation for (#18)android.os.BinderProxy@42d9cb@0
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultMixedHandler@26c9df5
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.keyguard.KeyguardTransitionHandler@de178a
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.activityembedding.ActivityEmbeddingController@87841fb
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.recents.RecentsTransitionHandler@270c218
+11-28 03:09:10.435   835   869 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.pip.PipTransition@bb62471
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.splitscreen.StageCoordinator@c0e2256
+11-28 03:09:10.435   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.RemoteTransitionHandler@4ff02d7
+11-28 03:09:10.436   835   869 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=18 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@69ceffd} m=CLOSE f=NONE leash=Surface(name=Task=8)/@0xec188c1 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@c9f74f2} m=TO_FRONT f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x6583866 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{null m=TO_FRONT f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{afc41df token=android.os.Binder@e9c587e})/@0x9a347a7 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:10.436   835   869 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@14bc20e, appThread = android.app.IApplicationThread$Stub$Proxy@736142f, debugName = LauncherToDream }}
+11-28 03:09:10.436   835   869 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity}},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@7871a3c, appThread = android.app.IApplicationThread$Stub$Proxy@4eca3c5, debugName = QuickstepLaunchHome }}
+11-28 03:09:10.436   835   869 V WindowManagerShell:  Delegate animation for #18 to null
+11-28 03:09:10.436   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultTransitionHandler@d71bc30
+11-28 03:09:10.436   835   869 V WindowManagerShell: start default transition animation, info = {id=18 t=CLOSE f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@69ceffd} m=CLOSE f=NONE leash=Surface(name=Task=8)/@0xec188c1 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@c9f74f2} m=TO_FRONT f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0x6583866 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{null m=TO_FRONT f=IS_WALLPAPER leash=Surface(name=WallpaperWindowToken{afc41df token=android.os.Binder@e9c587e})/@0x9a347a7 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:10.436   835   869 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@2c0a1c0 animAttr=0x10 type=CLOSE isEntrance=true
+11-28 03:09:10.436   835   869 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@abf849f animAttr=0x11 type=CLOSE isEntrance=false
+11-28 03:09:10.437   835   869 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@d71bc30
+11-28 03:09:10.448   835   869 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#18)android.os.BinderProxy@42d9cb@0
+11-28 03:09:10.451   524  1164 I ImeTracker: com.google.android.apps.nexuslauncher:7bbba318: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-28 03:09:10.452   524  1164 I ImeTracker: com.google.android.apps.nexuslauncher:7bbba318: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-28 03:09:10.454   524  2280 W WindowManager: Exception thrown during dispatchAppVisibility Window{8820945 u0 com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity EXITING}
+11-28 03:09:10.454   524  2280 W WindowManager: android.os.DeadObjectException
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.os.BinderProxy.transactNative(Native Method)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.os.BinderProxy.transact(BinderProxy.java:584)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.view.IWindow$Stub$Proxy.dispatchAppVisibility(IWindow.java:546)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.WindowState.sendAppVisibilityToClients(WindowState.java:3271)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.WindowContainer.sendAppVisibilityToClients(WindowContainer.java:1221)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.WindowToken.setClientVisible(WindowToken.java:409)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.ActivityRecord.setClientVisible(ActivityRecord.java:6946)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.ActivityRecord.postApplyAnimation(ActivityRecord.java:5637)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.ActivityRecord.commitVisibility(ActivityRecord.java:5580)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.Transition.finishTransition(Transition.java:1151)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.TransitionController.finishTransition(TransitionController.java:868)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.WindowOrganizerController.finishTransition(WindowOrganizerController.java:396)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.window.IWindowOrganizerController$Stub.onTransact(IWindowOrganizerController.java:286)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at com.android.server.wm.WindowOrganizerController.onTransact(WindowOrganizerController.java:181)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.os.Binder.execTransactInternal(Binder.java:1339)
+11-28 03:09:10.454   524  2280 W WindowManager: 	at android.os.Binder.execTransact(Binder.java:1275)
+11-28 03:09:10.454   524  2280 I Process : Sending signal. PID: 4519 SIG: 9
+11-28 03:09:10.455   524   541 V WindowManager: Finish Transition #18: created at 11-28 03:09:10.359 collect-started=0.026ms request-sent=0.216ms started=19.41ms ready=19.4ms sent=73.751ms finished=92.046ms
+11-28 03:09:10.456  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:10.464  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227 
+11-28 03:09:10.465  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-28 03:09:10.465  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x0 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=com.google.android.apps.nexuslauncher fieldId=0 fieldName=null extras=null}, false)
+11-28 03:09:10.465  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-28 03:09:10.465  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-28 03:09:10.465   524   544 W ActivityManager: setHasOverlayUi called on unknown pid: 4519
+11-28 03:09:10.469  1709  2656 W A       : Queue length for executor EventBus is now 11. Perhaps some tasks are too long, or the pool is too small.
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: Invalid input from icing corpus JSON flag.
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: android.util.MalformedJsonException: Use JsonReader.setLenient(true) to accept malformed JSON at line 123 column 2
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at android.util.JsonReader.syntaxError(JsonReader.java:1162)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at android.util.JsonReader.checkLenient(JsonReader.java:840)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at android.util.JsonReader.nextInArray(JsonReader.java:615)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at android.util.JsonReader.peek(JsonReader.java:345)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at android.util.JsonReader.hasNext(JsonReader.java:321)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.searchbox.c.b.b.k.c(PG:7)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.searchbox.c.b.b.k.<init>(PG:5)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.features.n.a.c.<init>(PG:16)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.b.a(PG:14)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.x.<init>(PG:7)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.akd.b(PG:15)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at dagger.a.e.b(PG:1)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.staticplugins.searchboxroot.a.a.a(PG:3)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.ok.f(Unknown Source:2541)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.binaries.velvet.app.ok.b(PG:1)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.search.core.service.g.a.c.a(PG:2)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.libraries.gsa.k.a.f.a(PG:2)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.shared.logger.f.a.a.l.h(PG:2)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.apps.gsa.shared.logger.f.a.a.h.a(Unknown Source:4)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.common.util.concurrent.dx.a(PG:1)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.common.util.concurrent.cv.run(PG:4)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.common.util.concurrent.dz.run(PG:1)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.libraries.i.ae.run(PG:1)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:644)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.libraries.i.k.run(PG:2)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at com.google.android.libraries.i.p.run(PG:4)
+11-28 03:09:10.470  1709  2291 W CorpusConfigHelper: 	at java.lang.Thread.run(Thread.java:1012)
+11-28 03:09:10.470  1709  1709 I A       : Created gRPC endpoint to "search" for service class com.google.android.apps.search.googleapp.search.suggest.plugins.onesearch.server.OneSearchSuggestService
+11-28 03:09:10.471   835   869 V WindowManagerShell: Track 0 became idle
+11-28 03:09:10.471   835   869 V WindowManagerShell: All active transition animations finished
+11-28 03:09:10.478  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:10.489  1093  1093 D SearchTargetUtil:  query= size=0
+11-28 03:09:10.491  1709  2656 I MicroDetectionState: Should stop hotword detection immediately - true
+11-28 03:09:10.492   403   403 E BpTransactionCompletedListener: Failed to transact (-32)
+11-28 03:09:10.496  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:10.496  1709  2290 I A       : Creating in-process transport to InProcessServerAddress[com.google.android.googlequicksearchbox/OnDeviceServer[Hash:23601793]]
+11-28 03:09:10.497  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:10.499  1709  2290 I A       : group apa_head_suggest present without account in *
+11-28 03:09:10.499  1709  2290 I A       : incrementApaDataDownloadStoreStatus(latency = PT0.002S, appVersion = 13.17.16.23, status = OK, locale = *, fileGroupnames = apa_head_suggest, accountScoped = false, localGroupsAvailable = false, timeSinceSearchBoot = Optional[PT4M58.195S] (ONE_TO_FIVE_MINUTES), timeSinceDataDownloadInit = PT4M42.024S (ONE_TO_FIVE_MINUTES))
+11-28 03:09:11.406   524  1164 W ActivityTaskManager: callingPackage for (uid=2000, pid=6557) has no WPC
+11-28 03:09:11.412   524  1164 D CompatibilityChangeReporter: Compat change id reported: 205907456; UID 10192; state: ENABLED
+11-28 03:09:11.415   835   869 V WindowManagerShell: Transition requested: android.os.BinderProxy@2976897 TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=10 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.wsqm1990.fornow/.MainActivity } baseActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} topActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} origActivity=null realActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} numActivities=1 lastActiveTime=328872 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.window.IWindowContainerToken$Stub$Proxy@81fba84} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=ActivityInfo{66ed26d com.wsqm1990.fornow.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+11-28 03:09:11.416   524  1164 I ActivityTaskManager: START u0 {flg=0x10000000 cmp=com.wsqm1990.fornow/.MainActivity} with LAUNCH_SINGLE_TASK from uid 2000 (BAL_ALLOW_PERMISSION) result code=0
+11-28 03:09:11.417   524   544 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 10192; state: DISABLED
+11-28 03:09:11.417   524   544 D CompatibilityChangeReporter: Compat change id reported: 177438394; UID 10192; state: DISABLED
+11-28 03:09:11.417   524   544 D CompatibilityChangeReporter: Compat change id reported: 135772972; UID 10192; state: DISABLED
+11-28 03:09:11.417   524   544 D CompatibilityChangeReporter: Compat change id reported: 135754954; UID 10192; state: ENABLED
+11-28 03:09:11.418   524   554 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10192; state: ENABLED
+11-28 03:09:11.419   835   882 D SplashScreenView: Build android.window.SplashScreenView{2b32869 V.E...... ......ID 0,0-0,0}
+11-28 03:09:11.419   835   882 D SplashScreenView: Icon: view: android.widget.ImageView{6ce62ee V.ED..... ......I. 0,0-0,0 #10204f0 android:id/splashscreen_icon_view} drawable: com.android.wm.shell.startingsurface.SplashscreenIconDrawableFactory$ImmobileIconDrawable@a18d38f size: 160
+11-28 03:09:11.419   835   882 D SplashScreenView: Branding: view: android.view.View{ca1d61c G.ED..... ......I. 0,0-0,0 #10204ef android:id/splashscreen_branding_view} drawable: null size w: 0 h: 0
+11-28 03:09:11.425   403   403 I BpBinder: onLastStrongRef automatically unlinking death recipients: 
+11-28 03:09:11.426   524   820 D CoreBackPreview: Window{c181a0e u0 Splash Screen com.wsqm1990.fornow}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@247323c, mPriority=0, mIsAnimationCallback=false}
+11-28 03:09:11.440   339   339 D Zygote  : Forked child process 6561
+11-28 03:09:11.441   524   554 I ActivityManager: Start proc 6561:com.wsqm1990.fornow/u0a192 for next-top-activity {com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity}
+11-28 03:09:11.447  6561  6561 I wsqm1990.fornow: Late-enabling -Xcheck:jni
+11-28 03:09:11.449   835   869 V WindowManagerShell: onTransitionReady android.os.BinderProxy@2976897: {id=19 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d951323} m=OPEN f=NONE leash=Surface(name=Task=10)/@0x1a8ccb4 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@4600020} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xa7630dd sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:11.449   835   869 V WindowManagerShell: Playing animation for (#19)android.os.BinderProxy@2976897@0
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultMixedHandler@26c9df5
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.keyguard.KeyguardTransitionHandler@de178a
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.activityembedding.ActivityEmbeddingController@87841fb
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.recents.RecentsTransitionHandler@270c218
+11-28 03:09:11.450   835   869 V ShellRecents: RecentsTransitionHandler.startAnimation: no controller found
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.pip.PipTransition@bb62471
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.splitscreen.StageCoordinator@c0e2256
+11-28 03:09:11.450   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.RemoteTransitionHandler@4ff02d7
+11-28 03:09:11.450   835   869 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=19 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d951323} m=OPEN f=NONE leash=Surface(name=Task=10)/@0x1a8ccb4 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@4600020} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xa7630dd sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:11.450   835   869 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x0 checks=[{atype=dream independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=ANY topActivity=null},{atype=home independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@14bc20e, appThread = android.app.IApplicationThread$Stub$Proxy@736142f, debugName = LauncherToDream }}
+11-28 03:09:11.450   835   869 V WindowManagerShell:  Checking filter Pair{{types=[] flags=0x0] notFlags=0x100 checks=[{atype=home independent=true modes=[OPEN,TO_FRONT] flags=NONE mustBeTask=false order=TOP topActivity=ComponentInfo{com.google.android.apps.nexuslauncher/com.google.android.apps.nexuslauncher.NexusLauncherActivity}},{atype=standard independent=true modes=[CLOSE,TO_BACK] flags=NONE mustBeTask=false order=ANY topActivity=null}]} RemoteTransition { remoteTransition = android.window.IRemoteTransition$Stub$Proxy@7871a3c, appThread = android.app.IApplicationThread$Stub$Proxy@4eca3c5, debugName = QuickstepLaunchHome }}
+11-28 03:09:11.450   835   869 V WindowManagerShell:  Delegate animation for #19 to null
+11-28 03:09:11.451   835   869 V WindowManagerShell:  try handler com.android.wm.shell.transition.DefaultTransitionHandler@d71bc30
+11-28 03:09:11.451   835   869 V WindowManagerShell: start default transition animation, info = {id=19 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{android.window.IWindowContainerToken$Stub$Proxy@d951323} m=OPEN f=NONE leash=Surface(name=Task=10)/@0x1a8ccb4 sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{android.window.IWindowContainerToken$Stub$Proxy@4600020} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xa7630dd sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:11.451   835   869 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@38f639e animAttr=0x13 type=OPEN isEntrance=false
+11-28 03:09:11.451   835   869 V WindowManagerShell: loadAnimation: anim=android.view.animation.AnimationSet@f0a1baa animAttr=0x12 type=OPEN isEntrance=true
+11-28 03:09:11.452   835   869 V WindowManagerShell:  animated by com.android.wm.shell.transition.DefaultTransitionHandler@d71bc30
+11-28 03:09:11.453   524   541 V WindowManager: Sent Transition #19 createdAt=11-28 03:09:11.407 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=10 displayId=0 isRunning=true baseIntent=Intent { flg=0x10000000 cmp=com.wsqm1990.fornow/.MainActivity } baseActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} topActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} origActivity=null realActivity=ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity} numActivities=1 lastActiveTime=328872 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{b015ce6 Task{7b183c2 #10 type=standard A=10192:com.wsqm1990.fornow}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=null topActivityInfo=ActivityInfo{9c6d227 com.wsqm1990.fornow.MainActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=false isVisible=false isVisibleRequested=false isSleeping=false topActivityInSizeCompat=false topActivityEligibleForLetterboxEducation= false topActivityLetterboxed= false isFromDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 locusId=null displayAreaFeatureId=1 cameraCompatControlState=hidden}, remoteTransition = null, displayChange = null }
+11-28 03:09:11.453   524   541 V WindowManager:     startWCT=WindowContainerTransaction { changes = {} hops = [] errorCallbackToken=null taskFragmentOrganizer=null }
+11-28 03:09:11.453   524   541 V WindowManager:     info={id=19 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{WCT{RemoteToken{b015ce6 Task{7b183c2 #10 type=standard A=10192:com.wsqm1990.fornow}}} m=OPEN f=NONE leash=Surface(name=Task=10)/@0x93fc91a sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0},{WCT{RemoteToken{18f018f Task{9318867 #1 type=home}}} m=TO_BACK f=SHOW_WALLPAPER leash=Surface(name=Task=1)/@0xab5b3bc sb=Rect(0, 0 - 320, 640) eb=Rect(0, 0 - 320, 640) d=0}]}
+11-28 03:09:11.468  6561  6561 I wsqm1990.fornow: Using CollectorTypeCC GC.
+11-28 03:09:11.469  6561  6561 W wsqm1990.fornow: Unexpected CPU variant for x86: x86_64.
+11-28 03:09:11.469  6561  6561 W wsqm1990.fornow: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+11-28 03:09:11.473   835   869 V WindowManagerShell: Transition animation finished (aborted=false), notifying core (#19)android.os.BinderProxy@2976897@0
+11-28 03:09:11.474   524   541 V WindowManager: Finish Transition #19: created at 11-28 03:09:11.407 collect-started=0.031ms request-sent=7.807ms started=14.418ms ready=41.174ms sent=42.128ms finished=67.364ms
+11-28 03:09:11.481   835   869 V WindowManagerShell: Track 0 became idle
+11-28 03:09:11.481   835   869 V WindowManagerShell: All active transition animations finished
+11-28 03:09:11.482  1093  1655 D EGL_emulation: app_time_stats: avg=266.10ms min=9.10ms max=987.11ms count=4
+11-28 03:09:11.483   835   899 D EGL_emulation: app_time_stats: avg=11451.95ms min=11451.95ms max=11451.95ms count=1
+11-28 03:09:11.484   439   448 I adbd    : jdwp connection from 6561
+11-28 03:09:11.499  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 171979766; UID 10192; state: ENABLED
+11-28 03:09:11.499  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 242716250; UID 10192; state: ENABLED
+11-28 03:09:11.501   524  1690 D CompatibilityChangeReporter: Compat change id reported: 170503758; UID 10192; state: ENABLED
+11-28 03:09:11.503  6561  6561 W ziparchive: Unable to open '/data/app/~~v9-MiMDpU966pgvYqxFeUA==/com.wsqm1990.fornow-0-6ioq6KoiFwvVg3-Yaajg==/base.dm': No such file or directory
+11-28 03:09:11.503  6561  6561 W ziparchive: Unable to open '/data/app/~~v9-MiMDpU966pgvYqxFeUA==/com.wsqm1990.fornow-0-6ioq6KoiFwvVg3-Yaajg==/base.dm': No such file or directory
+11-28 03:09:11.563  6561  6561 D nativeloader: Configuring clns-6 for other apk /data/app/~~v9-MiMDpU966pgvYqxFeUA==/com.wsqm1990.fornow-0-6ioq6KoiFwvVg3-Yaajg==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~v9-MiMDpU966pgvYqxFeUA==/com.wsqm1990.fornow-0-6ioq6KoiFwvVg3-Yaajg==/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.wsqm1990.fornow
+11-28 03:09:11.569  6561  6561 V GraphicsEnvironment: Currently set values for:
+11-28 03:09:11.569  6561  6561 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+11-28 03:09:11.570  6561  6561 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+11-28 03:09:11.570  6561  6561 V GraphicsEnvironment: ANGLE GameManagerService for com.wsqm1990.fornow: false
+11-28 03:09:11.570  6561  6561 V GraphicsEnvironment: com.wsqm1990.fornow is not listed in per-application setting
+11-28 03:09:11.570  6561  6561 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+11-28 03:09:11.579   524  1690 I ActivityManager: Flag disabled. Ignoring finishAttachApplication from uid: 10192. pid: 6561
+11-28 03:09:11.584  6561  6579 D libEGL  : loaded /vendor/lib64/egl/libEGL_emulation.so
+11-28 03:09:11.585  6561  6579 D libEGL  : loaded /vendor/lib64/egl/libGLESv1_CM_emulation.so
+11-28 03:09:11.587  6561  6579 D libEGL  : loaded /vendor/lib64/egl/libGLESv2_emulation.so
+11-28 03:09:11.595  6561  6561 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+11-28 03:09:11.620  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (unsupported, reflection, allowed)
+11-28 03:09:11.625  6561  6561 I WebViewFactory: Loading com.google.android.webview version 113.0.5672.136 (code 567263637)
+11-28 03:09:11.627  6561  6561 W ziparchive: Unable to open '/data/app/~~-fD72BUMcHawx9MBgIrYwA==/com.google.android.trichromelibrary_567263637-Cm4x4L3j8FQVwl1IQpDdDg==/TrichromeLibrary.dm': No such file or directory
+11-28 03:09:11.627  6561  6561 W ziparchive: Unable to open '/data/app/~~-fD72BUMcHawx9MBgIrYwA==/com.google.android.trichromelibrary_567263637-Cm4x4L3j8FQVwl1IQpDdDg==/TrichromeLibrary.dm': No such file or directory
+11-28 03:09:11.627  6561  6561 W wsqm1990.fornow: Entry not found
+11-28 03:09:11.629  6561  6561 D nativeloader: Configuring clns-7 for other apk /data/app/~~-fD72BUMcHawx9MBgIrYwA==/com.google.android.trichromelibrary_567263637-Cm4x4L3j8FQVwl1IQpDdDg==/TrichromeLibrary.apk. target_sdk_version=34, uses_libraries=ALL, library_path=/data/app/~~NBe_j1Y3ntSXDF56kgv48Q==/com.google.android.webview-nq4hvf8L1RlO9GgFuUmvUg==/lib/x86_64:/data/app/~~NBe_j1Y3ntSXDF56kgv48Q==/com.google.android.webview-nq4hvf8L1RlO9GgFuUmvUg==/WebViewGoogle.apk!/lib/x86_64:/data/app/~~-fD72BUMcHawx9MBgIrYwA==/com.google.android.trichromelibrary_567263637-Cm4x4L3j8FQVwl1IQpDdDg==/TrichromeLibrary.apk!/lib/x86_64, permitted_path=/data:/mnt/expand
+11-28 03:09:11.631  6561  6561 D nativeloader: Configuring clns-8 for other apk /data/app/~~NBe_j1Y3ntSXDF56kgv48Q==/com.google.android.webview-nq4hvf8L1RlO9GgFuUmvUg==/WebViewGoogle.apk. target_sdk_version=34, uses_libraries=, library_path=/data/app/~~NBe_j1Y3ntSXDF56kgv48Q==/com.google.android.webview-nq4hvf8L1RlO9GgFuUmvUg==/lib/x86_64:/data/app/~~NBe_j1Y3ntSXDF56kgv48Q==/com.google.android.webview-nq4hvf8L1RlO9GgFuUmvUg==/WebViewGoogle.apk!/lib/x86_64:/data/app/~~-fD72BUMcHawx9MBgIrYwA==/com.google.android.trichromelibrary_567263637-Cm4x4L3j8FQVwl1IQpDdDg==/TrichromeLibrary.apk!/lib/x86_64, permitted_path=/data:/mnt/expand
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{cbf6885 com.android.cts.priv.ctsshim/10183} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5b83526 com.google.android.youtube/10139} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{167f70b com.android.internal.display.cutout.emulation.corner/10025} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{d130801 com.android.internal.display.cutout.emulation.double/10048} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f8631c6 com.google.android.googlequicksearchbox/10132} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f50e6a6 com.google.android.onetimeinitializer/10126} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{61cf8e7 com.google.android.ext.shared/10101} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{7d68c94 com.android.internal.systemui.navbar.gestural_wide_back/10007} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3a7233d com.android.virtualmachine.res/10179} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{914c732 com.google.android.federatedcompute/10170} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5363c83 com.android.managedprovisioning.auto_generated_rro_product__/10024} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ed9de00 com.android.carrierconfig.auto_generated_rro_vendor__/10078} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{867b639 com.android.systemui.emulation.pixel_3_xl/10034} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{6c4247e com.android.systemui.emulation.pixel_4_xl/10059} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c161ddf com.android.systemui.emulation.pixel_fold/10009} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{bfeda2c com.android.simappdialog.auto_generated_rro_product__/10030} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c047cf5 com.android.htmlviewer/10115} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{67a0a8a com.google.android.health.connect.backuprestore/10178} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{1e8b8fb com.android.systemui.auto_generated_rro_product__/10031} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5956d18 com.google.android.soundpicker/10136} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{6cf371 com.google.android.marvin.talkbackoverlay/10077} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{af64556 com.google.android.configupdater/10129} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a7fe9d7 com.android.internal.emulation.pixel_3a_xl/10044} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{50042c4 com.android.internal.emulation.pixel_6_pro/10018} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{d0c55ad com.android.internal.emulation.pixel_7_pro/10004} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{12960e2 com.android.internal.emulation.pixel_8_pro/10058} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{aef4c73 com.android.internal.emulation.pixel_3a/10053} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{520c730 com.android.internal.emulation.pixel_4a/10011} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ac59fa9 com.android.internal.emulation.pixel_6a/10023} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{280a92e com.android.internal.emulation.pixel_7a/10033} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{be83ccf com.google.android.overlay.googlewebview/10049} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{b83265c com.google.android.hotspot2.osulogin/10190} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3af8d65 com.android.simappdialog/10111} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ff22a3a com.android.internal.display.cutout.emulation.hole/10073} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5d5d6eb com.android.internal.display.cutout.emulation.tall/10065} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{84a4c48 com.android.internal.systemui.navbar.threebutton/10068} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{2909ae1 com.android.camera2/10144} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{1c8b006 com.android.systemui.auto_generated_rro_vendor__/10076} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{2b8f6c7 com.android.internal.systemui.navbar.twobutton/10020} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{1046567 com.google.android.as/10125} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8dc0130 com.google.android.gm/10142} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{e1b041d com.android.internal.systemui.navbar.gestural_extra_wide_back/10045} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{82fc692 com.android.systemui.emulation.pixel_3/10015} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{1c43863 com.android.systemui.emulation.pixel_4/10037} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{94c5c60 com.android.systemui.emulation.pixel_5/10071} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{be8c519 com.android.systemui.emulation.pixel_6/10074} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{87fb9de com.android.systemui.emulation.pixel_7/10072} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8b7f7bf com.android.systemui.emulation.pixel_8/10070} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8ade8c com.android.nfc.auto_generated_rro_product__/10027} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{73799d5 com.android.printspooler/10103} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{34995ea com.android.emergency.auto_generated_rro_product__/10041} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{efe50db com.google.android.connectivity.resources.goldfish.overlay/10079} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{34d5778 com.android.dreams.basic/10104} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{764fe51 com.google.android.networkstack.tethering.emulator/10022} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f2326b6 com.android.providers.settings.auto_generated_rro_product__/10002} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{e871fb7 com.google.android.as.oss/10122} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{9bc7324 com.android.traceur.auto_generated_rro_product__/10005} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8f20645 com.google.android.devicelockcontroller/10180} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{22a2e8d com.android.internal.emulation.pixel_3/10046} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{432f842 com.android.internal.emulation.pixel_4/10060} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{6640053 com.android.internal.emulation.pixel_5/10012} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3df9d90 com.android.internal.emulation.pixel_6/10038} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5982689 com.android.internal.emulation.pixel_7/10067} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{47c568e com.android.internal.emulation.pixel_8/10039} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{b244eaf com.google.android.captiveportallogin/10114} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8c902bc com.android.musicfx/10088} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{2008119 com.google.android.apps.maps/10153} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5d3a245 com.google.android.modulemetadata/10147} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ceb4d9a com.google.android.markup/10134} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f126cb com.android.providers.settings.auto_generated_rro_vendor__/10080} BLOCKED
+11-28 03:09:11.631   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{b53e19a com.google.android.rkpdapp/10187} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c0820e4 com.google.android.contacts/10154} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a911dc1 com.android.server.telecom.auto_generated_rro_product__/10032} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{b20a966 com.google.android.overlay.googleconfig/10055} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{b6964a7 com.android.bips.auto_generated_rro_product__/10035} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8b4ed54 com.google.android.apps.customization.pixel/10143} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{850d4fd com.google.android.tag/10082} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3fdf5f2 com.google.android.overlay.permissioncontroller/10003} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f3da443 com.google.android.partnersetup/10124} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{41d8ac0 com.google.android.apps.wallpaper.nexus/10141} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{15ac3f9 com.google.android.apps.nexuslauncher/10169} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{6f17f3e com.google.android.nearby.halfsheet/10182} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{18c419f com.android.theme.font.notoserifsource/10066} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{4b092ec com.google.android.safetycenter.resources/10174} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a7aa6b5 com.android.internal.display.cutout.emulation.waterfall/10040} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a02514a com.android.internal.systemui.navbar.transparent/10029} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{fd58bb com.google.android.connectivity.resources/10181} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{889f1d8 com.android.providers.contacts.auto_generated_rro_product__/10019} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f7bf931 com.google.android.feedback/10164} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a9c3816 com.google.android.printservice.recommendation/10110} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{49ec597 com.google.android.apps.photos/10140} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{1985384 com.google.android.documentsui/10098} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{365f76d com.android.systemui.emulation.pixel_3a_xl/10021} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f1bbfa2 com.android.systemui.emulation.pixel_6_pro/10063} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c802433 com.android.systemui.emulation.pixel_7_pro/10054} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{923f0 com.android.systemui.emulation.pixel_8_pro/10001} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8779d69 com.google.mainline.telemetry/10151} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{51a33ee com.android.carrierconfig.auto_generated_rro_product__/10064} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ed08f com.android.providers.partnerbookmarks/10100} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{7748f1c com.android.wallpaper.livepicker/10091} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{be3a725 com.android.providers.telephony.auto_generated_rro_product__/10062} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{879a0fa com.android.phone.auto_generated_rro_vendor__/10081} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{631e6ab com.google.mainline.adservices/10137} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{ac98108 com.android.imsserviceentitlement/10117} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{14c90a1 com.google.android.healthconnect.controller/10177} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{f30d2c6 com.android.internal.emulation.pixel_2_xl/10016} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3264287 com.android.internal.emulation.pixel_3_xl/10056} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{af9a5b4 com.android.internal.emulation.pixel_4_xl/10047} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a0095dd com.android.internal.emulation.pixel_fold/10006} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5d75552 com.android.bookmarkprovider/10113} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{81a8023 com.google.android.overlay.pixelconfigcommon/10014} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{4656920 com.android.systemui.accessibility.accessibilitymenu.auto_generated_rro_product__/10050} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{3f5b2d9 com.android.systemui.emulation.pixel_3a/10013} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8f1749e com.android.systemui.emulation.pixel_4a/10000} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{8afb7f com.android.systemui.emulation.pixel_6a/10042} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{707f74c com.android.systemui.emulation.pixel_7a/10017} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{95ab059 com.google.android.settings.intelligence/10118} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5d12fdf com.google.android.projection.gearhead/10123} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c85a395 com.google.android.uwb.resources/10172} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{bdddd1 com.android.cts.ctsshim/10184} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{6fc3caa com.google.android.wifi.resources/10188} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{95dd09b com.google.android.wifi.dialog/10189} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5633c38 com.google.android.apps.wallpaper/10159} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{2e9e411 com.google.android.odad/10121} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{7397976 com.android.settings.auto_generated_rro_product__/10028} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{dbedb77 com.android.internal.systemui.navbar.gestural/10051} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{62be3e4 com.google.android.apps.youtube.music/10155} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{677b04d com.android.bluetoothmidiservice/10108} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{13bb702 com.android.storagemanager.auto_generated_rro_product__/10026} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{5bbb813 com.google.android.cellbroadcastreceiver/10191} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{4b55a50 com.android.phone.auto_generated_rro_product__/10061} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c9c0449 android.auto_generated_rro_product__/10069} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{132414e com.android.internal.systemui.navbar.gestural_narrow_back/10052} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{29fc26f com.google.android.inputmethod.latin/10146} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{c1dcb7c android.auto_generated_rro_vendor__/10075} BLOCKED
+11-28 03:09:11.632   524  1672 I AppsFilter: interaction: PackageSetting{9d8b03d com.wsqm1990.fornow/10192} -> PackageSetting{a979c05 com.google.android.apps.restore/10120} BLOCKED
+11-28 03:09:11.648  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/os/Trace;->isTagEnabled(J)Z (unsupported, reflection, allowed)
+11-28 03:09:11.648  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/os/Trace;->traceBegin(JLjava/lang/String;)V (unsupported, reflection, allowed)
+11-28 03:09:11.648  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/os/Trace;->traceEnd(J)V (unsupported, reflection, allowed)
+11-28 03:09:11.648  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/os/Trace;->asyncTraceBegin(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+11-28 03:09:11.648  6561  6561 W wsqm1990.fornow: Accessing hidden method Landroid/os/Trace;->asyncTraceEnd(JLjava/lang/String;I)V (unsupported, reflection, allowed)
+11-28 03:09:11.650  6561  6561 I cr_WVCFactoryProvider: Loaded version=113.0.5672.136 minSdkVersion=29 isBundle=false multiprocess=true packageId=2
+11-28 03:09:11.661  6561  6561 I cr_LibraryLoader: Successfully loaded native library
+11-28 03:09:11.662  6561  6561 I cr_CachingUmaRecorder: Flushed 8 samples from 8 histograms.
+11-28 03:09:11.663  6561  6561 I cr_VariationsUtils: Loaded seed with age 291s
+11-28 03:09:11.668   524  1672 D CompatibilityChangeReporter: Compat change id reported: 135634846; UID 99001; state: DISABLED
+11-28 03:09:11.668   524   554 D CompatibilityChangeReporter: Compat change id reported: 143937733; UID 10192; state: ENABLED
+11-28 03:09:11.671  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 183155436; UID 10192; state: ENABLED
+11-28 03:09:11.675   987   987 D Zygote  : Forked child process 6588
+11-28 03:09:11.679  6588  6588 I ocessService0:0: Using CollectorTypeCC GC.
+11-28 03:09:11.679  6588  6588 W ocessService0:0: Unexpected CPU variant for x86: x86_64.
+11-28 03:09:11.679  6588  6588 W ocessService0:0: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+11-28 03:09:11.682  6588  6588 E ocessService0:0: Not starting debugger since process cannot load the jdwp agent.
+11-28 03:09:11.685  5418  5418 D BoundBrokerSvc: onBind: Intent { act=com.google.android.gms.safetynet.service.START pkg=com.google.android.gms }
+11-28 03:09:11.685  5418  5418 D BoundBrokerSvc: Loading bound service for intent: Intent { act=com.google.android.gms.safetynet.service.START pkg=com.google.android.gms }
+11-28 03:09:11.692   524   554 I ActivityManager: Start proc 6588:com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0/u0i1 for  {com.wsqm1990.fornow/org.chromium.content.app.SandboxedProcessService0:0}
+11-28 03:09:11.698  6561  6601 W chromium: [WARNING:dns_config_service_android.cc(115)] Failed to read DnsConfig.
+11-28 03:09:11.703  6588  6588 D CompatibilityChangeReporter: Compat change id reported: 171979766; UID 99001; state: ENABLED
+11-28 03:09:11.703  6588  6588 D CompatibilityChangeReporter: Compat change id reported: 242716250; UID 99001; state: ENABLED
+11-28 03:09:11.709  6588  6588 I LoadedApk: No resource references to update in package com.google.android.trichromelibrary
+11-28 03:09:11.710  6588  6588 I cr_WebViewApkApp: Launched version=113.0.5672.136 minSdkVersion=29 isBundle=false processName=com.google.android.webview:sandboxed_process0:org.chromium.content.app.SandboxedProcessService0:0
+11-28 03:09:11.711   524  1690 I ActivityManager: Flag disabled. Ignoring finishAttachApplication from uid: 99001. pid: 6588
+11-28 03:09:11.711  6588  6588 W SystemServiceRegistry: No service published for: virtualdevice
+11-28 03:09:11.712  6588  6588 I cr_ChildProcessService: Creating new ChildProcessService pid=6588
+11-28 03:09:11.724  6561  6601 E chromium: [ERROR:simple_file_enumerator.cc(21)] opendir /data/user/0/com.wsqm1990.fornow/cache/WebView/Default/HTTP Cache/Code Cache/wasm: No such file or directory (2)
+11-28 03:09:11.725  6561  6601 E chromium: [ERROR:simple_index_file.cc(614)] Could not reconstruct index from disk
+11-28 03:09:11.725  6561  6607 E chromium: [ERROR:simple_backend_impl.cc(749)] Simple Cache Backend: cache directory inaccessible right after creation; path: /data/user/0/com.wsqm1990.fornow/cache/WebView/Default/HTTP Cache/Code Cache/js
+11-28 03:09:11.725  6561  6614 E chromium: [ERROR:disk_cache.cc(205)] Unable to create cache
+11-28 03:09:11.726   524  1690 D CompatibilityChangeReporter: Compat change id reported: 261072174; UID 10135; state: ENABLED
+11-28 03:09:11.760   524  1690 D ActivityManager: sync unfroze 2868 com.google.android.webview:webview_service for 6
+11-28 03:09:11.764  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 214741472; UID 10192; state: ENABLED
+11-28 03:09:11.766  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 171228096; UID 10192; state: ENABLED
+11-28 03:09:11.777  6561  6561 D AutofillManager: Fill dialog is enabled:false, hints=[password, passwordAuto, creditCardNumber, creditCardSecurityCode, creditCardExpirationDate]
+11-28 03:09:11.777   835   835 D StatusBarIconController: ignoring old pipeline callback because the new wifi icon is enabled
+11-28 03:09:11.783  6561  6561 D Capacitor: Starting BridgeActivity
+11-28 03:09:11.795  6561  6561 D Capacitor: Registering plugin instance: CapacitorCookies
+11-28 03:09:11.798  6561  6561 D Capacitor: Registering plugin instance: WebView
+11-28 03:09:11.799  6561  6561 D Capacitor: Registering plugin instance: CapacitorHttp
+11-28 03:09:11.801  6561  6561 D Capacitor: Registering plugin instance: SystemBars
+11-28 03:09:11.802  6561  6561 D Capacitor: Registering plugin instance: ForNow
+11-28 03:09:11.804  6561  6561 I ForNow  : plugin load 44fff6e
+11-28 03:09:11.804  6561  6561 D Capacitor: Registering plugin instance: App
+11-28 03:09:11.826  6561  6561 W Capacitor: Unable to read file at path public/plugins
+11-28 03:09:11.829  6561  6561 D Capacitor: Loading app at https://localhost
+11-28 03:09:11.836  6561  6606 W cr_media: BLUETOOTH_CONNECT permission is missing.
+11-28 03:09:11.836  6561  6606 W cr_media: registerBluetoothIntentsIfNeeded: Requires BLUETOOTH permission
+11-28 03:09:11.838  6588  6617 I cr_LibraryLoader: Successfully loaded native library
+11-28 03:09:11.838  6588  6617 I cr_CachingUmaRecorder: Flushed 2 samples from 2 histograms.
+11-28 03:09:11.840  6588  6617 W SystemServiceRegistry: No service published for: uimode
+11-28 03:09:11.848  6561  6561 I ForNow  : using kept bundle /data/user/0/com.wsqm1990.fornow/files/bundles/100029
+11-28 03:09:11.855  6561  6561 D Capacitor: App started
+11-28 03:09:11.856  6561  6561 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+11-28 03:09:11.856  6561  6561 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+11-28 03:09:11.857  6561  6561 D Capacitor/AppPlugin: Firing change: true
+11-28 03:09:11.858  6561  6561 V Capacitor/AppPlugin: Notifying listeners for event appStateChange
+11-28 03:09:11.858  6561  6561 D Capacitor/AppPlugin: No listeners found for event appStateChange
+11-28 03:09:11.858  6561  6561 D Capacitor: App resumed
+11-28 03:09:11.860  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 237531167; UID 10192; state: DISABLED
+11-28 03:09:11.862  6561  6561 W OpenGLRenderer: Unknown dataspace 0
+11-28 03:09:11.868  5353  5575 I FontLog : Received query name=Google Sans&weight=700&besteffort=false, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-28 03:09:11.868  5353  5575 I FontLog : Query [name=Google Sans&weight=700&besteffort=false] resolved to {Google Sans, wdth 100.0, wght 700, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.869  5353  5575 I FontLog : Fetch {Google Sans, wdth 100.0, wght 700, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-28 03:09:11.882  6561  6603 D Capacitor: Handling local request: https://localhost/
+11-28 03:09:11.887  5353  5575 I FontLog : Pulling font file for id = 4, cache size = 3 [CONTEXT service_id=132 ]
+11-28 03:09:11.900  5353  5575 I FontLog : Received query name=Noto Color Emoji Compat&weight=400&besteffort=false, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-28 03:09:11.901  5353  5575 I FontLog : Query [name=Noto Color Emoji Compat&weight=400&besteffort=false] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.904  5353  5575 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-28 03:09:11.910  5353  5575 I FontLog : Pulling font file for id = 5, cache size = 4 [CONTEXT service_id=132 ]
+11-28 03:09:11.914  5353  5575 I FontLog : Received query name=Google Sans&weight=400&besteffort=false, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-28 03:09:11.914  5353  5575 I FontLog : Query [name=Google Sans&weight=400&besteffort=false] resolved to {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.914  5353  5575 I FontLog : Font PFD returned from cache for {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.914  5353  5575 I FontLog : Fetch {Google Sans, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-28 03:09:11.924  5353  5575 I FontLog : Pulling font file for id = 6, cache size = 5 [CONTEXT service_id=132 ]
+11-28 03:09:11.926  5353  5575 I FontLog : Received query name=Google Sans&weight=500&besteffort=false, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-28 03:09:11.926  5353  5575 I FontLog : Query [name=Google Sans&weight=500&besteffort=false] resolved to {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.926  5353  5575 I FontLog : Font PFD returned from cache for {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:11.926  5353  5575 I FontLog : Fetch {Google Sans, wdth 100.0, wght 500, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-28 03:09:11.928  5353  5575 I FontLog : Pulling font file for id = 7, cache size = 6 [CONTEXT service_id=132 ]
+11-28 03:09:11.933  6561  6561 D CompatibilityChangeReporter: Compat change id reported: 193247900; UID 10192; state: ENABLED
+11-28 03:09:11.936   524  1690 D CoreBackPreview: Window{2688a97 u0 com.wsqm1990.fornow/com.wsqm1990.fornow.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@ee09fa, mPriority=0, mIsAnimationCallback=false}
+11-28 03:09:11.948  6561  6577 W OpenGLRenderer: Failed to initialize 101010-2 format, error = EGL_SUCCESS
+11-28 03:09:11.957   139   139 I hwservicemanager: getTransport: Cannot find entry android.hardware.graphics.mapper@4.0::IMapper/default in either framework or device VINTF manifest.
+11-28 03:09:11.958  6561  6577 I Gralloc4: mapper 4.x is not supported
+11-28 03:09:12.215     0     0 I servicemanager: Could not find android.hardware.graphics.allocator.IAllocator/default in the VINTF manifest.
+11-28 03:09:11.980  6561  6601 D Capacitor: Handling local request: https://localhost/capacitor.js
+11-28 03:09:12.065   524   541 W ziparchive: Unable to open '/data/app/~~v9-MiMDpU966pgvYqxFeUA==/com.wsqm1990.fornow-0-6ioq6KoiFwvVg3-Yaajg==/base.dm': No such file or directory
+11-28 03:09:12.066   524   541 I ActivityTaskManager: Displayed com.wsqm1990.fornow/.MainActivity for user 0: +659ms
+11-28 03:09:12.070  6561  6600 D Capacitor: Handling local request: https://localhost/
+11-28 03:09:12.074   524  1672 W ActivityTaskManager: Request to remove task ignored for non-existent task 9
+11-28 03:09:12.082  1093  1151 I ImeTracker: com.google.android.apps.nexuslauncher:d0fe7d2b: onRequestHide at ORIGIN_CLIENT_HIDE_SOFT_INPUT reason HIDE_SOFT_INPUT
+11-28 03:09:12.082   524  1164 I ImeTracker: com.google.android.apps.nexuslauncher:d0fe7d2b: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-28 03:09:12.084  1709  2863 I PBSessionCacheImpl: Deleted sessionId[7518057322531514] from persistence.
+11-28 03:09:12.085  1093  1953 D OneSearchSuggestProvider: Shut down the binder channel
+11-28 03:09:12.085  1093  1360 I IPCThreadState: oneway function results for code 2 on binder at 0x734158327a40 will be dropped but finished with status UNKNOWN_TRANSACTION
+11-28 03:09:12.089   835   881 W WindowOnBackDispatcher: sendCancelIfRunning: isInProgress=falsecallback=android.view.ViewRootImpl$$ExternalSyntheticLambda17@a5919ab
+11-28 03:09:12.090   524   820 D CoreBackPreview: Window{c181a0e u0 Splash Screen com.wsqm1990.fornow EXITING}: Setting back callback null
+11-28 03:09:12.094   524  1690 D CompatibilityChangeReporter: Compat change id reported: 214016041; UID 10192; state: ENABLED
+11-28 03:09:12.095   524  1690 I ImeTracker: com.wsqm1990.fornow:6037a741: onRequestHide at ORIGIN_SERVER_HIDE_INPUT reason HIDE_UNSPECIFIED_WINDOW
+11-28 03:09:12.095   524  1690 I ImeTracker: com.wsqm1990.fornow:6037a741: onCancelled at PHASE_SERVER_SHOULD_HIDE
+11-28 03:09:12.097   524  1672 W InputManager-JNI: Input channel object 'c181a0e Splash Screen com.wsqm1990.fornow (client)' was disposed without first being removed with the input manager!
+11-28 03:09:12.101  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:12.104  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:12.105  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.onFinishInput():3227 
+11-28 03:09:12.108  1709  2656 W SearchServiceCore: Abort, client detached.
+11-28 03:09:12.109  1709  2656 I MicroDetectionState: Should stop hotword detection immediately - true
+11-28 03:09:12.112  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:12.112  1709  2656 I A       : Using proto config with mendel
+11-28 03:09:12.113  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 0, unlocked = true
+11-28 03:09:12.113  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1877 onStartInput(EditorInfo{inputType=0x0(NULL) imeOptions=0x12000000 privateImeOptions=null actionName=UNSPECIFIED actionLabel=null actionId=0 initialSelStart=-1 initialSelEnd=-1 initialCapsMode=0x0 hintText=null label=null packageName=com.wsqm1990.fornow fieldId=0 fieldName=null extras=null}, false)
+11-28 03:09:12.114  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.shouldHideHeaderOnInitialState():4008 ShouldHideHeaderOnInitialState = false
+11-28 03:09:12.116  1507  1507 I GoogleInputMethodService: GoogleInputMethodService.updateDeviceLockedStatus():2087 repeatCheckTimes = 2, unlocked = true
+11-28 03:09:12.132  6561  6561 W Capacitor/Console: File: https://localhost/capacitor.js - Line 2 - Msg: Capacitor plugin "SystemBars" already registered. Cannot register plugins twice.
+11-28 03:09:12.136  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.138  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872534, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:12.138  6561  6561 V Capacitor: callback: 64872534, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:12.140  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.141  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872535, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.141  6561  6561 V Capacitor: callback: 64872535, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"guia"}
+11-28 03:09:12.141  1507  1529 I putmethod.latin: JIT allocated 106KB for compiled code of boolean drz.a(ikb, java.lang.Object[])
+11-28 03:09:12.141  1507  1529 I putmethod.latin: Compiler allocated 5216KB to compile boolean drz.a(ikb, java.lang.Object[])
+11-28 03:09:12.148  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.149  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872536, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.149  6561  6561 V Capacitor: callback: 64872536, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"alarme"}
+11-28 03:09:12.149  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.150  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872537, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.150  6561  6561 V Capacitor: callback: 64872537, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"launch"}
+11-28 03:09:12.150  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.150  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872538, pluginId: App, methodName: addListener
+11-28 03:09:12.151  6561  6561 V Capacitor: callback: 64872538, pluginId: App, methodName: addListener, methodData: {"eventName":"backButton"}
+11-28 03:09:12.151  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.151  6561  6600 D Capacitor: Handling local request: https://localhost/fonts/Lora-Variable.ttf
+11-28 03:09:12.152  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 64872539, pluginId: ForNow, methodName: guiaState
+11-28 03:09:12.152  6561  6561 V Capacitor: callback: 64872539, pluginId: ForNow, methodName: guiaState, methodData: {}
+11-28 03:09:12.169  6561  6600 D Capacitor: Handling local request: https://localhost/capacitor.js
+11-28 03:09:12.188  6561  6561 W Capacitor/Console: File: https://localhost/capacitor.js - Line 2 - Msg: Capacitor plugin "SystemBars" already registered. Cannot register plugins twice.
+11-28 03:09:12.189  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.190  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153751, pluginId: SystemBars, methodName: setStyle
+11-28 03:09:12.191  6561  6561 V Capacitor: callback: 126153751, pluginId: SystemBars, methodName: setStyle, methodData: {"style":"DARK"}
+11-28 03:09:12.200  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.200  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153752, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.201  6561  6561 V Capacitor: callback: 126153752, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"guia"}
+11-28 03:09:12.201  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.202  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153753, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.202  6561  6561 V Capacitor: callback: 126153753, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"alarme"}
+11-28 03:09:12.202  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.203  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153754, pluginId: ForNow, methodName: addListener
+11-28 03:09:12.203  6561  6561 V Capacitor: callback: 126153754, pluginId: ForNow, methodName: addListener, methodData: {"eventName":"launch"}
+11-28 03:09:12.203  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.204  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153755, pluginId: App, methodName: addListener
+11-28 03:09:12.204  6561  6561 V Capacitor: callback: 126153755, pluginId: App, methodName: addListener, methodData: {"eventName":"backButton"}
+11-28 03:09:12.204  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:12.205  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153756, pluginId: ForNow, methodName: guiaState
+11-28 03:09:12.205  6561  6561 V Capacitor: callback: 126153756, pluginId: ForNow, methodName: guiaState, methodData: {}
+11-28 03:09:12.207  6561  6600 D Capacitor: Handling local request: https://localhost/fonts/Lora-Variable.ttf
+11-28 03:09:13.428  6561  6577 D EGL_emulation: app_time_stats: avg=455.81ms min=19.53ms max=1313.76ms count=3
+11-28 03:09:13.429  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:13.429  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"type":"state","id":"mwztzm2k6cwhx","ini":1795835331452,"pausa":0,"pausadoEm":0,"running":false,"faixa":0,"faixas":0,"ended":true,"complete":false,"endedAt":1795835337634}
+11-28 03:09:13.430  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:13.430  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153757, pluginId: ForNow, methodName: launchAction
+11-28 03:09:13.430  6561  6561 V Capacitor: callback: 126153757, pluginId: ForNow, methodName: launchAction, methodData: {}
+11-28 03:09:13.432  6561  6600 D Capacitor: Handling local request: https://localhost/favicon.ico
+11-28 03:09:13.434  6561  6561 I Choreographer: Skipped 71 frames!  The application may be doing too much work on its main thread.
+11-28 03:09:13.446  6561  6651 I OpenGLRenderer: Davey! duration=1277ms; Flags=0, FrameTimelineVsyncId=13465, IntendedVsync=329616076884, Vsync=329616076884, InputEventId=0, HandleInputStart=329617432778, AnimationStart=329617434761, PerformTraversalsStart=329619994423, DrawStart=329620126568, FrameDeadline=329632743550, FrameInterval=329617420885, FrameStartTime=16666666, SyncQueued=329622573692, SyncStart=329622589039, IssueDrawCommandsStart=329622606682, SwapBuffers=330853180171, FrameCompleted=330894027744, DequeueBufferDuration=3920, QueueBufferDuration=414527, GpuCompleted=330894027744, SwapBuffersCompleted=330885845013, DisplayPresentTime=0, CommandSubmissionCompleted=330853180171, 
+11-28 03:09:13.447  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"acao":""}
+11-28 03:09:13.447  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:13.448  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153758, pluginId: ForNow, methodName: alarmeStatus
+11-28 03:09:13.448  6561  6561 V Capacitor: callback: 126153758, pluginId: ForNow, methodName: alarmeStatus, methodData: {}
+11-28 03:09:13.458  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"exato":true,"notif":true,"telaCheia":true,"bateria":false,"volumeAlarme":6,"volumeAlarmeMax":7,"naoPerturbe":1,"proximo":0,"cochilo":0,"teste":0,"tocando":false,"fabricante":"Google google"}
+11-28 03:09:13.461  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:13.463  5353  5575 I FontLog : Received query Noto Color Emoji Compat, URI content://com.google.android.gms.fonts [CONTEXT service_id=132 ]
+11-28 03:09:13.463  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153759, pluginId: ForNow, methodName: setLabels
+11-28 03:09:13.463  5353  5575 I FontLog : Query [emojicompat-emoji-font] resolved to {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} [CONTEXT service_id=132 ]
+11-28 03:09:13.463  6561  6561 V Capacitor: callback: 126153759, pluginId: ForNow, methodName: setLabels, methodData: {"tile":"It's hard","widget":"It's hard right now","pico":"It's hard right now","paz":"A little peace","cochilo":"Nap","madrugada":"Awake in the night","alarmTitle":"Time to wake up","alarmOff":"Turn off","alarmChannel":"Alarm","alarmTest":"Alarm test"}
+11-28 03:09:13.463  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:13.463  5353  5575 I FontLog : Fetch {Noto Color Emoji Compat, wdth 100.0, wght 400, ital 0.0, bestEffort false} end status Status{statusCode=SUCCESS, resolution=null} [CONTEXT service_id=132 ]
+11-28 03:09:13.464  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153760, pluginId: ForNow, methodName: info
+11-28 03:09:13.464  6561  6561 V Capacitor: callback: 126153760, pluginId: ForNow, methodName: info, methodData: {}
+11-28 03:09:13.465  5353  5575 I FontLog : Pulling font file for id = 8, cache size = 7 [CONTEXT service_id=132 ]
+11-28 03:09:13.467  5353  5575 I FontLog : Pulling font file for id = 8, cache size = 7 [CONTEXT service_id=132 ]
+11-28 03:09:13.471   835   835 D TileServices: Couldn't find tile for ComponentInfo{com.wsqm1990.fornow/com.wsqm1990.fornow.PicoTile}(0)
+11-28 03:09:13.472  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: undefined
+11-28 03:09:13.478  6561  6651 I OpenGLRenderer: Davey! duration=1222ms; Flags=0, FrameTimelineVsyncId=13517, IntendedVsync=329699410214, Vsync=330882743500, InputEventId=0, HandleInputStart=330891948944, AnimationStart=330891952007, PerformTraversalsStart=330892854632, DrawStart=330892986344, FrameDeadline=330932743498, FrameInterval=330891034914, FrameStartTime=16666666, SyncQueued=330893386092, SyncStart=330904386333, IssueDrawCommandsStart=330904415686, SwapBuffers=330915034765, FrameCompleted=330932832698, DequeueBufferDuration=3051391, QueueBufferDuration=98646, GpuCompleted=330932832698, SwapBuffersCompleted=330918634555, DisplayPresentTime=0, CommandSubmissionCompleted=330915034765, 
+11-28 03:09:13.479  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"versionName":"0.1.29","versionCode":29,"installer":"","shell":2,"shellId":"cae001e134e9","midia":true,"sdk":34,"maker":"Google","model":"sdk_gphone64_x86_64","talkback":false}
+11-28 03:09:13.952   524   541 I GnssLocationProvider: WakeLock acquired by handleDownloadPsdsData()
+11-28 03:09:13.953   524  6660 E GnssPsdsDownloader: No Long-Term PSDS servers were specified in the GnssConfiguration
+11-28 03:09:14.044   524  1672 D ActivityManager: sync unfroze 1771 com.google.process.gservices for 7
+11-28 03:09:14.463   524  3189 E TaskPersister: File error accessing recents directory (directory doesn't exist?).
+11-28 03:09:14.781   835   835 D StatusBarIconController: ignoring old pipeline callback because the new wifi icon is enabled
+11-28 03:09:14.958  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:14.958  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153761, pluginId: ForNow, methodName: ouvintes
+11-28 03:09:14.958  6561  6561 V Capacitor: callback: 126153761, pluginId: ForNow, methodName: ouvintes, methodData: {}
+11-28 03:09:14.960  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"guia":true,"alarme":true,"launch":true}
+11-28 03:09:14.960  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:14.960  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153762, pluginId: ForNow, methodName: launchAction
+11-28 03:09:14.960  6561  6561 V Capacitor: callback: 126153762, pluginId: ForNow, methodName: launchAction, methodData: {}
+11-28 03:09:14.961  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"acao":""}
+11-28 03:09:14.961  6561  6561 I Capacitor/Console: File:  - Line 349 - Msg: [object Object]
+11-28 03:09:14.962  6561  6561 V Capacitor/Plugin: To native (Capacitor plugin): callbackId: 126153763, pluginId: ForNow, methodName: alarmeStatus
+11-28 03:09:14.962  6561  6561 V Capacitor: callback: 126153763, pluginId: ForNow, methodName: alarmeStatus, methodData: {}
+11-28 03:09:14.965  6561  6561 I Capacitor/Console: File:  - Line 333 - Msg: {"exato":true,"notif":true,"telaCheia":true,"bateria":false,"volumeAlarme":6,"volumeAlarmeMax":7,"naoPerturbe":1,"proximo":0,"cochilo":0,"teste":0,"tocando":false,"fabricante":"Google google"}
+11-28 03:09:16.776     0     0 I logd    : logdr: UID=2000 GID=2000 PID=6663 n tail=0 logMask=99 pid=0 start=0ns deadline=0ns
