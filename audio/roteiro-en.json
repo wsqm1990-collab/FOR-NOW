@@ -1,0 +1,159 @@
+{
+ "idioma": "en-US",
+ "modelo": "eleven_v4",
+ "nota": "Each block becomes one audio file. Sentences are separated by [long pause]; tools/audio-split.py cuts the file at those pauses and the app plays each sentence on its own, at the right time. The text of each sentence is exactly what the screen shows.",
+ "vozes": {
+  "feminina": {
+   "sugestao": "Emily - Warm, Velvety Meditation",
+   "voice_id": "mZTVERjx1WQkdAWt1Lcm"
+  },
+  "masculina": {
+   "sugestao": "Jerry B. - Calm Meditation | Soothing & Relaxing Voice",
+   "voice_id": "iRItcIx4sdrKJ1k6Ovv7"
+  }
+ },
+ "blocos": [
+  {
+   "id": "E00",
+   "nome": "Voice test",
+   "frases": [
+    "This is the For Now voice. One sentence at a time, no rush."
+   ]
+  },
+  {
+   "id": "E01",
+   "nome": "What's around you",
+   "frases": [
+    "Feel where your feet meet the floor.",
+    "Pick one object in front of you.",
+    "Notice a color or a detail on it.",
+    "Now notice a sound nearby.",
+    "You can just stay with that for a moment.",
+    "That's okay. Come back to what's around you.",
+    "Touch something near you and notice its texture.",
+    "Notice if it's cool or warm, smooth or rough.",
+    "Now find three things of the same color."
+   ]
+  },
+  {
+   "id": "E02",
+   "nome": "Breathe slowly, listen to a sound, stay, one more moment",
+   "frases": [
+    "Let the air come in however it comes.",
+    "Let it out slowly, no rush.",
+    "No need to fill your chest or hold your breath.",
+    "Just let the out-breath be a little slower.",
+    "Keep going like this, at your own pace.",
+    "Choose a sound and stay with it for a moment.",
+    "When you notice you've started talking with a thought, you can come back to the sound.",
+    "No need to empty your mind. Just come back, as many times as it takes.",
+    "You can just stay with the sound.",
+    "I'll be quiet now. Stay with the sound.",
+    "Stay a little longer. Nothing to do."
+   ]
+  },
+  {
+   "id": "E03",
+   "nome": "Let the body go",
+   "frases": [
+    "If it's comfortable, gently close your hands.",
+    "Now let go. Notice the difference.",
+    "Lift your shoulders a little, without forcing.",
+    "And let them drop. Let your shoulders rest.",
+    "If any part hurts, you can just let go, without squeezing.",
+    "Gently scrunch your forehead and eyes.",
+    "Let your face go: forehead, eyes, jaw.",
+    "Press your feet gently into the floor.",
+    "And let your legs go.",
+    "Now let your body be heavy where it's resting.",
+    "Nothing else to do. Stay as long as you like."
+   ]
+  },
+  {
+   "id": "E04",
+   "nome": "Let the body go (night)",
+   "frases": [
+    "Let your body sink into the mattress.",
+    "Let your shoulders go.",
+    "Let your hands be heavy.",
+    "No need to fall asleep now. Resting counts.",
+    "If thoughts come, let them pass like noise outside.",
+    "I'll be quiet now."
+   ]
+  },
+  {
+   "id": "E05",
+   "nome": "Nap",
+   "frases": [
+    "Your alarm is set.",
+    "Feel the pillow supporting you.",
+    "You can rest now. If you don't fall asleep, that's fine: resting counts.",
+    "Your alarm is in the phone's Clock.",
+    "This rest has no alarm.",
+    "You can rest now."
+   ]
+  },
+  {
+   "id": "E06",
+   "nome": "Breathing 1",
+   "frases": [
+    "Box breathing. Breathe in, hold, breathe out and pause, all for the same time. Follow the circle.",
+    "Four, seven, eight breathing. Breathe in counting to four, hold to seven and let it out slowly to eight.",
+    "Coherent breathing. Breathe in and out at the same pace, slowly, like a wave.",
+    "Long exhale. Let the breath out last longer than the breath in.",
+    "Double sigh. Breathe in through your nose, take in a little more, and let it all out very slowly through your mouth.",
+    "Breathing at your own timing. Follow the circle.",
+    "If it feels uncomfortable, go back to breathing normally. You can shorten the times.",
+    "You can go back to breathing at your own pace.",
+    "Notice how your body feels now."
+   ]
+  },
+  {
+   "id": "E07",
+   "nome": "Breathing 2",
+   "frases": [
+    "Breathe in through your nose.",
+    "Breathe in.",
+    "A little more air.",
+    "Hold the air.",
+    "Hold.",
+    "Let the air out slowly.",
+    "Breathe out.",
+    "And let it all out, slowly.",
+    "Pause."
+   ]
+  },
+  {
+   "id": "E08",
+   "nome": "Sleep now 1",
+   "frases": [
+    "Lie down in the way that is most comfortable for you.",
+    "Put the phone aside. You do not need to look at the screen.",
+    "Let the air out slowly, a little longer than usual.",
+    "Once more. Let the breath out be slow.",
+    "Now bring your attention to your feet.",
+    "Let your feet be heavy, sinking into the mattress.",
+    "Move up to your legs. Let your legs be loose.",
+    "Your hips and belly can rest too.",
+    "Notice your chest rising and falling, without controlling anything.",
+    "Now your hands. Let your hands be heavy and warm."
+   ]
+  },
+  {
+   "id": "E09",
+   "nome": "Sleep now 2",
+   "frases": [
+    "Your arms, up to your shoulders. Let your shoulders drop.",
+    "Your neck can rest on the pillow.",
+    "Release your jaw, your tongue, your forehead and your eyes.",
+    "If thoughts come, let them pass, like clouds.",
+    "You do not need to try to sleep. Resting already counts.",
+    "Imagine a peaceful place where you like to be.",
+    "Notice the colors, the sounds and the temperature of that place.",
+    "Let your body get heavier and heavier.",
+    "I will be quiet now. The music goes on for a while.",
+    "Good night."
+   ]
+  }
+ ]
+}

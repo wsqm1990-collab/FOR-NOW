@@ -1,0 +1,46 @@
+name: Voice pack
+
+# Downloads the voice blocks made on ElevenLabs (links in audio/manifest-en.json, valid for some
+# hours), cuts them into one clip per sentence (tools/audio-split.py, script audio/roteiro-en.json)
+# and saves the clips and their map on this branch: native/midia/voz-en, web/src/voz-en.json.
+on:
+  push:
+    branches: [proxima-versao]
+    paths: ['audio/manifest-en.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: voice-pack
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: proxima-versao
+
+      - name: Download, check and cut the English voices
+        run: |
+          command -v ffprobe > /dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null; }
+          python3 tools/audio-pack.py audio/manifest-en.json pack
+          python3 tools/audio-split.py pack/ForNow-audios split audio/roteiro-en.json
+          python3 tools/audio-vozes.py split en
+          { cat pack/relatorio.txt; echo; cat split/divisao.txt; } > audio/vozes-en-relatorio.txt
+
+      - name: Save on this branch
+        run: |
+          git add native/midia/voz-en web/src/voz-en.json audio/vozes-en-relatorio.txt
+          if ! git diff --cached --quiet; then
+            git -c user.name="For Now build" -c user.email="build@users.noreply.github.com" commit -qm "English voices for the app (voice pack ${{ github.run_number }})"
+            for i in 1 2 3; do git pull -q --rebase origin proxima-versao && git push -q origin HEAD:proxima-versao && break; sleep 5; done
+          fi

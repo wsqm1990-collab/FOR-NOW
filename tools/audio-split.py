@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """Cuts each voice block (one ElevenLabs file per block, sentences separated by long pauses) into
-one clip per sentence, checks the count against audio/roteiro-pt.json and encodes the clips for the
-app (Opus 64 kbps in .ogg, mono, one fixed gain per block: no pumping, no raised noise). Writes OUT/voz/<voz>/<id>.ogg, OUT/voz-pt.json
-(sentence text -> file) and OUT/divisao.txt (what was found for every block).
-Usage: python3 tools/audio-split.py PACKDIR OUT"""
+one clip per sentence, checks the count against the script (audio/roteiro-pt.json, or the one given)
+and encodes the clips for the app (Opus 64 kbps in .ogg, mono, one fixed gain per block: no pumping,
+no raised noise). Writes OUT/voz/<voz>/<id>.ogg, OUT/voz-<lang>.json (sentence text -> file) and
+OUT/divisao.txt (what was found for every block).
+Usage: python3 tools/audio-split.py PACKDIR OUT [audio/roteiro-en.json]"""
 import hashlib, json, os, re, subprocess, sys
 
 pack, out = sys.argv[1], sys.argv[2]
-rot = json.load(open('audio/roteiro-pt.json', encoding='utf-8'))
+rot = json.load(open(sys.argv[3] if len(sys.argv) > 3 else 'audio/roteiro-pt.json', encoding='utf-8'))
+lang = rot.get('idioma', 'pt-BR')[:2]
 os.makedirs(out, exist_ok=True)
 rel, mapa, problemas = [], {}, 0
 
@@ -88,7 +90,7 @@ for voz in ('feminina', 'masculina'):
                             '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '64k', '-application', 'audio', destino], check=True)
             mapa[voz][texto] = f'{voz}/{nome}'
 
-json.dump(mapa, open(os.path.join(out, 'voz-pt.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+json.dump(mapa, open(os.path.join(out, f'voz-{lang}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 resumo = f'{sum(len(v) for v in mapa.values())} frases cortadas; {problemas} problema(s)'
 open(os.path.join(out, 'divisao.txt'), 'w', encoding='utf-8').write(resumo + '\n' + '\n'.join(rel) + '\n')
 print(resumo)
