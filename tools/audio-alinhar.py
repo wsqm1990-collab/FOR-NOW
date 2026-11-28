@@ -41,9 +41,15 @@ def ler(f):
     return np.frombuffer(raw, np.float32)
 
 
+NUMEROS = {'0': 'zero', '1': 'one', '2': 'two', '3': 'three', '4': 'four', '5': 'five', '6': 'six', '7': 'seven',
+           '8': 'eight', '9': 'nine', '10': 'ten', '11': 'eleven', '12': 'twelve'}
+
+
 def norm(w):
+    """Words to compare: lower case, no punctuation, digits as words ("4" and "four" are the same)."""
     w = w.lower().replace('\u2019', "'").replace('-', ' ')
-    return [p for p in (re.sub(r"[^0-9a-zà-ÿ']+", '', x) for x in w.split()) if p]
+    out = [p for p in (re.sub(r"[^0-9a-zà-ÿ']+", '', x) for x in w.split()) if p]
+    return [NUMEROS.get(p, p) if lang == 'en' else p for p in out]
 
 
 def palavras(texto):
@@ -144,6 +150,19 @@ for voz in ('feminina', 'masculina'):
                             os.path.join(out, 'voz', voz, nome)], check=True)
             mapa[voz][frase] = f'{voz}/{nome}'
             linha.append(f'{fim - ini:.1f}s')
+        # a clip much longer than its words need may carry a neighbour: leave it out
+        ouvidas = [(fr, fa) for fr, fa in zip(b['frases'], faixas) if fa[0] is not None]
+        ritmo = sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))
+        for fr, (a, z, cob) in ouvidas:
+            if z - a > 1.8 * len(fr) / ritmo + 1.0:
+                ruins.append(f'longa demais ({z - a:.1f} s para {len(fr)} letras): {fr}')
+                mapa[voz].pop(fr, None)
+                try:
+                    os.remove(os.path.join(out, 'voz', voz, chave(fr) + '.ogg'))
+                except OSError:
+                    pass
+        if ruins:   # what was heard there, to see why
+            rel.append(f'   ouvido em {voz}/{b["id"]}: ' + ' '.join(f'{w[0]}@{w[1]:.1f}' for w in ws))
         ok = len(b['frases']) - len(ruins)
         rel.append(f'{"ok" if not ruins else "FALTA"} {voz}/{b["id"]}: {ok} de {len(b["frases"])} frases '
                    f'(ganho {g:+.1f} dB, palavras a mais ouvidas: {sobras}): ' + ', '.join(linha))
