@@ -1,0 +1,43 @@
+20 de 20 arquivos; ZIP com 10435 KB
+ok vozes/feminina/E00.mp3 97 KB 5.1 s
+ok vozes/feminina/E01.mp3 520 KB 32.2 s
+ok vozes/feminina/E02.mp3 656 KB 40.9 s
+ok vozes/feminina/E03.mp3 702 KB 43.8 s
+ok vozes/feminina/E04.mp3 330 KB 20.0 s
+ok vozes/feminina/E05.mp3 325 KB 19.7 s
+ok vozes/feminina/E06.mp3 1024 KB 64.4 s
+ok vozes/feminina/E07.mp3 304 KB 18.3 s
+ok vozes/feminina/E08.mp3 704 KB 43.9 s
+ok vozes/feminina/E09.mp3 660 KB 41.1 s
+ok vozes/masculina/E00.mp3 92 KB 4.8 s
+ok vozes/masculina/E01.mp3 526 KB 32.6 s
+ok vozes/masculina/E02.mp3 625 KB 38.9 s
+ok vozes/masculina/E03.mp3 655 KB 40.8 s
+ok vozes/masculina/E04.mp3 319 KB 19.3 s
+ok vozes/masculina/E05.mp3 306 KB 18.5 s
+ok vozes/masculina/E06.mp3 937 KB 58.9 s
+ok vozes/masculina/E07.mp3 291 KB 17.5 s
+ok vozes/masculina/E08.mp3 675 KB 42.1 s
+ok vozes/masculina/E09.mp3 677 KB 42.2 s
+
+153 frases cortadas; 1 problema(s)
+ok feminina/E00: 1 frases (ruído -40 dB, pausa 1.0 s, ganho +9.9 dB): 5.1s
+ok feminina/E01: 9 frases (ruído -35 dB, pausa 0.9 s, ganho +8.4 dB): 2.1s, 2.0s, 2.3s, 1.9s, 1.8s, 2.5s, 2.8s, 3.7s, 2.9s
+ok feminina/E02: 11 frases (ruído -30 dB, pausa 0.8 s, ganho +11.2 dB): 2.3s, 1.9s, 2.6s, 2.4s, 2.5s, 2.8s, 9.6s, 3.3s, 1.0s, 1.0s, 1.0s
+ok feminina/E03: 11 frases (ruído -45 dB, pausa 1.0 s, ganho +12.3 dB): 3.2s, 0.8s, 1.2s, 2.6s, 3.4s, 4.0s, 2.4s, 4.0s, 2.2s, 1.5s, 7.0s
+ok feminina/E04: 6 frases (ruído -30 dB, pausa 1.0 s, ganho +10.5 dB): 2.5s, 1.1s, 1.6s, 3.5s, 3.6s, 1.3s
+ok feminina/E05: 6 frases (ruído -35 dB, pausa 1.0 s, ganho +9.9 dB): 1.6s, 1.6s, 5.2s, 1.9s, 1.7s, 1.3s
+ok feminina/E06: 9 frases (ruído -40 dB, pausa 1.0 s, ganho +9.8 dB): 9.2s, 7.3s, 5.9s, 4.5s, 7.4s, 3.2s, 4.8s, 2.6s, 2.2s
+ok feminina/E07: 9 frases (ruído -30 dB, pausa 0.9 s, ganho +12.2 dB): 1.0s, 0.6s, 0.8s, 0.5s, 0.4s, 1.4s, 0.8s, 2.1s, 0.8s
+ok feminina/E08: 10 frases (ruído -30 dB, pausa 1.0 s, ganho +12.7 dB): 2.9s, 3.3s, 3.3s, 2.8s, 1.9s, 3.4s, 3.4s, 2.0s, 4.3s, 4.1s
+ok feminina/E09: 10 frases (ruído -35 dB, pausa 0.8 s, ganho +9.8 dB): 2.3s, 1.6s, 1.7s, 4.9s, 3.4s, 4.2s, 2.9s, 7.6s, 3.3s, 0.7s
+ok masculina/E00: 1 frases (ruído -40 dB, pausa 1.0 s, ganho +1.6 dB): 4.8s
+ok masculina/E01: 9 frases (ruído -40 dB, pausa 1.0 s, ganho -0.5 dB): 2.1s, 1.9s, 2.2s, 1.8s, 2.0s, 2.4s, 2.7s, 3.8s, 2.6s
+ERRO masculina/E02: esperava 11 frases, achei 7 (2.7s, 2.3s, 2.8s, 8.9s, 11.7s, 2.4s, 2.6s)
+ok masculina/E03: 11 frases (ruído -45 dB, pausa 0.9 s, ganho +0.3 dB): 3.0s, 0.8s, 1.1s, 2.4s, 3.2s, 3.8s, 2.3s, 4.0s, 4.3s, 2.5s, 3.2s
+ok masculina/E04: 6 frases (ruído -40 dB, pausa 1.0 s, ganho +0.9 dB): 2.6s, 1.4s, 1.6s, 3.0s, 3.5s, 1.1s
+ok masculina/E05: 6 frases (ruído -40 dB, pausa 0.9 s, ganho -0.5 dB): 1.4s, 1.8s, 5.1s, 1.8s, 1.8s, 1.1s
+ok masculina/E06: 9 frases (ruído -40 dB, pausa 1.0 s, ganho -0.8 dB): 9.2s, 7.5s, 6.0s, 4.5s, 7.6s, 3.2s, 4.8s, 2.3s, 2.0s
+ok masculina/E07: 9 frases (ruído -30 dB, pausa 0.8 s, ganho +0.3 dB): 1.6s, 0.4s, 0.8s, 0.7s, 0.4s, 1.4s, 0.6s, 2.1s, 0.7s
+ok masculina/E08: 10 frases (ruído -40 dB, pausa 1.0 s, ganho +0.1 dB): 2.9s, 3.3s, 3.5s, 2.8s, 2.2s, 3.5s, 3.4s, 1.9s, 4.5s, 4.1s
+ok masculina/E09: 10 frases (ruído -30 dB, pausa 1.0 s, ganho +0.6 dB): 4.5s, 1.6s, 4.9s, 3.4s, 4.1s, 2.7s, 4.2s, 2.6s, 3.2s, 0.7s
