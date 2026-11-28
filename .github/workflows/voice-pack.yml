@@ -1,7 +1,7 @@
 name: Voice pack
 
 # Downloads the voice blocks made on ElevenLabs (links in audio/manifest-en.json, valid for some
-# hours), cuts them into one clip per sentence (tools/audio-split.py, script audio/roteiro-en.json)
+# hours), cuts them into one clip per sentence (tools/audio-alinhar.py, script audio/roteiro-en.json)
 # and saves the clips and their map on this branch: native/midia/voz-en, web/src/voz-en.json.
 on:
   push:
@@ -49,9 +49,12 @@ jobs:
             echo "blocks taken from the pre-release vozes-en-fontes (links expired)" > pack/relatorio.txt
           fi
 
+      # Cut by what is actually said (speech recognition with word times), not only by the pauses:
+      # a pause count can put the wrong sentence in a clip.
       - name: Cut the English voices into one clip per sentence
         run: |
-          python3 tools/audio-split.py pack/ForNow-audios split audio/roteiro-en.json
+          python3 -m pip install --quiet --disable-pip-version-check faster-whisper numpy
+          python3 tools/audio-alinhar.py pack/ForNow-audios split audio/roteiro-en.json
           python3 tools/audio-vozes.py split en
           { cat pack/relatorio.txt; echo; cat split/divisao.txt; } > audio/vozes-en-relatorio.txt
 

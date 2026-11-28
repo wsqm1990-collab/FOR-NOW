@@ -1,5 +1,5 @@
 {
- "nota": "English voice blocks made on ElevenLabs (flow zCDKnPjbfcLXOxhyYpg6, model eleven_v4; female Emily mZTVERjx1WQkdAWt1Lcm, male Jerry B. iRItcIx4sdrKJ1k6Ovv7). Links valid until 2026-11-28 08:00 UTC. .github/workflows/voice-pack.yml downloads and cuts them.",
+ "nota": "English voice blocks made on ElevenLabs (flow zCDKnPjbfcLXOxhyYpg6, model eleven_v4; female Emily mZTVERjx1WQkdAWt1Lcm, male Jerry B. iRItcIx4sdrKJ1k6Ovv7). Links valid until 2026-11-28 04:00 UTC; the blocks are kept in the pre-release vozes-en-fontes. .github/workflows/voice-pack.yml downloads and cuts them.",
  "itens": [
   {
    "arquivo": "vozes/feminina/E00.mp3",
