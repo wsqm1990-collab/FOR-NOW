@@ -144,14 +144,27 @@ for voz in ('feminina', 'masculina'):
         ouvidas = [(fr, fa) for fr, fa in zip(b['frases'], faixas) if fa[0] is not None]
         ritmo = sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))
         plausivel = lambda fr, d: 0.4 * len(fr) / ritmo - 0.3 <= d <= 1.8 * len(fr) / ritmo + 1.0
-        trechos, como = [None] * n, [''] * n
+        trechos, como, cortes_dentro = [None] * n, [''] * n, set()
         for i, (fr, (a, z, _)) in enumerate(zip(b['frases'], faixas)):
             if a is None:
                 continue
             # the stretches of voice its words fall on: the whole sentence, none of its neighbours
             mine = [il for il in ilhas if il[1] > a + 0.05 and il[0] < z - 0.05]
-            if mine and plausivel(fr, mine[-1][1] - mine[0][0]):
-                trechos[i] = (mine[0][0], mine[-1][1])
+            if not mine:
+                continue
+            ini, fim = mine[0][0], mine[-1][1]
+            # a pause too short to split the voice: the cut goes in the quietest moment between the
+            # last word of the sentence before and the first word of this one (and the same after)
+            zant = next((faixas[j][1] for j in range(i - 1, -1, -1) if faixas[j][0] is not None), None)
+            aprox = next((faixas[j][0] for j in range(i + 1, n) if faixas[j][0] is not None), None)
+            if zant is not None and ini < zant - 0.05 and zant < a:
+                ini = mais_quieto(env, k, zant, a)
+                cortes_dentro.add((i, 'ini'))
+            if aprox is not None and fim > aprox + 0.05 and z < aprox:
+                fim = mais_quieto(env, k, z, aprox)
+                cortes_dentro.add((i, 'fim'))
+            if plausivel(fr, fim - ini):
+                trechos[i] = (ini, fim)
         # sentences the recognizer missed (or merged): between their good neighbours, cut at the
         # longest pauses, if each piece is about as long as its words need
         i = 0
@@ -187,8 +200,8 @@ for voz in ('feminina', 'masculina'):
             a, z = trechos[i]
             antes = max([x[1] for x in ilhas if x[1] <= a + 0.001] + [0.0])
             depois = min([x[0] for x in ilhas if x[0] >= z - 0.001] + [dur])
-            ini = max(a - 0.12, (antes + a) / 2, 0.0)
-            fim = min(z + 0.25, (z + depois) / 2, dur)
+            ini = a if (i, 'ini') in cortes_dentro else max(a - 0.12, (antes + a) / 2, 0.0)
+            fim = z if (i, 'fim') in cortes_dentro else min(z + 0.25, (z + depois) / 2, dur)
             nome = chave(frase) + '.ogg'
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-to', f'{fim:.3f}', '-i', f,
                             '-af', f'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,volume={g:.2f}dB',
@@ -217,7 +230,7 @@ for voz, m in mapa.items():
         sm = difflib.SequenceMatcher(a=esperado, b=ouvido, autojunk=False)
         iguais = sum(x.size for x in sm.get_matching_blocks())
         cob, sobra = iguais / max(1, len(esperado)), len(ouvido) - iguais
-        if cob >= 0.9 and sobra <= 1:
+        if (cob >= 0.9 and sobra <= 1) or ''.join(esperado) == ''.join(ouvido):
             certos += 1
         else:
             avisos.append(f'   {voz}: "{frase}" -> ouvido "{" ".join(ouvido)}" ({cob:.0%} das palavras, {sobra} a mais)')
