@@ -32,7 +32,7 @@ SR = 16000                     # analysis rate
 ANTES, DEPOIS = 0.20, 0.35     # air kept when there is no pause to cut in
 MIN_COBERTURA = 0.7            # share of a sentence's words that must be heard
 os.makedirs(out, exist_ok=True)
-rel, mapa, problemas = [], {}, 0
+rel, mapa, problemas, clipes = [], {}, 0, []
 
 
 def ler(f):
@@ -76,6 +76,12 @@ def ganho_fixo(f, alvo=-23.0, pico=-2.0):
     i = float(re.findall(r'I:\s+(-?[\d.]+) LUFS', r)[-1])
     tp = float(re.findall(r'Peak:\s+(-?[\d.]+) dBFS', r)[-1])
     return min(alvo - i, pico - tp)
+
+
+def gravar_clipe(f, ini, fim, g, destino):
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-to', f'{fim:.3f}', '-i', f,
+                    '-af', f'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,volume={g:.2f}dB',
+                    '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '64k', '-application', 'audio', destino], check=True)
 
 
 def chave(texto):
@@ -142,7 +148,7 @@ for voz in ('feminina', 'masculina'):
         n = len(b['frases'])
         # chars per second of this voice in this block, from the sentences heard whole
         ouvidas = [(fr, fa) for fr, fa in zip(b['frases'], faixas) if fa[0] is not None]
-        ritmo = sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))
+        ritmo = (sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))) if ouvidas else 12.0
         plausivel = lambda fr, d: 0.4 * len(fr) / ritmo - 0.3 <= d <= 1.8 * len(fr) / ritmo + 1.0
         trechos, como, cortes_dentro = [None] * n, [''] * n, set()
         for i, (fr, (a, z, _)) in enumerate(zip(b['frases'], faixas)):
@@ -158,10 +164,10 @@ for voz in ('feminina', 'masculina'):
             zant = next((faixas[j][1] for j in range(i - 1, -1, -1) if faixas[j][0] is not None), None)
             aprox = next((faixas[j][0] for j in range(i + 1, n) if faixas[j][0] is not None), None)
             if zant is not None and ini < zant - 0.05 and zant < a:
-                ini = mais_quieto(env, k, zant, a)
+                ini = mais_quieto(env, k, max(zant, a - 0.6), a)
                 cortes_dentro.add((i, 'ini'))
             if aprox is not None and fim > aprox + 0.05 and z < aprox:
-                fim = mais_quieto(env, k, z, aprox)
+                fim = mais_quieto(env, k, z, min(aprox, z + 0.6))
                 cortes_dentro.add((i, 'fim'))
             if plausivel(fr, fim - ini):
                 trechos[i] = (ini, fim)
@@ -203,10 +209,8 @@ for voz in ('feminina', 'masculina'):
             ini = a if (i, 'ini') in cortes_dentro else max(a - 0.12, (antes + a) / 2, 0.0)
             fim = z if (i, 'fim') in cortes_dentro else min(z + 0.25, (z + depois) / 2, dur)
             nome = chave(frase) + '.ogg'
-            subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-to', f'{fim:.3f}', '-i', f,
-                            '-af', f'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,volume={g:.2f}dB',
-                            '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '64k', '-application', 'audio',
-                            os.path.join(out, 'voz', voz, nome)], check=True)
+            gravar_clipe(f, ini, fim, g, os.path.join(out, 'voz', voz, nome))
+            clipes.append([voz, frase, f, ini, fim, g, nome])
             mapa[voz][frase] = f'{voz}/{nome}'
             linha.append(f'{fim - ini:.1f}s{como[i]}')
         if ruins or any(como):   # what was heard there, to see why
@@ -218,23 +222,46 @@ for voz in ('feminina', 'masculina'):
             rel.append(f'   não ouvida: {r}')
         problemas += len(ruins)
 
-# the check: each finished clip is heard again on its own, and must say its sentence and nothing else
-avisos, certos, total = [], 0, 0
-for voz, m in mapa.items():
-    for frase, arq in m.items():
-        total += 1
-        y = ler(os.path.join(out, 'voz', arq))
-        segs, _ = modelo.transcribe(y, language=lang, beam_size=5, condition_on_previous_text=False, vad_filter=False)
-        ouvido = [p for s_ in segs for p in norm(s_.text)]
-        esperado = palavras(frase)
-        sm = difflib.SequenceMatcher(a=esperado, b=ouvido, autojunk=False)
-        iguais = sum(x.size for x in sm.get_matching_blocks())
+# the check: each finished clip is heard again on its own and must say its sentence and nothing else.
+# Words of a neighbour at its start or end are cut off (in the quietest moment before the sentence's
+# first word, or after its last one, by the times heard in the clip itself), then heard again.
+avisos, certos, reparados, blocos = [], 0, 0, {}
+for c in clipes:
+    voz, frase, f, ini, fim, g, nome = c
+    if f not in blocos:
+        x = ler(f)
+        blocos[f] = (x,) + energia(x)
+    x, env, k = blocos[f]
+    esperado = palavras(frase)
+    for tentativa in range(3):
+        segs, _ = modelo.transcribe(x[int(ini * SR):int(fim * SR)], language=lang, word_timestamps=True, beam_size=5,
+                                    condition_on_previous_text=False, vad_filter=False)
+        hw = [(p, w.start, w.end) for s_ in segs for w in s_.words for p in norm(w.word)]
+        ouvido = [h[0] for h in hw]
+        mb = [m for m in difflib.SequenceMatcher(a=esperado, b=ouvido, autojunk=False).get_matching_blocks() if m.size]
+        iguais = sum(m.size for m in mb)
         cob, sobra = iguais / max(1, len(esperado)), len(ouvido) - iguais
-        if (cob >= 0.9 and sobra <= 1) or ''.join(esperado) == ''.join(ouvido):
-            certos += 1
-        else:
-            avisos.append(f'   {voz}: "{frase}" -> ouvido "{" ".join(ouvido)}" ({cob:.0%} das palavras, {sobra} a mais)')
-rel.append(f'conferência: {certos} de {total} clipes dizem a sua frase e nada mais')
+        bom = (cob >= 0.9 and sobra <= 1) or ''.join(esperado) == ''.join(ouvido)
+        if bom or not mb:
+            break
+        primeiro, ultimo = mb[0].b, mb[-1].b + mb[-1].size - 1
+        novo_ini, novo_fim = ini, fim
+        if primeiro > 0:
+            a0, a1 = ini + hw[primeiro - 1][2], ini + hw[primeiro][1]
+            novo_ini = mais_quieto(env, k, a0, a1) if a1 > a0 + 0.02 else (a0 + a1) / 2
+        if ultimo < len(hw) - 1:
+            z0, z1 = ini + hw[ultimo][2], ini + hw[ultimo + 1][1]
+            novo_fim = mais_quieto(env, k, z0, z1) if z1 > z0 + 0.02 else (z0 + z1) / 2
+        if abs(novo_ini - ini) < 0.01 and abs(novo_fim - fim) < 0.01:
+            break
+        ini, fim = novo_ini, novo_fim
+        gravar_clipe(f, ini, fim, g, os.path.join(out, 'voz', voz, nome))
+        reparados += 1
+    if bom:
+        certos += 1
+    else:
+        avisos.append(f'   {voz}: "{frase}" -> ouvido "{" ".join(ouvido)}" ({cob:.0%} das palavras, {sobra} a mais)')
+rel.append(f'conferência: {certos} de {len(clipes)} clipes dizem a sua frase e nada mais ({reparados} cortes acertados)')
 rel.extend(avisos)
 
 json.dump(mapa, open(os.path.join(out, f'voz-{lang}.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
