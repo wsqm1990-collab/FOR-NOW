@@ -24,22 +24,23 @@ ok vozes/masculina/E09.mp3 677 KB 42.2 s
 ok feminina/E00: 1 de 1 frases (ganho +9.9 dB, palavras a mais ouvidas: 0): 5.1s
 ok feminina/E01: 9 de 9 frases (ganho +8.4 dB, palavras a mais ouvidas: 0): 2.7s, 2.5s, 2.8s, 2.4s, 2.3s, 3.1s, 3.4s, 4.2s, 4.2s
 ok feminina/E02: 11 de 11 frases (ganho +11.2 dB, palavras a mais ouvidas: 0): 3.4s, 2.8s, 3.5s, 3.0s, 3.3s, 3.2s, 4.7s, 5.2s, 2.3s, 3.1s, 3.0s
-FALTA feminina/E03: 10 de 11 frases (ganho +12.3 dB, palavras a mais ouvidas: 0): 3.4s, 3.3s, 3.0s, 5.0s, 4.4s, 7.9s, 2.6s, 3.1s, 3.0s, 3.5s
+   ouvido em feminina/E03: if@0.0 it's@0.3 comfortable@0.5 gently@1.7 close@1.9 your@2.3 hands@2.6 now@4.7 let@4.7 go@4.9 notice@6.4 the@6.6 difference@6.8 lift@8.7 your@8.9 shoulders@9.2 a@9.5 little@9.8 without@10.0 forcing@10.7 and@11.3 let@12.7 them@13.0 drop@13.2 let@14.4 your@14.6 shoulders@14.8 rest@15.1 if@16.8 any@17.1 part@17.4 hurts@17.6 you@18.4 can@18.6 just@18.8 let@19.0 go@19.3 without@19.6 squeezing@20.3 gently@22.2 scrunch@22.5 your@23.1 forehead@23.2 and@23.7 eyes@29.5 press@30.5 your@31.1 feet@31.3 gently@31.6 into@32.1 the@32.5 floor@32.7 and@33.1 let@34.5 your@34.7 legs@34.9 go@35.1 now@36.8 let@37.1 your@37.3 body@37.5 be@37.8 heavy@38.0 where@38.4 it's@38.7 resting@38.9 nothing@40.5 else@40.8 to@41.0 do@41.2 stay@42.2 as@42.4 long@42.7 as@43.0 you@43.1 like@43.3
+FALTA feminina/E03: 9 de 11 frases (ganho +12.3 dB, palavras a mais ouvidas: 0): 3.4s, 3.3s, 3.0s, 5.0s, 4.4s, 7.9s, 2.6s, 3.1s, 3.0s, 3.5s
    não ouvida: frase 7 (0% das palavras): Let your face go: forehead, eyes, jaw.
+   não ouvida: longa demais (7.4 s para 38 letras): Gently scrunch your forehead and eyes.
 ok feminina/E04: 6 de 6 frases (ganho +10.5 dB, palavras a mais ouvidas: 0): 3.6s, 2.0s, 2.2s, 4.1s, 4.0s, 1.4s
 ok feminina/E05: 6 de 6 frases (ganho +9.9 dB, palavras a mais ouvidas: 0): 2.2s, 2.4s, 5.8s, 2.4s, 2.3s, 1.4s
-ok feminina/E06: 9 de 9 frases (ganho +9.8 dB, palavras a mais ouvidas: 3): 9.5s, 7.8s, 6.5s, 4.9s, 8.0s, 3.6s, 5.2s, 2.9s, 2.3s
-ok feminina/E07: 9 de 9 frases (ganho +12.2 dB, palavras a mais ouvidas: 0): 2.4s, 1.1s, 2.7s, 1.3s, 1.1s, 2.2s, 1.3s, 3.8s, 0.9s
+ok feminina/E06: 9 de 9 frases (ganho +9.8 dB, palavras a mais ouvidas: 0): 9.5s, 7.8s, 6.5s, 4.9s, 8.0s, 3.6s, 5.2s, 2.9s, 2.3s
+ok feminina/E07: 9 de 9 frases (ganho +12.2 dB, palavras a mais ouvidas: 0): 2.4s, 1.1s, 2.7s, 1.3s, 1.1s, 2.2s, 1.3s, 3.8s, 0.8s
 ok feminina/E08: 10 de 10 frases (ganho +12.7 dB, palavras a mais ouvidas: 0): 3.9s, 4.0s, 4.2s, 3.5s, 2.7s, 4.1s, 5.3s, 2.6s, 5.2s, 4.2s
 ok feminina/E09: 10 de 10 frases (ganho +9.8 dB, palavras a mais ouvidas: 0): 5.6s, 2.3s, 5.4s, 3.9s, 4.6s, 4.3s, 4.6s, 3.4s, 3.8s, 0.8s
 ok masculina/E00: 1 de 1 frases (ganho +1.6 dB, palavras a mais ouvidas: 0): 4.8s
-ok masculina/E01: 9 de 9 frases (ganho -0.5 dB, palavras a mais ouvidas: 0): 2.4s, 2.2s, 2.6s, 2.1s, 2.4s, 2.8s, 3.0s, 4.2s, 2.7s
-ok masculina/E02: 11 de 11 frases (ganho +0.2 dB, palavras a mais ouvidas: 0): 2.9s, 2.6s, 3.1s, 2.7s, 2.8s, 2.8s, 4.4s, 4.9s, 2.2s, 2.8s, 2.7s
-ok masculina/E03: 11 de 11 frases (ganho +0.3 dB, palavras a mais ouvidas: 0): 3.2s, 3.2s, 2.7s, 3.5s, 4.2s, 2.5s, 4.3s, 2.4s, 2.7s, 2.7s, 3.3s
+ok masculina/E01: 9 de 9 frases (ganho -0.5 dB, palavras a mais ouvidas: 1): 2.4s, 2.2s, 2.6s, 2.1s, 2.4s, 2.8s, 3.0s, 4.2s, 2.7s
+ok masculina/E02: 11 de 11 frases (ganho +0.2 dB, palavras a mais ouvidas: 0): 2.9s, 2.6s, 3.1s, 2.7s, 2.8s, 2.8s, 4.4s, 4.8s, 3.1s, 2.7s, 2.7s
+ok masculina/E03: 11 de 11 frases (ganho +0.3 dB, palavras a mais ouvidas: 0): 3.2s, 3.2s, 2.7s, 3.6s, 4.2s, 2.5s, 4.3s, 2.4s, 2.7s, 2.7s, 3.3s
 ok masculina/E04: 6 de 6 frases (ganho +0.9 dB, palavras a mais ouvidas: 0): 2.8s, 1.8s, 2.0s, 3.3s, 3.9s, 1.2s
 ok masculina/E05: 6 de 6 frases (ganho -0.5 dB, palavras a mais ouvidas: 0): 1.6s, 2.1s, 5.4s, 2.2s, 2.1s, 1.2s
-FALTA masculina/E06: 8 de 9 frases (ganho -0.8 dB, palavras a mais ouvidas: 6): 9.4s, 6.2s, 4.9s, 7.8s, 3.5s, 5.1s, 2.5s, 2.1s
-   não ouvida: frase 2 (68% das palavras): Four, seven, eight breathing. Breathe in counting to four, hold to seven and let it out slowly to eight.
+ok masculina/E06: 9 de 9 frases (ganho -0.8 dB, palavras a mais ouvidas: 0): 9.4s, 7.8s, 6.2s, 4.9s, 7.8s, 3.5s, 5.1s, 2.6s, 2.1s
 ok masculina/E07: 9 de 9 frases (ganho +0.3 dB, palavras a mais ouvidas: 0): 1.9s, 0.9s, 1.3s, 1.1s, 0.8s, 1.9s, 1.0s, 2.5s, 0.8s
 ok masculina/E08: 10 de 10 frases (ganho +0.1 dB, palavras a mais ouvidas: 0): 3.0s, 3.7s, 3.8s, 3.2s, 2.5s, 3.9s, 3.8s, 2.4s, 4.8s, 4.1s
-ok masculina/E09: 10 de 10 frases (ganho +0.6 dB, palavras a mais ouvidas: 0): 5.0s, 1.9s, 5.2s, 3.8s, 4.5s, 3.1s, 4.4s, 3.0s, 3.6s, 0.8s
+ok masculina/E09: 10 de 10 frases (ganho +0.6 dB, palavras a mais ouvidas: 1): 5.0s, 1.9s, 5.2s, 3.8s, 4.5s, 3.1s, 4.4s, 3.0s, 3.6s, 0.8s
