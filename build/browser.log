@@ -1,0 +1,281 @@
+PASS home in English by default — "It's hard right now"
+PASS no sideways scroll
+PASS pico shows the first sentence at once — "Feel where your feet meet the floor."
+PASS pico hands the timeline to Android (English voice) — "en-US"
+PASS no permission or question before help
+PASS Switch from the surroundings goes to breathing — "respiracao"
+PASS Switch from breathing goes straight back to the surroundings — "That's okay. Come back to what's around you."
+PASS Android was told to stop the old timeline on each switch
+PASS pause reaches Android
+PASS screen shows Paused
+PASS after more than one technique, the end choices appear
+PASS history records the session with the answer and the switches — [["ambiente", true], ["respiracao", true], ["ambiente", null]]
+PASS after the opener, the choice screen appears
+PASS the sound technique plays the recorded rain — "midia/sons/N01.ogg"
+PASS the sound chip opens the list by category
+PASS choosing the sea changes the sound live
+PASS leaving records "left before the end" and no answer
+PASS 5-minute peace lasts 5 minutes, voice leaves early — 300
+PASS peace ends with one optional question
+PASS skipping is recorded as skipped, not as "no"
+PASS nap without exact-alarm permission says it is not guaranteed
+PASS Clock opens with the time filled in — {"hora": 3, "minuto": 30, "mensagem": "Nap · For Now"}
+PASS Clock alarm confirmed through Android
+PASS with permission, Start appears
+PASS the voice only says the alarm is set after Android confirmed it (recorded: without the time) — "Your alarm is set."
+PASS ringing shows the Turn off screen
+PASS after the nap, the question waits on the home screen
+PASS nap answer saved
+PASS night screen is dark and dim
+PASS night session ends with no question
+PASS CVV only opens the dialer with 188
+PASS Portuguese home
+PASS Portuguese voice and text
+PASS Spanish home
+PASS widget and shortcut labels follow the language
+PASS hidden breathing is skipped by Switch — "som"
+PASS a suggestion shows the real count and the mixed results — ["In “Spike”, you marked that “Listen to a sound” helped 3 of 3 times. Start with it?\n\nAlso: somewhat 0 · no 0 · no answer 2.\n\nStart with it\nNot now"]
+PASS opening from the widget starts the session
+PASS listeners dropped by Android are added back, once each — {"ForNow:guia": 1, "ForNow:alarme": 1, "ForNow:launch": 1, "App:backButton": 1}
+PASS nothing is added twice when the listeners are there
+PASS the widget poke starts the session (the page takes the action itself)
+PASS an action whose event was lost is taken when the app comes back — "madrugada"
+PASS a session ended from the notification while the page missed it ends on the page too — "inicio"
+PASS an alarm turned off while the page missed it leaves the alarm screen — "inicio"
+PASS breathing lists six exercises
+PASS custom times can be changed
+PASS box breathing: 4-second phases that vibrate, exact — [[11, 0], [1.5, 0], [4, 35], [4, 35], [4, 35], [4, 35], [4, 35], [4, 35]]
+PASS breathing plays its own background quietly (real sea waves) — ["midia/sons/N02.ogg", 0.4]
+PASS the voice guides only the first rounds — ["Breathe in through your nose.", "Hold the air.", "Let the air out slowly.", "Pause.", "Breathe in.", "Hold.", "Breathe out.", "Pause.", "", ""]
+PASS the circle is on screen
+PASS the circle shows the phase and the seconds left — ["Breathe in", "3"]
+PASS the circle grows while breathing in — "scale(1)"
+PASS breathing ends with Again / Finish
+PASS Again starts the same exercise
+PASS breathing sessions go to the history
+PASS music starts with four purposes to choose from
+PASS choosing "soothe" lists only what is made for it — ["Chopin: Nocturne Op. 9 No. 1", "Chopin: Nocturne Op. 62 No. 2", "Strings, adagio", "Sea", "Binaural theta, 6 Hz", "Binaural Schumann, 7.83 Hz", "396 Hz", "528 Hz"]
+PASS the chosen song plays first, then the others made for the same thing — [["midia/musicas/M03.ogg", "midia/musicas/R02.ogg", "midia/musicas/R05.ogg"], 1800]
+PASS the music screen shows the song and the time left
+PASS Next track asks Android for the next song
+PASS sleep now: dark screen, dim light, the sleep voice
+PASS after the music ends, sleep stays quiet
+PASS a 2-hour nap can be chosen
+PASS above 1 hour the steps are 15 minutes
+PASS the nap stops at 3 hours
+PASS the rain plays through the whole 2-hour nap, past the alarm time — [7320, 7199]
+PASS a song in the nap goes on with the other song of the same style — ["midia/musicas/M04.ogg", "midia/musicas/M07.ogg"]
+PASS the music screen has the 8D switch
+PASS turning 8D on plays a sample in 8D
+PASS with 8D on, every song goes to Android in 8D — ["midia/8d/musicas/R02.ogg", "midia/8d/musicas/R05.ogg"]
+PASS the screen still shows the song name
+PASS turning 8D off during the music switches back at once (a smooth crossfade of layers) — [{"sons": ["midia/musicas/R02.ogg", "midia/musicas/R05.ogg", "midia/musicas/M03.ogg"], "vol": 1}]
+PASS a nature sound goes in 8D too — "midia/8d/sons/N01.ogg"
+PASS the sound list has the 8D switch on top
+PASS every 8D file the app can ask for exists — []
+PASS the music screen asks what it is for: relax, focus, soothe, sleep — ["Relax", "Focus", "Soothe", "Sleep"]
+PASS each sound and song says why (real rain and Satie, under Sleep) — "‹ Back\nMusic and sleep\nSleep now\nA voice relaxes your body and the music slowly fades out\n\nWhat do you need right now?\n\nRelax\nFocus\nSoothe\nSleep\n\nTo fall asleep: low, slow, barely changing.\n\nMusic\nChopin: Nocturne Op. 27 No. 2\nReal piano, soft and flowing, unhurried\nChopin: Nocturn
+PASS inside a purpose, songs, real nature, tones and frequencies are apart — ["Music", "Nature, recorded live", "Noise and binaural tones", "Frequencies", "Music settings"]
+PASS the frequencies say what tradition uses them for, and that it is tradition — "ral, with headphones.\n\n174 Hz\nPure tone, the deepest. Traditionally: safety and relief\n285 Hz\nPure tone, low and warm. Traditionally: restoring the body\nCreate my mix\nA song with rain, noise or binaural underneath, each at its own volume\nMusic settings\nPlays for\n15 min\n30 min\n45 min\n60
+PASS Create my mix opens
+PASS the song starts playing at once (in layers, with its same-style list) — [{"sons": ["midia/musicas/R03.ogg", "midia/musicas/R04.ogg", "midia/musicas/R05.ogg", "midia/musicas/R06.ogg", "midia/musicas/R07.ogg", "midia/musicas/R08.ogg", "midia/musicas/R01.ogg", "midia/musicas/R02.ogg"], "vol": 0.85}]
+PASS adding sounds underneath changes it live, nothing restarts (a binaural goes as a tone recipe) — [{"sons": ["midia/musicas/R03.ogg", "midia/musicas/R04.ogg", "midia/musicas/R05.ogg", "midia/musicas/R06.ogg", "midia/musicas/R07.ogg", "midia/musicas/R08.ogg", "midia/musicas/R01.ogg", "midia/musicas/R02.ogg"], "vol": 0.85}, {"sons": ["midia/sons/N01.ogg"], "vol": 0.5}, {"sons": ["tom:149:151:0.043
+PASS the volume slider sets how loud the rain is underneath — [{"sons": ["midia/musicas/R03.ogg", "midia/musicas/R04.ogg", "midia/musicas/R05.ogg", "midia/musicas/R06.ogg", "midia/musicas/R07.ogg", "midia/musicas/R08.ogg", "midia/musicas/R01.ogg", "midia/musicas/R02.ogg"], "vol": 0.85}, {"sons": ["midia/sons/N01.ogg"], "vol": 0.25}, {"sons": ["tom:149:151:0.04
+PASS the app decides by itself what the mix is for, and says why (names as written) — "This mix is for: Sleep. It has more “Chopin: Nocturne Op. 27 No. 2” and “Binaural delta, 2 Hz”.\n\nThe app decides by itself. If you disagree, choose:\n\nAutomatic\nRelax\nFocus\nSoothe\nSleep"
+PASS one song at a time: a new song replaces the other, the sounds stay — ["midia/sons/N01.ogg", "midia/binaural/delta.ogg", "midia/musicas/R06.ogg"]
+PASS the category can be changed by hand
+PASS the mix is saved with its category — [{"id": "mmwzu2ogr06v52", "nome": "Noturno com chuva", "camadas": [{"v": "midia/sons/N01.ogg", "vol": 0.25}, {"v": "midia/binaural/delta.ogg", "vol": 0.35}, {"v": "midia/musicas/R06.ogg", "vol": 0.85}], "uso": "acalmar", "cat": "acalmar"}]
+PASS leaving the mixer stops its sound
+PASS the saved mix shows up under its purpose — "Chopin: Nocturne Op. 9 No. 1\nReal piano, slow and soft, a little wistful\nChopin: Nocturne Op. 62 No. 2\nReal piano, serene and singing\nStrings, adagio\nLong, gentle strings with no big moments‹ Back\nMus"
+PASS playing the mix sends its layers — [{"sons": ["midia/sons/N01.ogg"], "vol": 0.25}, {"sons": ["tom:149:151:0.04311:0.1"], "vol": 0.35}, {"sons": ["midia/musicas/R06.ogg", "midia/musicas/R07.ogg", "midia/musicas/R08.ogg", "midia/musicas/R01.ogg", "midia/musicas/R02.ogg", "midia/musicas/R03.ogg", "midia/musicas/R04.ogg", "midia/musicas/
+PASS a mix works as the nap sound; 8D goes to sounds and songs, never to binaural — [{"sons": ["midia/8d/sons/N01.ogg"], "vol": 0.25}, {"sons": ["tom:149:151:0.04311:0.1"], "vol": 0.35}, {"sons": ["midia/8d/musicas/R06.ogg", "midia/8d/musicas/R07.ogg", "midia/8d/musicas/R08.ogg", "midia/8d/musicas/R01.ogg", "midia/8d/musicas/R02.ogg", "midia/8d/musicas/R03.ogg", "midia/8d/musicas/R
+PASS a saved mix can be edited (and plays while editing)
+PASS a mix can be deleted, and the nap goes back to silence
+PASS old mixes drop the removed instruments and get the new songs
+PASS the player offers a sound underneath
+PASS choosing rain puts it under the music, live — [{"sons": ["midia/musicas/R08.ogg", "midia/musicas/M08.ogg", "midia/musicas/R03.ogg", "midia/musicas/R06.ogg"], "vol": 1}, {"sons": ["midia/sons/N06.ogg"], "vol": 0.45}]
+PASS the slider sets how loud the rain is under the music — [{"sons": ["midia/musicas/R08.ogg", "midia/musicas/M08.ogg", "midia/musicas/R03.ogg", "midia/musicas/R06.ogg"], "vol": 1}, {"sons": ["midia/sons/N06.ogg"], "vol": 0.2}]
+PASS the next song starts with the same sound underneath, at the same volume — [{"sons": ["midia/musicas/R03.ogg", "midia/musicas/R06.ogg", "midia/musicas/R08.ogg", "midia/musicas/M08.ogg"], "vol": 1}, {"sons": ["midia/sons/N06.ogg"], "vol": 0.2}]
+PASS the sound-underneath sheet has the 12 frequencies, grouped by what they are for — ["417 Hz", "432 Hz", "639 Hz", "40 Hz", "741 Hz", "852 Hz", "963 Hz", "7.83 Hz", "396 Hz", "528 Hz", "174 Hz", "285 Hz"]
+PASS each group of frequencies says what it is for — ["To relax", "To focus", "To soothe", "To sleep"]
+PASS the sheet says a tone can sound out of tune under some songs — "Frequencies\n\nPure tones. What each one is for comes from tradition (the Solfeggio frequencies), not from studies: use the ones that feel good. 7.83 and 40 Hz are binaural, with headphones. Under some "
+PASS 528 Hz goes under the song as a steady tone made on the phone — [{"sons": ["midia/musicas/R08.ogg", "midia/musicas/M08.ogg", "midia/musicas/R03.ogg", "midia/musicas/R06.ogg"], "vol": 1}, {"sons": ["tom:528:528:0.03842:0"], "vol": 0.3}]
+PASS a frequency starts lower than other sounds underneath — [{"sons": ["midia/musicas/R08.ogg", "midia/musicas/M08.ogg", "midia/musicas/R03.ogg", "midia/musicas/R06.ogg"], "vol": 1}, {"sons": ["tom:528:528:0.03842:0"], "vol": 0.3}]
+PASS the player says what the frequency underneath is for — "Sounds underneath\n\n528 Hz\nPure tone, mid. Traditionally: the “love frequency”, transformation\n✕\nAdd another sound\n›"
+PASS the tone level is quiet and never clips (peak about -29 dBFS) — 0.03842
+PASS 174 Hz plays alone, as a tone recipe even with 8D on — "tom:174:174:0.08027:0"
+PASS the deep 174 Hz gets more level than 528 Hz, so both sound about as loud — [0.08027, 0.03842]
+PASS choosing 396 Hz plays a short sample of the tone
+PASS the mixer has the 12 frequencies too — 12
+PASS 7.83 Hz is a binaural beat: each ear its own tone, 7.83 Hz apart — [{"sons": ["tom:176.085:183.915:0.04311:0.1"], "vol": 0.35}]
+PASS a mix with just 7.83 Hz is for soothing — "This mix is for: Soothe. It has more “Binaural Schumann, 7.83 Hz”.\n\nThe app decides by itself. If you disagree, choose:\n\nAutomatic\nRelax\nFocus\nSoothe\nSleep"
+PASS Chopin with waves, a binaural beat and 528 Hz underneath: 4 layers at once — ["midia/musicas/R03.ogg", "midia/sons/N02.ogg", "tom:149:151:0.04311:0.1", "tom:528:528:0.03842:0"]
+PASS each layer starts at the volume of its kind — [1, 0.45, 0.3, 0.3]
+PASS the player shows each layer with its own slider
+PASS moving the waves slider changes only the waves — [1, 0.7, 0.3, 0.3]
+PASS a fourth sound underneath fits; then the add button gives way to a note
+PASS no fifth sound underneath — ["midia/musicas/R03.ogg", "midia/sons/N02.ogg", "tom:149:151:0.04311:0.1", "tom:528:528:0.03842:0", "midia/ruidos/rosa.ogg"]
+PASS the ✕ takes one layer out, live; the others keep playing — [{"sons": ["midia/musicas/R03.ogg", "midia/musicas/R06.ogg", "midia/musicas/R08.ogg", "midia/musicas/M08.ogg"], "vol": 1}, {"sons": ["midia/sons/N02.ogg"], "vol": 0.7}, {"sons": ["tom:528:528:0.03842:0"], "vol": 0.3}, {"sons": ["midia/ruidos/rosa.ogg"], "vol": 0.45}]
+PASS the next song starts with the same layers, at the same volumes — [{"sons": ["midia/musicas/R06.ogg", "midia/musicas/R08.ogg", "midia/musicas/M08.ogg", "midia/musicas/R03.ogg"], "vol": 1}, {"sons": ["midia/sons/N02.ogg"], "vol": 0.7}, {"sons": ["tom:528:528:0.03842:0"], "vol": 0.3}, {"sons": ["midia/ruidos/rosa.ogg"], "vol": 0.45}]
+PASS the old single sound underneath becomes the first layer — "[{\"v\":\"midia/sons/N01.ogg\",\"vol\":0.4}]"
+PASS a phone in Portuguese is offered the app in Portuguese (asked in Portuguese) — "For Now\nSettings\nIt's hard right now\n\nSeu celular está em português. Usar o app em português, com as vozes gravadas?\n\nUsar português\nAgora não\nBreathe\nExercises"
+PASS "Not now" hides the offer for good, and the app stays in English
+PASS settings lists who recorded the real sounds and their free licence — "‹ Back\nSound credits\n\nReal recordings, free to use (CC0 or public domain). Voices and some songs were made with ElevenLabs.\n\nSummer rain\nSummer Rain on Terrace. BigSoundBank.com, CC0.\nRain on a tent\nR"
+PASS every English sentence has a recording in both voices — 82
+PASS English uses the recorded female voice — {"t": "Feel where your feet meet the floor.", "s": 8, "a": "midia/voz-en/feminina/cca09d761fa3.ogg", "v": 0}
+PASS English uses the recorded male voice when chosen — {"t": "Feel where your feet meet the floor.", "s": 8, "a": "midia/voz-en/masculina/cca09d761fa3.ogg", "v": 0}
+PASS with the phone's voice chosen, English has no clips — {"t": "Feel where your feet meet the floor.", "s": 8, "a": "", "v": 0}
+PASS every Portuguese sentence has a recording in both voices — 82
+PASS Portuguese uses the recorded female voice — {"t": "Sinta onde os pés encontram o chão.", "s": 8, "a": "midia/voz/feminina/1b4ccd8f41d7.ogg", "v": 0}
+PASS choosing the male voice plays a sample of it
+PASS and the sessions use it — {"t": "Sinta onde os pés encontram o chão.", "s": 8, "a": "midia/voz/masculina/1b4ccd8f41d7.ogg", "v": 0}
+PASS the phone's voice can still be chosen — {"t": "Sinta onde os pés encontram o chão.", "s": 8, "a": "", "v": 0}
+PASS back in English, the recorded English voice — {"t": "Feel where your feet meet the floor.", "s": 8, "a": "midia/voz-en/feminina/cca09d761fa3.ogg", "v": 0}
+PASS without recordings, the chosen sea falls back to the sea made in code — "ondas"
+PASS update not applied with a session running
+PASS an update for other native files asks for the APK instead — "apk"
+PASS home shows the install-the-new-version card
+PASS same native files: the page update is downloaded — "applied"
+PASS no page errors — []
+
+139/139 checks passed
+PASS en home
+PASS en spike
+PASS en spike-paused
+PASS en spike-end-choices
+PASS en peace-menu
+PASS en peace
+PASS en nap-not-guaranteed
+PASS en nap-ready
+PASS en nap-session
+PASS en alarm
+PASS en nap-question
+PASS en night
+PASS en night-awake
+PASS en breathe-menu
+PASS en breathe-session
+PASS en breathe-paused
+PASS en breathe-end
+PASS en music-menu
+PASS en music-sleep
+PASS en music-focus
+PASS en music-session
+PASS en music-rain-under
+PASS en music-under-sheet
+PASS en music-528-under
+PASS en sound-sheet
+PASS en sleep-session
+PASS en music-8d-on
+PASS en music-session-8d
+PASS en sound-sheet-8d
+PASS en mixer-empty
+PASS en mixer-full
+PASS en mixer-song
+PASS en music-with-mix
+PASS en sheet-with-mix
+PASS en nap-2h
+PASS en apoio
+PASS en contato
+PASS en historico
+PASS en revisao
+PASS en ajustes
+PASS en tecnicas
+PASS en preparar
+PASS en diagnostico
+PASS en privacidade
+PASS en acesso
+PASS en creditos
+PASS pt home
+PASS pt spike
+PASS pt spike-paused
+PASS pt spike-end-choices
+PASS pt peace-menu
+PASS pt peace
+PASS pt nap-not-guaranteed
+PASS pt nap-ready
+PASS pt nap-session
+PASS pt alarm
+PASS pt nap-question
+PASS pt night
+PASS pt night-awake
+PASS pt breathe-menu
+PASS pt breathe-session
+PASS pt breathe-paused
+PASS pt breathe-end
+PASS pt music-menu
+PASS pt music-sleep
+PASS pt music-focus
+PASS pt music-session
+PASS pt music-rain-under
+PASS pt music-under-sheet
+PASS pt music-528-under
+PASS pt sound-sheet
+PASS pt sleep-session
+PASS pt music-8d-on
+PASS pt music-session-8d
+PASS pt sound-sheet-8d
+PASS pt mixer-empty
+PASS pt mixer-full
+PASS pt mixer-song
+PASS pt music-with-mix
+PASS pt sheet-with-mix
+PASS pt nap-2h
+PASS pt apoio
+PASS pt contato
+PASS pt historico
+PASS pt revisao
+PASS pt ajustes
+PASS pt tecnicas
+PASS pt preparar
+PASS pt diagnostico
+PASS pt privacidade
+PASS pt acesso
+PASS pt creditos
+PASS es home
+PASS es spike
+PASS es spike-paused
+PASS es spike-end-choices
+PASS es peace-menu
+PASS es peace
+PASS es nap-not-guaranteed
+PASS es nap-ready
+PASS es nap-session
+PASS es alarm
+PASS es nap-question
+PASS es night
+PASS es night-awake
+PASS es breathe-menu
+PASS es breathe-session
+PASS es breathe-paused
+PASS es breathe-end
+PASS es music-menu
+PASS es music-sleep
+PASS es music-focus
+PASS es music-session
+PASS es music-rain-under
+PASS es music-under-sheet
+PASS es music-528-under
+PASS es sound-sheet
+PASS es sleep-session
+PASS es music-8d-on
+PASS es music-session-8d
+PASS es sound-sheet-8d
+PASS es mixer-empty
+PASS es mixer-full
+PASS es mixer-song
+PASS es music-with-mix
+PASS es sheet-with-mix
+PASS es nap-2h
+PASS es apoio
+PASS es contato
+PASS es historico
+PASS es revisao
+PASS es ajustes
+PASS es tecnicas
+PASS es preparar
+PASS es diagnostico
+PASS es privacidade
+PASS es acesso
+PASS es creditos
+
+narrow screen: 0 problem(s)

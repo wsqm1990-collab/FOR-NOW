@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.wsqm1990.fornow/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.wsqm1990.fornow/.MainActivity
+TotalTime: 1137
+WaitTime: 1160
+Complete

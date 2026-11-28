@@ -1,0 +1,4 @@
+--------- beginning of main
+11-28 03:17:09.195  4408  4479 I ForNow  : alarme agendado tipo=teste at=1795835869365 proximo=1795835869365
+11-28 03:17:49.375  4408  4408 I ForNow  : alarme tocou tipo=teste previsto=1795835869365 real=1795835869371 atraso=6
+11-28 03:17:56.911  4408  4408 I ForNow  : alarme parou tipo=teste pelaPessoa=true

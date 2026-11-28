@@ -1,0 +1,651 @@
+[
+ {
+  "name": "app opens to the home screen",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "native bridge is on",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "build": 30,
+   "lang": "en",
+   "ua": "Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.050; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36"
+  }
+ },
+ {
+  "name": "the APK carries the same native fingerprint as version.json (so page updates reach it)",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "app": "cae001e134e9",
+   "release": "cae001e134e9"
+  }
+ },
+ {
+  "name": "the page is listening to Android's events",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "guia": true,
+   "alarme": true,
+   "launch": true
+  }
+ },
+ {
+  "name": "English is the main language",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "screen size",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "w": 320,
+   "h": 616,
+   "dpr": 1
+  }
+ },
+ {
+  "name": "home: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "spike shows the first sentence within 3 s of the tap",
+  "ok": true,
+  "fatal": true,
+  "info": 596
+ },
+ {
+  "name": "the session runs in the Android service",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzu97sjnykbk",
+   "ini": 1795835779507,
+   "pausa": 0,
+   "pausadoEm": 0,
+   "running": true,
+   "faixa": 0,
+   "faixas": 0,
+   "ended": false
+  }
+ },
+ {
+  "name": "spike: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "the session notification is neutral (no session details)",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "with the screen off, the session kept speaking",
+  "ok": true,
+  "fatal": false,
+  "info": {
+   "falas": 4
+  }
+ },
+ {
+  "name": "text-to-speech accepted the sentences",
+  "ok": true,
+  "fatal": false,
+  "info": [
+   "fala result=0",
+   "fala result=0",
+   "fala result=0",
+   "fala result=0"
+  ]
+ },
+ {
+  "name": "back in the app, the same session is still on",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "Switch changes the technique at once",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "antes": "ambiente",
+   "depois": "respiracao"
+  }
+ },
+ {
+  "name": "the new technique is playing on the phone",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzua2lxfae1w",
+   "ini": 1795835819445,
+   "pausa": 0,
+   "pausadoEm": 0,
+   "running": true,
+   "faixa": 0,
+   "faixas": 0,
+   "ended": false
+  }
+ },
+ {
+  "name": "Leave stops the session on the phone",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzua2lxfae1w",
+   "ini": 1795835819445,
+   "pausa": 0,
+   "pausadoEm": 0,
+   "running": false,
+   "faixa": 0,
+   "faixas": 0,
+   "ended": true,
+   "complete": false,
+   "endedAt": 1795835820643
+  }
+ },
+ {
+  "name": "history keeps the session as \"left before the end\"",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "pause reaches the phone",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzua4lhxdv9z",
+   "ini": 1795835822021,
+   "pausa": 0,
+   "pausadoEm": 1795835823537,
+   "running": true,
+   "faixa": 0,
+   "faixas": 1,
+   "ended": false
+  }
+ },
+ {
+  "name": "peace, paused: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "resume reaches the phone",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzua4lhxdv9z",
+   "ini": 1795835822021,
+   "pausa": 811,
+   "pausadoEm": 0,
+   "running": true,
+   "faixa": 0,
+   "faixas": 1,
+   "ended": false
+  }
+ },
+ {
+  "name": "nap screen shows either Start or the honest \"not guaranteed\" panel",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "nap: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "with permission, Start appears",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "exato": true,
+   "notif": true,
+   "telaCheia": true,
+   "bateria": false,
+   "volumeAlarme": 6,
+   "volumeAlarmeMax": 7,
+   "naoPerturbe": 1,
+   "proximo": 0,
+   "cochilo": 0,
+   "teste": 0,
+   "tocando": false,
+   "fabricante": "Google google"
+  }
+ },
+ {
+  "name": "Android confirmed the test alarm",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "ok": true,
+   "at": 1795835869365,
+   "proximo": 1795835869365,
+   "confirmado": true
+  }
+ },
+ {
+  "name": "the alarm is an alarm clock in Android",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "the test alarm rang",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "previsto": 1795835869365,
+   "real": 1795835869371,
+   "atraso": 6
+  }
+ },
+ {
+  "name": "it rang within 10 s of the time",
+  "ok": true,
+  "fatal": false,
+  "info": {
+   "previsto": 1795835869365,
+   "real": 1795835869371,
+   "atraso": 6
+  }
+ },
+ {
+  "name": "the Turn off screen opened over the lock screen",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "opening the app while it rings shows the Turn off screen",
+  "ok": true,
+  "fatal": true,
+  "info": "alarme"
+ },
+ {
+  "name": "the alarm is still ringing until it is turned off",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "Turn off stops the alarm",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "the page left the alarm screen",
+  "ok": true,
+  "fatal": true,
+  "info": "inicio"
+ },
+ {
+  "name": "the diagnostics log has predicted, rang and turned off",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   {
+    "tipo": "teste",
+    "previsto": 1795835869365,
+    "marcado": 1795835829192,
+    "estado": "tocou",
+    "tocou": 1795835869371,
+    "desligado": 1795835876910
+   }
+  ]
+ },
+ {
+  "name": "listeners dropped for the test (as a late page start does)",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "fornow://pico (widget, tile, shortcut) starts the session",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "the page added its listeners back",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "guia": true,
+   "alarme": true,
+   "launch": true
+  }
+ },
+ {
+  "name": "the quick settings tile and the widget are installed",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "night screen is dark",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "night: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "English speaks with the recorded voice",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "clip midia/voz-en/feminina/cca09d761fa3.ogg"
+  ]
+ },
+ {
+  "name": "no English recording failed to open",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "Portuguese works",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "Portuguese home: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "the recordings are inside the app",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "versionName": "0.1.30",
+   "versionCode": 30,
+   "installer": "",
+   "shell": 2,
+   "shellId": "cae001e134e9",
+   "midia": true,
+   "sdk": 34,
+   "maker": "Google",
+   "model": "sdk_gphone64_x86_64",
+   "talkback": false
+  }
+ },
+ {
+  "name": "Portuguese speaks with the recorded voice",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "clip midia/voz/feminina/1b4ccd8f41d7.ogg"
+  ]
+ },
+ {
+  "name": "no recording failed to open",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "breathing list: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "breathing runs in the Android service",
+  "ok": true,
+  "fatal": true,
+  "info": {
+   "type": "state",
+   "id": "mwzubvmgfyl9k",
+   "ini": 1795835903704,
+   "pausa": 0,
+   "pausadoEm": 0,
+   "running": true,
+   "faixa": 0,
+   "faixas": 1,
+   "ended": false
+  }
+ },
+ {
+  "name": "breathing plays its background sound (real waves)",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/sons/N02.ogg (1/1)",
+   "clip midia/voz/feminina/ef1085fc2896.ogg",
+   "clip midia/voz/feminina/f31fcb126abb.ogg"
+  ]
+ },
+ {
+  "name": "the voice guides the breathing",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "breathing session: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "leaving breathing stops the sound",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "music list: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "music playing: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "music: the chosen song plays",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/musicas/R01.ogg (1/4)",
+   "som midia/musicas/R04.ogg (2/4)"
+  ]
+ },
+ {
+  "name": "music: Next goes smoothly to the next song of the same list",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/musicas/R01.ogg (1/4)",
+   "som midia/musicas/R04.ogg (2/4)"
+  ]
+ },
+ {
+  "name": "the screen shows the new song",
+  "ok": true,
+  "fatal": false,
+  "info": 1
+ },
+ {
+  "name": "music: rain plays underneath the song, together",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/musicas/R08.ogg (1/4)",
+   "som midia/sons/N06.ogg (1/1)",
+   "mix 2 camadas"
+  ]
+ },
+ {
+  "name": "music: no layer failed to open",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "music with a sound underneath: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "music: 528 Hz joins the rain underneath, as a tone made on the phone (3 layers)",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som tom:528:528:0.03842:0 (1/1)",
+   "mix 3 camadas"
+  ]
+ },
+ {
+  "name": "the tone made no error on the phone (start, pause, resume)",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "music with a frequency underneath: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "sleep now: dark screen",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "8D: the rain plays in its 8D version",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/8d/sons/N01.ogg (1/1)"
+  ]
+ },
+ {
+  "name": "no sound failed to open",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "a 60 s loop (pink noise) joins itself with no gap (not Android's looping)",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/ruidos/rosa.ogg (1/1)",
+   "som laço midia/ruidos/rosa.ogg (1/1)"
+  ]
+ },
+ {
+  "name": "noise and tones open on the phone",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "music by purpose: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "mix: a song, rain and a binaural tone play together on the phone",
+  "ok": true,
+  "fatal": true,
+  "info": [
+   "som midia/musicas/R03.ogg (1/8)",
+   "som midia/sons/N01.ogg (1/1)",
+   "mix 2 camadas",
+   "som tom:149:151:0.04311:0.1 (1/1)",
+   "mix 3 camadas"
+  ]
+ },
+ {
+  "name": "mix: no layer failed to open",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ },
+ {
+  "name": "mixer: every button fits on screen",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "mix: leaving the mixer stops its sound",
+  "ok": true,
+  "fatal": true,
+  "info": null
+ },
+ {
+  "name": "update: the app switched to the new version",
+  "ok": true,
+  "fatal": false,
+  "info": 100030
+ },
+ {
+  "name": "update: the new version confirmed itself",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "update: history kept",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "update: still on the new version after a restart",
+  "ok": true,
+  "fatal": false,
+  "info": null
+ },
+ {
+  "name": "no uncaught JavaScript errors",
+  "ok": true,
+  "fatal": true,
+  "info": []
+ },
+ {
+  "name": "no console errors",
+  "ok": true,
+  "fatal": false,
+  "info": []
+ }
+]
