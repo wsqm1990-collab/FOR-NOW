@@ -125,43 +125,78 @@ for voz in ('feminina', 'masculina'):
         sobras = len(ouvido) - len(casa)
         g = ganho_fixo(f)
         voz_lim = float(np.max(env)) * 10 ** (-40 / 20)       # quieter than this is silence
-        linha, ruins = [], []
-        for i, (frase, (a, z, cob)) in enumerate(zip(b['frases'], faixas)):
+        # stretches of voice, joined across pauses shorter than 0.25 s (those are inside words)
+        ilhas, t = [], None
+        for q, v in enumerate(env > voz_lim):
+            if v and t is None:
+                t = q
+            elif not v and t is not None:
+                if ilhas and (t - ilhas[-1][1]) * k / SR < 0.25:
+                    ilhas[-1][1] = q
+                else:
+                    ilhas.append([t, q])
+                t = None
+        if t is not None:
+            ilhas.append([t, len(env)])
+        ilhas = [(a * k / SR, z * k / SR) for a, z in ilhas]
+        n = len(b['frases'])
+        # chars per second of this voice in this block, from the sentences heard whole
+        ouvidas = [(fr, fa) for fr, fa in zip(b['frases'], faixas) if fa[0] is not None]
+        ritmo = sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))
+        plausivel = lambda fr, d: 0.4 * len(fr) / ritmo - 0.3 <= d <= 1.8 * len(fr) / ritmo + 1.0
+        trechos, como = [None] * n, [''] * n
+        for i, (fr, (a, z, _)) in enumerate(zip(b['frases'], faixas)):
             if a is None:
-                ruins.append(f'frase {i + 1} ({cob:.0%} das palavras): {frase}')
                 continue
-            # the edges: the quietest moment in the pause before and after (never into a neighbour)
-            ant = next((faixas[j][1] for j in range(i - 1, -1, -1) if faixas[j][0] is not None), 0.0)
-            prox = next((faixas[j][0] for j in range(i + 1, len(faixas)) if faixas[j][0] is not None), dur)
-            esq = mais_quieto(env, k, max(ant, a - 1.5), a) if ant < a else max(0.0, a - ANTES)
-            dir_ = mais_quieto(env, k, z, min(prox, z + 1.5)) if z < prox else min(dur, z + DEPOIS)
-            # then tight on the voice itself, with a little air
-            i0, i1 = int(esq * SR / k), max(int(esq * SR / k) + 1, int(dir_ * SR / k))
-            alto = np.nonzero(env[i0:i1] > voz_lim)[0]
-            if len(alto):
-                ini = max(esq, (i0 + alto[0]) * k / SR - 0.12)
-                fim = min(dir_, (i0 + alto[-1] + 1) * k / SR + 0.25)
-            else:
-                ini, fim = esq, dir_
+            # the stretches of voice its words fall on: the whole sentence, none of its neighbours
+            mine = [il for il in ilhas if il[1] > a + 0.05 and il[0] < z - 0.05]
+            if mine and plausivel(fr, mine[-1][1] - mine[0][0]):
+                trechos[i] = (mine[0][0], mine[-1][1])
+        # sentences the recognizer missed (or merged): between their good neighbours, cut at the
+        # longest pauses, if each piece is about as long as its words need
+        i = 0
+        while i < n:
+            if trechos[i]:
+                i += 1
+                continue
+            j = i
+            while j + 1 < n and not trechos[j + 1]:
+                j += 1
+            esq = trechos[i - 1][1] if i > 0 and trechos[i - 1] else 0.0
+            dir_ = trechos[j + 1][0] if j + 1 < n and trechos[j + 1] else dur
+            dentro = [il for il in ilhas if il[0] >= esq - 0.01 and il[1] <= dir_ + 0.01]
+            m = j - i + 1
+            if len(dentro) >= m:
+                cortes = sorted(sorted(range(len(dentro) - 1), key=lambda q: dentro[q + 1][0] - dentro[q][1], reverse=True)[:m - 1])
+                partes, ini_q = [], 0
+                for c in cortes + [len(dentro) - 1]:
+                    partes.append((dentro[ini_q][0], dentro[c][1]))
+                    ini_q = c + 1
+                if all(plausivel(b['frases'][i + q], z - a) for q, (a, z) in enumerate(partes)):
+                    for q, parte in enumerate(partes):
+                        trechos[i + q] = parte
+                        como[i + q] = ' (pela pausa)'
+            i = j + 1
+        # each clip: its voice with a little air, never past halfway to the next voice
+        linha, ruins = [], []
+        for i, frase in enumerate(b['frases']):
+            if not trechos[i]:
+                a, z, cob = faixas[i]
+                ruins.append(f'frase {i + 1} ({cob:.0%} das palavras' + (f', {z - a:.1f} s' if a is not None else '') + f'): {frase}')
+                continue
+            a, z = trechos[i]
+            antes = max([x[1] for x in ilhas if x[1] <= a + 0.001] + [0.0])
+            depois = min([x[0] for x in ilhas if x[0] >= z - 0.001] + [dur])
+            ini = max(a - 0.12, (antes + a) / 2, 0.0)
+            fim = min(z + 0.25, (z + depois) / 2, dur)
             nome = chave(frase) + '.ogg'
             subprocess.run(['ffmpeg', '-v', 'error', '-y', '-ss', f'{ini:.3f}', '-to', f'{fim:.3f}', '-i', f,
                             '-af', f'afade=t=in:d=0.03,areverse,afade=t=in:d=0.12,areverse,volume={g:.2f}dB',
                             '-ac', '1', '-ar', '48000', '-c:a', 'libopus', '-b:a', '64k', '-application', 'audio',
                             os.path.join(out, 'voz', voz, nome)], check=True)
             mapa[voz][frase] = f'{voz}/{nome}'
-            linha.append(f'{fim - ini:.1f}s')
-        # a clip much longer than its words need may carry a neighbour: leave it out
-        ouvidas = [(fr, fa) for fr, fa in zip(b['frases'], faixas) if fa[0] is not None]
-        ritmo = sum(len(fr) for fr, _ in ouvidas) / max(0.1, sum(fa[1] - fa[0] for _, fa in ouvidas))
-        for fr, (a, z, cob) in ouvidas:
-            if z - a > 1.8 * len(fr) / ritmo + 1.0:
-                ruins.append(f'longa demais ({z - a:.1f} s para {len(fr)} letras): {fr}')
-                mapa[voz].pop(fr, None)
-                try:
-                    os.remove(os.path.join(out, 'voz', voz, chave(fr) + '.ogg'))
-                except OSError:
-                    pass
-        if ruins:   # what was heard there, to see why
+            linha.append(f'{fim - ini:.1f}s{como[i]}')
+        if ruins or any(como):   # what was heard there, to see why
             rel.append(f'   ouvido em {voz}/{b["id"]}: ' + ' '.join(f'{w[0]}@{w[1]:.1f}' for w in ws))
         ok = len(b['frases']) - len(ruins)
         rel.append(f'{"ok" if not ruins else "FALTA"} {voz}/{b["id"]}: {ok} de {len(b["frases"])} frases '
