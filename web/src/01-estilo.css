@@ -201,6 +201,14 @@ label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;
 .extra-escolha .t { font-family: var(--voz); font-size: 1.1rem; overflow-wrap: anywhere; }
 .extra-escolha > span:last-child { color: var(--muted); }
 .extra input[type="range"] { width: 100%; accent-color: var(--accent); height: 2.4rem; }
+.extra-titulo { margin: 0.2rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.extra-camada { display: flex; flex-direction: column; padding: 0.25rem 0 0.1rem; border-bottom: 1px solid var(--line); }
+.extra-nome { display: flex; align-items: center; gap: 0.7rem; }
+.extra-nome .ic { width: 1.35rem; height: 1.35rem; color: var(--accent); flex-shrink: 0; }
+.extra-nome .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.extra-nome .t { font-family: var(--voz); font-size: 1.05rem; overflow-wrap: anywhere; }
+.extra-nome .d { font-size: 0.8rem; color: var(--muted); }
+.extra-nome .icone { flex-shrink: 0; }
 
 /* sons por uso e o criar meu mix */
 .secao.uso > .pequeno { margin: -0.3rem 0 0.1rem; }

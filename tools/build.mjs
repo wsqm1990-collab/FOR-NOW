@@ -14,10 +14,12 @@ const JS = ['02-idioma.js', '03-nativo.js', '04-dados.js', '05-conteudo.js', '06
 const read = f => fs.readFileSync(path.join(src, f), 'utf8');
 const head = HEAD.map(f => (f.endsWith('.css') ? `<style>\n${read(f)}\n</style>` : read(f))).join('\n');
 const body = BODY.map(read).join('\n');
-/* frases gravadas (texto -> arquivo dentro do app), feito pelo tools/audio-app.py */
+/* frases gravadas (texto -> arquivo dentro do app): português (tools/audio-app.py) e inglês (tools/audio-vozes.py) */
 const vozPt = fs.existsSync(path.join(src, 'voz-pt.json')) ? read('voz-pt.json') : '{}';
+const vozEn = fs.existsSync(path.join(src, 'voz-en.json')) ? read('voz-en.json') : '{}';
 const creditos = fs.existsSync(path.join(src, 'creditos.json')) ? read('creditos.json') : '[]';
 const js = `/* ===== voz-pt.json ===== */\nconst VOZ_PT = ${JSON.stringify(JSON.parse(vozPt))};\n`
+  + `/* ===== voz-en.json ===== */\nconst VOZ_EN = ${JSON.stringify(JSON.parse(vozEn))};\n`
   + `/* ===== creditos.json ===== */\nconst CREDITOS = ${JSON.stringify(JSON.parse(creditos))};\n`
   + JS.map(f => `/* ===== ${f} ===== */\n` + read(f)).join('\n');
 if (js.includes('</script')) throw new Error('um script contém </script>');

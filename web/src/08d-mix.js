@@ -109,7 +109,7 @@ const Mix = {
     /* quem usava este mix como fundo volta ao silêncio */
     const p = prefs();
     for (const k of Object.keys(p.som)) if (p.som[k] === 'mix:' + id) setPref('som.' + k, 'silencio');
-    if (p.musica.fundo && p.musica.fundo.v === 'mix:' + id) setPref('musica.fundo', null);
+    if (fundosSalvos().some(x => x.v === 'mix:' + id)) salvarFundos(fundosSalvos().filter(x => x.v !== 'mix:' + id));
     this.edit = null;
   },
 };

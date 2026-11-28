@@ -57,7 +57,7 @@ function ouvirSom(id) {
 /* ---------- voz ---------- */
 async function testarVoz() {
   /* a voz gravada escolhida, se for o caso */
-  const frase = 'Esta é a voz que vai te acompanhar aqui.';
+  const frase = LANG === 'pt' ? 'Esta é a voz que vai te acompanhar aqui.' : t('voice_test_text');
   const clip = clipe(frase);
   if (clip) { await Nat.safe('previa', { nome: clip, ms: 6000, vol: 1 }); return; }
   const txt = t('voice_test_text');

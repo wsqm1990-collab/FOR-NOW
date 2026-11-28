@@ -2,6 +2,20 @@
    Uma música (ou um som da natureza) toca pelo tempo escolhido; as músicas seguem uma atrás da
    outra com transição suave. "Dormir agora" junta uma voz que solta o corpo nos primeiros minutos,
    tela bem escura e a música sumindo devagar no fim. Tudo pelo Android, com a tela apagada. */
+/* os sons por baixo da música que ficam para as próximas (até 4); antes era um só ("fundo") */
+const MAX_FUNDOS = 4;
+function fundosSalvos() {
+  const m = prefs().musica;
+  const l = Array.isArray(m.fundos) && m.fundos.length ? m.fundos : (m.fundo && m.fundo.v ? [m.fundo] : []);
+  return l.filter(x => x && x.v && x.v !== 'silencio').slice(0, MAX_FUNDOS).map(x => ({ v: x.v, vol: Number(x.vol) || 0.3 }));
+}
+function salvarFundos(l) {
+  setPref('musica.fundos', (l || []).map(x => ({ v: x.v, vol: x.vol })));
+  if (prefs().musica.fundo) setPref('musica.fundo', null);
+}
+/* o volume com que cada tipo de som entra por baixo da música */
+const volFundo = v => (v.startsWith('midia/binaural/') || v.startsWith('midia/frequencias/') ? 0.3 : 0.45);
+
 const Mus = {
   /* as músicas começando pela escolhida: as do mesmo uso (relaxar, focar...), ou, para dormir e
      para fundo, só as do mesmo estilo (muda menos ainda) */
@@ -30,7 +44,7 @@ const Mus = {
     Hist.salvar(Sessao.r);
     Guia.iniciar({
       tec: 'musica', tipo: dormir ? 'dormir' : 'musica', passos, sons, som: ehMix ? v : sons[0], voz: p.voz.musica !== false,
-      extra: m.fundo && m.fundo.v && m.fundo.v !== v ? m.fundo : null,
+      extras: fundosSalvos().filter(x => x.v !== caminhoMusica(v)),
       totalMs: totalS * 1000, fimFadeMs: minutos ? Math.min(180000, totalS * 150) : 4000, volSom: 0.6,
     });
     Sessao.salvarEstado();

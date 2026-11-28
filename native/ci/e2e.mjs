@@ -115,6 +115,8 @@ async function main() {
   screen('01-home');
 
   // ---- spike: one tap, the first sentence right away, the service keeps the timeline
+  // (with the phone's own voice here, to test text-to-speech; the recorded voices come later)
+  await ev(`setPref('vozTipo', 'android')`);
   const t0 = Date.now();
   await click(A('pico'), 200);
   const primeira = await waitFor(`Sessao.fase === 'guia' && (document.querySelector('#instr') || {}).textContent === 'Feel where your feet meet the floor.'`, 3000);
@@ -242,6 +244,15 @@ async function main() {
   screen('10-night');
   await click(A('madVoltar'), 600);
 
+  // ---- the recorded English voice (a calm human voice, no longer the phone's)
+  await ev(`(() => { setPref('vozTipo', 'feminina'); S.tela = 'inicio'; render(); })()`); await sleep(500);
+  limparLog();
+  await click(A('pico'), 7000);
+  let lce = logcat();
+  check('English speaks with the recorded voice', /clip midia\/voz-en\/feminina\//.test(lce), (lce.match(/(clip|som|fala) [^\n]+/g) || []).slice(0, 6));
+  check('no English recording failed to open', !/W ForNow.*(asset|clip) midia/.test(lce), (lce.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await click(A('sSair'), 800);
+
   // ---- languages
   await click(A('ajustes'), 600); await click(A('ajLang', '[data-v="pt"]'), 600); await click(A('voltar'), 400);
   check('Portuguese works', (await ev(`document.querySelector('[data-a="pico"]').textContent.trim()`)) === 'Está difícil agora');
@@ -309,14 +320,14 @@ async function main() {
   await click(A('sContinuar'), 2500);
   let lct = logcat();
   const stT = await ev(`Nat.call('guiaState')`);
-  check('music: 528 Hz plays underneath as a tone made on the phone', /som tom:528:528:/.test(lct) && /mix 2 camadas/.test(lct) && stT && stT.running && !stT.pausadoEm,
+  check('music: 528 Hz joins the rain underneath, as a tone made on the phone (3 layers)', /som tom:528:528:/.test(lct) && /mix 3 camadas/.test(lct) && stT && stT.running && !stT.pausadoEm,
     (lct.match(/(som|mix|tom) [^\n]+/g) || []).slice(0, 8));
   check('the tone made no error on the phone (start, pause, resume)', !/W ForNow.*tom/.test(lct) && !/AudioTrack.*(error|fail)/i.test(lct.split('\n').filter(l => /ForNow|fn-tom/.test(l)).join('\n')),
     (lct.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
   await cabe('music with a frequency underneath');
   screen('15c-music-528-underneath');
   await click(A('sSair'), 800);
-  await ev(`setPref('musica.fundo', null)`);
+  await ev(`setPref('musica.fundos', [])`);
   await click(A('musDormir'), 2500);
   check('sleep now: dark screen', (await ev(`document.documentElement.dataset.noite`)) === '1');
   screen('16-sleep');

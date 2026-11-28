@@ -53,12 +53,22 @@ const ACT = {
   musUso: el => { S.musUso = el.dataset.v; setPref('musica.uso', el.dataset.v); render(); },
   /* o som por baixo da música */
   extraEscolher: () => folhaExtra(),
+  /* na lista: um som que não está por baixo entra (no volume do tipo dele), um que está sai */
   extraSom: el => {
-    const v = el.dataset.v, g = Guia.g;
-    const vol = (g && g.extra && g.extra.vol) || (prefs().musica.fundo && prefs().musica.fundo.vol) || (v.startsWith('midia/binaural/') || v.startsWith('midia/frequencias/') ? 0.3 : 0.45);
-    Guia.setExtra(v, vol);
-    setPref('musica.fundo', v === 'silencio' ? null : { v, vol });
+    const v = el.dataset.v, l = extrasDe(Guia.g);
+    let nova;
+    if (v === 'silencio') nova = [];
+    else if (l.some(x => x.v === v)) nova = l.filter(x => x.v !== v);
+    else if (l.length >= MAX_FUNDOS) { aviso(t('bg_max')); return; }
+    else nova = [...l, { v, vol: volFundo(v) }];
+    Guia.setExtras(nova);
+    salvarFundos(extrasDe(Guia.g));
     fecharFolha();
+    render();
+  },
+  extraTirar: el => {
+    Guia.setExtras(extrasDe(Guia.g).filter(x => x.v !== el.dataset.v));
+    salvarFundos(extrasDe(Guia.g));
     render();
   },
   /* idioma do celular */
@@ -369,7 +379,7 @@ async function iniciar() {
     const el = e.target.closest && e.target.closest('[data-in]');
     if (!el) return;
     if (el.dataset.in === 'mixVol') { Mix.volume(el.dataset.v, Number(el.value) / 100); atualizarMixUso(); }
-    else if (el.dataset.in === 'extraVol') extraVolume(Number(el.value) / 100);
+    else if (el.dataset.in === 'extraVol') extraVolume(el.dataset.v, Number(el.value) / 100);
     else if (el.dataset.in === 'mixNome' && Mix.edit) Mix.edit.nome = el.value;
   });
   render();
@@ -397,11 +407,11 @@ iniciar();
 
 /* o volume do som por baixo: muda ao vivo (no máximo a cada 150 ms) e fica guardado */
 let extraTimer = null, extraUltimo = 0;
-function extraVolume(vol) {
-  const g = Guia.g;
-  if (!g || !g.extra) return;
-  g.extra.vol = vol;
-  setPref('musica.fundo', { v: g.extra.v, vol });
+function extraVolume(v, vol) {
+  const g = Guia.g, x = extrasDe(g).find(c => c.v === v);
+  if (!x) return;
+  x.vol = vol;
+  salvarFundos(extrasDe(g));
   clearTimeout(extraTimer);
   const enviar = () => { extraUltimo = Date.now(); Guia.enviarSons(); };
   const espera = 150 - (Date.now() - extraUltimo);

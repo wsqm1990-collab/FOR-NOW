@@ -151,7 +151,7 @@ async def main():
         cs = await calls()
         ag = achar(cs, 'alarmeAgendar', lambda o: o.get('tipo') == 'cochilo')
         primeira = achar(cs, 'guiaStart')[-1][2]['passos'][0]['t']
-        check('the voice only says the time after Android confirmed it', bool(ag) and primeira.startswith('Your alarm is set for'), primeira)
+        check('the voice only says the alarm is set after Android confirmed it (recorded: without the time)', bool(ag) and primeira == 'Your alarm is set.', primeira)
         await page.screenshot(path=OUT + '/11-cochilo-sessao.png')
         await page.evaluate('window.__mock.tocando = true; __emit("ForNow", "alarme", { type: "tocando", tipo: "cochilo" })')
         await page.wait_for_timeout(200)
@@ -456,7 +456,7 @@ async def main():
         g = achar(await calls(), 'guiaStart')[-1][2]
         check('the next song starts with the same sound underneath, at the same volume', [(c['sons'][0], c['vol']) for c in g.get('camadas', [])] == [('midia/musicas/R03.ogg', 1), ('midia/sons/N06.ogg', 0.2)], g.get('camadas'))
         await tap(A('sSair'), 300)
-        await page.evaluate("(() => { setPref('musica.fundo', null); S.tela = 'inicio'; render(); })()")
+        await page.evaluate("(() => { setPref('musica.fundos', []); S.tela = 'inicio'; render(); })()")
 
         # ---- the 12 frequencies: under a song, alone, in a mix; tones go to Android as recipes
         await page.evaluate("(() => { S.tela = 'musica'; S.musUso = 'dormir'; render(); })()")
@@ -482,7 +482,7 @@ async def main():
         check('the tone level is quiet and never clips (peak about -29 dBFS)', 0.03 < nivel < 0.05, nivel)
         await page.screenshot(path=OUT + '/37-tocador-528.png')
         await tap(A('sSair'), 300)
-        await page.evaluate("setPref('musica.fundo', null)")
+        await page.evaluate("setPref('musica.fundos', [])")
         # alone, with 8D on: a tone never goes 8D
         await page.evaluate("(() => { setPref('oitoD', true); S.tela = 'musica'; S.musUso = 'dormir'; render(); })()")
         await tap(A('musTocar', '[data-v="midia/frequencias/f174.ogg"]'), 400)
@@ -509,6 +509,44 @@ async def main():
         check('a mix with just 7.83 Hz is for soothing', 'This mix is for: Soothe' in uso, uso)
         await page.evaluate("(() => { Mix.pararDeOuvir && Mix.pararDeOuvir(); Mix.edit = null; S.tela = 'inicio'; render(); })()")
 
+        # ---- several sounds underneath, each at its own volume: Chopin + waves + binaural + 528 Hz
+        await page.evaluate("(() => { setPref('musica.fundos', []); S.tela = 'musica'; S.musUso = 'dormir'; render(); })()")
+        await tap(A('musTocar', '[data-v="R03"]'), 400)
+        for v in ['midia/sons/N02.ogg', 'midia/binaural/delta.ogg', 'midia/frequencias/f528.ogg']:
+            await tap(A('extraEscolher'), 300)
+            await tap('#folha ' + A('extraSom', f'[data-v="{v}"]'), 400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        nomes = [c['sons'][0] for c in u['camadas']]
+        check('Chopin with waves, a binaural beat and 528 Hz underneath: 4 layers at once', len(nomes) == 4 and nomes[0] == 'midia/musicas/R03.ogg' and nomes[1] == 'midia/sons/N02.ogg' and nomes[2].startswith('tom:149:151:') and nomes[3].startswith('tom:528:528:'), nomes)
+        check('each layer starts at the volume of its kind', [c['vol'] for c in u['camadas']] == [1, 0.45, 0.3, 0.3], [c['vol'] for c in u['camadas']])
+        check('the player shows each layer with its own slider', await page.locator('.extra-camada').count() == 3 and await page.locator('[data-in="extraVol"]').count() == 3)
+        await page.evaluate("(() => { const el = document.querySelector('[data-in=\"extraVol\"][data-v=\"midia/sons/N02.ogg\"]'); el.value = 70; el.dispatchEvent(new Event('input', { bubbles: true })); })()")
+        await page.wait_for_timeout(400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('moving the waves slider changes only the waves', [c['vol'] for c in u['camadas']] == [1, 0.7, 0.3, 0.3], [c['vol'] for c in u['camadas']])
+        await page.screenshot(path=OUT + '/38-camadas.png', full_page=True)
+        await tap(A('extraEscolher'), 300)
+        await tap('#folha ' + A('extraSom', '[data-v="midia/ruidos/rosa.ogg"]'), 400)
+        check('a fourth sound underneath fits; then the add button gives way to a note', await page.locator('.extra-camada').count() == 4 and await page.locator(A('extraEscolher')).count() == 0 and 'Up to 4' in await page.locator('.extra').inner_text())
+        await page.evaluate("folhaExtra()")
+        await tap('#folha ' + A('extraSom', '[data-v="midia/ruidos/marrom.ogg"]'), 400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('no fifth sound underneath', len(u['camadas']) == 5 and all(c['sons'][0] != 'midia/ruidos/marrom.ogg' for c in u['camadas']), [c['sons'][0] for c in u['camadas']])
+        await page.evaluate("fecharFolha()")
+        await tap(A('extraTirar', '[data-v="midia/binaural/delta.ogg"]'), 400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        check('the ✕ takes one layer out, live; the others keep playing', [c['sons'][0][:12] for c in u['camadas']] == ['midia/musica', 'midia/sons/N', 'tom:528:528:', 'midia/ruidos'], u['camadas'])
+        await tap(A('sSair'), 300)
+        await tap(A('musTocar', '[data-v="R06"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('the next song starts with the same layers, at the same volumes', [(c['sons'][0][:12], c['vol']) for c in g.get('camadas', [])] == [('midia/musica', 1), ('midia/sons/N', 0.7), ('tom:528:528:', 0.3), ('midia/ruidos', 0.45)], g.get('camadas'))
+        await tap(A('sSair'), 300)
+        await page.evaluate("(() => { setPref('musica.fundos', []); S.tela = 'inicio'; render(); })()")
+        # a saved choice from the version with one sound underneath still works
+        await page.evaluate("(() => { setPref('musica.fundos', []); setPref('musica.fundo', { v: 'midia/sons/N01.ogg', vol: 0.4 }); })()")
+        check('the old single sound underneath becomes the first layer', await page.evaluate("JSON.stringify(fundosSalvos())") == '[{"v":"midia/sons/N01.ogg","vol":0.4}]', await page.evaluate("JSON.stringify(fundosSalvos())"))
+        await page.evaluate("(() => { setPref('musica.fundo', null); setPref('musica.fundos', []); })()")
+
         # ---- a phone set to Portuguese is offered the app in Portuguese, once, in Portuguese
         await page.evaluate("(() => { Object.defineProperty(navigator, 'languages', { configurable: true, get: () => ['pt-BR', 'en'] }); LS.set('idiomaSugerido', false); S.tela = 'inicio'; render(); })()")
         txt = await page.locator('section').first.inner_text()
@@ -525,6 +563,39 @@ async def main():
         cred = await page.locator('section').first.inner_text()
         check('settings lists who recorded the real sounds and their free licence', 'BigSoundBank' in cred and 'Summer rain' in cred and 'Satie' in cred and 'CC0' in cred and 'public domain' in cred.lower(), cred[:200])
         await page.evaluate("(() => { S.tela = 'inicio'; render(); })()")
+
+        # ---- every sentence the app can say in English has a recording, in both voices (calm human voices)
+        faltam_en = await page.evaluate("""(() => {
+          const antes = LANG, tipo = prefs().vozTipo; setIdioma('en');
+          const frases = new Set();
+          for (const id of Object.keys(TEC)) for (const v of [false, true]) passosDe(id, v).forEach(([t]) => t && frases.add(t));
+          for (const tipoC of ['proprio', 'relogio', 'nenhum']) roteiroCochilo(tipoC, 0).forEach(([t]) => t && frases.add(t));
+          for (const ex of Object.keys(RESP)) { frases.add(tr(RESP[ex].intro)); }
+          frases.add(tr(RESP_AVISO)); RESP_FIM.forEach(f => frases.add(tr(f)));
+          for (const f of Object.keys(RESP_FALA)) RESP_FALA[f].forEach(x => frases.add(tr(x)));
+          DORMIR.forEach(f => frases.add(tr(f)));
+          frases.add(t('voice_test_text'));
+          const falta = [];
+          for (const v of ['feminina', 'masculina']) { setPref('vozTipo', v); for (const f of frases) if (!clipe(f)) falta.push(v + ': ' + f); }
+          setPref('vozTipo', tipo); setIdioma(antes);
+          return { n: frases.size, falta };
+        })()""")
+        check('every English sentence has a recording in both voices', not faltam_en['falta'], faltam_en['falta'][:8] or faltam_en['n'])
+        await page.evaluate("(() => { setPref('lang', 'en'); setIdioma('en'); setPref('vozTipo', 'feminina'); S.tela = 'inicio'; render(); })()")
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('English uses the recorded female voice', g['passos'][0].get('a', '').startswith('midia/voz-en/feminina/'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("(() => { setPref('vozTipo', 'masculina'); })()")
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('English uses the recorded male voice when chosen', g['passos'][0].get('a', '').startswith('midia/voz-en/masculina/'), g['passos'][0])
+        await page.evaluate("Sessao.sair()")
+        await page.evaluate("(() => { setPref('vozTipo', 'android'); })()")
+        await page.evaluate("Sessao.pico()")
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check("with the phone's voice chosen, English has no clips", not g['passos'][0].get('a'), g['passos'][0])
+        await page.evaluate("(() => { Sessao.sair(); setPref('vozTipo', 'feminina'); })()")
 
         # ---- every sentence the app can say in Portuguese has a recording, in both voices
         faltam = await page.evaluate("""(() => {
@@ -566,7 +637,7 @@ async def main():
         await page.evaluate("(() => { setPref('vozTipo', 'feminina'); setPref('lang', 'en'); setIdioma('en'); S.tela = 'inicio'; render(); })()")
         await page.evaluate("Sessao.pico()")
         g = achar(await calls(), 'guiaStart')[-1][2]
-        check('English keeps the phone voice (no recordings yet)', not g['passos'][0].get('a'), g['passos'][0])
+        check('back in English, the recorded English voice', g['passos'][0].get('a', '').startswith('midia/voz-en/feminina/'), g['passos'][0])
         await page.evaluate("Sessao.sair()")
         # ---- an app without the recordings falls back to the sounds made in code
         await page.evaluate("window.__fnMidia = false")

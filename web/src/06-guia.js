@@ -24,7 +24,7 @@ const Guia = {
       voz: !!cfg.voz, som: somReal(cfg.som || 'silencio'), fimFadeMs: cfg.fimFadeMs || 0, volume: cfg.volume || 1, idx: -1,
       sons: sonsCfg ? sonsCfg.map(somReal).filter(x => x !== 'silencio') : null, faixa: 0, tipo: cfg.tipo || '', fases: cfg.fases || null, titulo: cfg.titulo || null,
       camadas: camadas ? JSON.parse(JSON.stringify(camadas)) : null,
-      extra: cfg.extra && cfg.extra.v ? { v: somReal(cfg.extra.v), vol: cfg.extra.vol } : null,
+      extras: (cfg.extras || []).filter(x => x && x.v && x.v !== 'silencio').map(x => ({ v: somReal(x.v), vol: x.vol })),
     };
     if (cfg.camadas) g.som = 'mix:';
     if (Nat.on) {
@@ -34,7 +34,7 @@ const Guia = {
         passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
       };
       if (g.sons) plano.sons = g.sons.map(nativo);
-      if (g.camadas || g.extra) plano.camadas = this.camadasDe(g);
+      if (g.camadas || g.extras.length) plano.camadas = this.camadasDe(g);
       if (cfg.volSom != null) plano.volSom = cfg.volSom;
       Nat.safe('guiaStart', plano);
     } else GuiaWeb.iniciar(g);
@@ -114,11 +114,11 @@ const Guia = {
   /* lista de músicas: a próxima agora, com uma transição curta */
   /* as camadas como vão ao Android (na versão 8D, se ligada; os tons como receita) */
   camadasPlano(camadas) { return Mix.plano(camadas).map(c => ({ sons: c.sons.map(nativo), vol: c.vol })); },
-  /* tudo o que toca ao fundo, como camadas: o mix (ou o som / a lista) e o som extra por baixo */
+  /* tudo o que toca ao fundo, como camadas: o mix (ou o som / a lista) e os sons por baixo, cada um no seu volume */
   camadasDe(g) {
     const base = g.camadas ? this.camadasPlano(g.camadas)
       : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(nativo), vol: 1 }];
-    if (g.extra && g.extra.v && g.extra.v !== 'silencio') base.push({ sons: [nativo(g.extra.v)], vol: Math.round(g.extra.vol * 100) / 100 });
+    for (const x of extrasDe(g)) base.push({ sons: [nativo(x.v)], vol: Math.round(x.vol * 100) / 100 });
     return base;
   },
   /* manda ao Android o fundo atual: o que muda entra e sai devagar, sem cortar */
@@ -127,11 +127,12 @@ const Guia = {
     if (!g || !Nat.on) return;
     this.sync({ som: nativo(g.som), camadas: this.camadasDe(g) });
   },
-  /* o som extra por baixo da música, e o volume dele */
-  setExtra(v, vol) {
+  /* os sons por baixo da música (até 4), cada um com o seu volume: o que entra ou sai muda ao vivo */
+  setExtras(lista) {
     const g = this.g;
     if (!g) return;
-    g.extra = v && v !== 'silencio' ? { v: somReal(v), vol } : null;
+    g.extras = (lista || []).filter(x => x && x.v && x.v !== 'silencio').slice(0, MAX_FUNDOS).map(x => ({ v: somReal(x.v), vol: x.vol }));
+    delete g.extra;
     this.enviarSons();
     this.salvar();
   },
@@ -210,13 +211,17 @@ const Guia = {
   },
 };
 
+/* os sons por baixo de uma sessão (uma sessão salva por uma versão antiga tinha um só) */
+const extrasDe = g => (g && (g.extras || (g.extra && g.extra.v ? [g.extra] : []))) || [];
+
 /* no navegador (testes): voz do próprio navegador, se houver, e o som pela página */
-/* a gravação de uma frase (em português, na voz escolhida), se existir */
+/* a gravação de uma frase (em português ou inglês, na voz escolhida), se existir; senão lê a voz do celular */
 function clipe(texto) {
-  if (!texto || LANG !== 'pt' || !temMidia()) return '';
+  if (!texto || !temMidia()) return '';
   const tipo = prefs().vozTipo;
   if (tipo === 'android') return '';
-  const m = (typeof VOZ_PT !== 'undefined' && VOZ_PT[tipo === 'masculina' ? 'masculina' : 'feminina']) || {};
+  const vozes = LANG === 'pt' ? (typeof VOZ_PT !== 'undefined' && VOZ_PT) : LANG === 'en' ? (typeof VOZ_EN !== 'undefined' && VOZ_EN) : null;
+  const m = (vozes && vozes[tipo === 'masculina' ? 'masculina' : 'feminina']) || {};
   return m[texto] || '';
 }
 /* o som que dá para tocar aqui: no app, as gravações (e as antigas chuva/ondas viram as gravadas);
