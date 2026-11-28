@@ -29,10 +29,28 @@ jobs:
         with:
           ref: proxima-versao
 
-      - name: Download, check and cut the English voices
+      # The ElevenLabs links last a few hours: the blocks are kept in a pre-release (never "latest",
+      # so it never reaches the app), and later runs take them from there.
+      - name: Get the voice blocks (and keep them)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           command -v ffprobe > /dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null; }
-          python3 tools/audio-pack.py audio/manifest-en.json pack
+          python3 tools/audio-pack.py audio/manifest-en.json pack || true
+          if [ -s pack/ForNow-audios.zip ] && ! grep -q '^FALTOU' pack/relatorio.txt; then
+            gh release view vozes-en-fontes --repo "${{ github.repository }}" > /dev/null 2>&1 || \
+              gh release create vozes-en-fontes --repo "${{ github.repository }}" --target "${{ github.sha }}" --prerelease --latest=false \
+                --title "For Now - English voice blocks (sources)" --notes "The English voice blocks as made on ElevenLabs, kept to cut them again. Not a version of the app."
+            gh release upload vozes-en-fontes pack/ForNow-audios.zip --clobber --repo "${{ github.repository }}"
+          else
+            rm -rf pack && mkdir -p pack
+            gh release download vozes-en-fontes --repo "${{ github.repository }}" --pattern ForNow-audios.zip --dir pack
+            (cd pack && unzip -q -o ForNow-audios.zip -d ForNow-audios)
+            echo "blocks taken from the pre-release vozes-en-fontes (links expired)" > pack/relatorio.txt
+          fi
+
+      - name: Cut the English voices into one clip per sentence
+        run: |
           python3 tools/audio-split.py pack/ForNow-audios split audio/roteiro-en.json
           python3 tools/audio-vozes.py split en
           { cat pack/relatorio.txt; echo; cat split/divisao.txt; } > audio/vozes-en-relatorio.txt
