@@ -28,15 +28,27 @@ const SONS = [
   ['midia/sons/N03.ogg', ['Countryside night', 'Noite no campo', 'Noche en el campo'], 'natureza'],
   ['midia/sons/N04.ogg', ['Stream', 'Riacho', 'Arroyo'], 'natureza'],
   ['midia/sons/N05.ogg', ['Fireplace', 'Lareira', 'Chimenea'], 'natureza'],
-  /* ruídos e batidas binaurais (feitos em código: tools/binaural.py) */
+  /* ruídos (feitos em código: tools/binaural.py) */
   ['midia/ruidos/marrom.ogg', ['Brown noise', 'Ruído marrom', 'Ruido marrón'], 'ruido'],
   ['midia/ruidos/rosa.ogg', ['Pink noise', 'Ruído rosa', 'Ruido rosa'], 'ruido'],
   ['midia/ruidos/branco.ogg', ['White noise', 'Ruído branco', 'Ruido blanco'], 'ruido'],
+  /* batidas binaurais e frequências: tons feitos no próprio celular (veja TONS) */
   ['midia/binaural/delta.ogg', ['Binaural delta, 2\u00a0Hz', 'Binaural delta, 2\u00a0Hz', 'Binaural delta, 2\u00a0Hz'], 'binaural'],
   ['midia/binaural/teta.ogg', ['Binaural theta, 6\u00a0Hz', 'Binaural teta, 6\u00a0Hz', 'Binaural theta, 6\u00a0Hz'], 'binaural'],
+  ['midia/binaural/schumann.ogg', ['Binaural Schumann, 7.83\u00a0Hz', 'Binaural Schumann, 7,83\u00a0Hz', 'Binaural Schumann, 7,83\u00a0Hz'], 'binaural'],
   ['midia/binaural/alfa.ogg', ['Binaural alpha, 10\u00a0Hz', 'Binaural alfa, 10\u00a0Hz', 'Binaural alfa, 10\u00a0Hz'], 'binaural'],
   ['midia/binaural/beta.ogg', ['Binaural beta, 16\u00a0Hz', 'Binaural beta, 16\u00a0Hz', 'Binaural beta, 16\u00a0Hz'], 'binaural'],
   ['midia/binaural/gama.ogg', ['Binaural gamma, 40\u00a0Hz', 'Binaural gama, 40\u00a0Hz', 'Binaural gamma, 40\u00a0Hz'], 'binaural'],
+  ['midia/frequencias/f174.ogg', ['174\u00a0Hz', '174\u00a0Hz', '174\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f285.ogg', ['285\u00a0Hz', '285\u00a0Hz', '285\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f396.ogg', ['396\u00a0Hz', '396\u00a0Hz', '396\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f417.ogg', ['417\u00a0Hz', '417\u00a0Hz', '417\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f432.ogg', ['432\u00a0Hz', '432\u00a0Hz', '432\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f528.ogg', ['528\u00a0Hz', '528\u00a0Hz', '528\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f639.ogg', ['639\u00a0Hz', '639\u00a0Hz', '639\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f741.ogg', ['741\u00a0Hz', '741\u00a0Hz', '741\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f852.ogg', ['852\u00a0Hz', '852\u00a0Hz', '852\u00a0Hz'], 'frequencia'],
+  ['midia/frequencias/f963.ogg', ['963\u00a0Hz', '963\u00a0Hz', '963\u00a0Hz'], 'frequencia'],
   /* só no navegador (testes), quando não há gravações */
   ['grave', ['Soft noise', 'Ruído suave', 'Ruido suave'], 'reserva'],
   ['chuva', ['Simple rain', 'Chuva simples', 'Lluvia simple'], 'reserva'],
@@ -70,6 +82,36 @@ const CATEGORIAS = [
   ['natureza', ['Nature', 'Natureza', 'Naturaleza']],
   ['ruido', ['Noise', 'Ruídos', 'Ruidos']],
   ['binaural', ['Binaural', 'Binaurais', 'Binaurales']],
+  ['frequencia', ['Frequencies', 'Frequências', 'Frecuencias']],
+];
+/* tons feitos no celular, sem arquivo: um tom gravado que repete tremeria um instante a cada emenda.
+   [hertz no ouvido esquerdo, no direito, volume em LUFS, segundo harmônico (0 = tom puro)].
+   Binaurais: um tom um pouco diferente em cada ouvido; a diferença soa como uma batida lenta.
+   Frequências: o mesmo tom puro nos dois ouvidos. Os graves vêm mais fortes, porque o ouvido os
+   ouve mais fracos (metade da diferença da curva de igual sonoridade, ISO 226, a 40 fones). */
+const TONS = {
+  'midia/binaural/delta.ogg': [149, 151, -28, 0.1],
+  'midia/binaural/teta.ogg': [157, 163, -28, 0.1],
+  'midia/binaural/schumann.ogg': [176.085, 183.915, -28, 0.1],
+  'midia/binaural/alfa.ogg': [195, 205, -28, 0.1],
+  'midia/binaural/beta.ogg': [212, 228, -28, 0.1],
+  'midia/binaural/gama.ogg': [280, 320, -28, 0.1],
+  'midia/frequencias/f174.ogg': [174, 174, -22.6, 0],
+  'midia/frequencias/f285.ogg': [285, 285, -25.9, 0],
+  'midia/frequencias/f396.ogg': [396, 396, -27.8, 0],
+  'midia/frequencias/f417.ogg': [417, 417, -28.0, 0],
+  'midia/frequencias/f432.ogg': [432, 432, -28.2, 0],
+  'midia/frequencias/f528.ogg': [528, 528, -29.0, 0],
+  'midia/frequencias/f639.ogg': [639, 639, -29.7, 0],
+  'midia/frequencias/f741.ogg': [741, 741, -30.1, 0],
+  'midia/frequencias/f852.ogg': [852, 852, -30.3, 0],
+  'midia/frequencias/f963.ogg': [963, 963, -30.3, 0],
+};
+/* as 12 frequências, na ordem de sempre (7,83 e 40 Hz só se ouvem como batida binaural) */
+const FREQUENCIAS = [
+  ['midia/binaural/schumann.ogg', ['7.83\u00a0Hz', '7,83\u00a0Hz', '7,83\u00a0Hz']],
+  ['midia/binaural/gama.ogg', ['40\u00a0Hz', '40\u00a0Hz', '40\u00a0Hz']],
+  ...[174, 285, 396, 417, 432, 528, 639, 741, 852, 963].map(f => [`midia/frequencias/f${f}.ogg`, [`${f}\u00a0Hz`, `${f}\u00a0Hz`, `${f}\u00a0Hz`]]),
 ];
 /* o que saiu do app e o que ficou no lugar (para escolhas e mixes antigos continuarem tocando) */
 const SUBSTITUI = {
@@ -115,6 +157,17 @@ const PERFIL = {
   'midia/ruidos/branco.ogg': [[0.05, 0.65, 0.05, 0.25], ['Even hiss that covers voices and noise', 'Chiado uniforme que cobre vozes e barulhos', 'Siseo uniforme que tapa voces y ruidos']],
   'midia/binaural/delta.ogg': [[0.05, 0.00, 0.15, 0.80], ['A tone in each ear, heard as a very slow pulse (2 per second). Headphones.', 'Um tom em cada ouvido, ouvido como um pulso bem lento (2 por segundo). Use fones.', 'Un tono en cada oído, que se oye como un pulso muy lento (2 por segundo). Usa auriculares.']],
   'midia/binaural/teta.ogg': [[0.20, 0.00, 0.60, 0.20], ['Slow pulse (6 per second), common in meditation. Headphones.', 'Pulso lento (6 por segundo), comum em meditação. Use fones.', 'Pulso lento (6 por segundo), común en meditación. Usa auriculares.']],
+  'midia/binaural/schumann.ogg': [[0.25, 0.00, 0.55, 0.20], ['A beat of 7.83 per second, the frequency of the Schumann resonance (of Earth\'s atmosphere); used to meditate. Headphones.', 'Batida de 7,83 por segundo, a frequência da ressonância Schumann (da atmosfera da Terra); usada para meditar. Use fones.', 'Pulso de 7,83 por segundo, la frecuencia de la resonancia Schumann (de la atmósfera de la Tierra); se usa para meditar. Usa auriculares.']],
+  'midia/frequencias/f174.ogg': [[0.15, 0.00, 0.25, 0.60], ['Pure tone, the deepest. Traditionally: safety and relief', 'Tom puro, o mais grave. Na tradição: segurança e alívio', 'Tono puro, el más grave. En la tradición: seguridad y alivio']],
+  'midia/frequencias/f285.ogg': [[0.25, 0.00, 0.20, 0.55], ['Pure tone, low and warm. Traditionally: restoring the body', 'Tom puro, grave e quente. Na tradição: restaurar o corpo', 'Tono puro, grave y cálido. En la tradición: restaurar el cuerpo']],
+  'midia/frequencias/f396.ogg': [[0.20, 0.00, 0.60, 0.20], ['Pure tone, low-mid. Traditionally: letting go of fear and guilt', 'Tom puro, médio-grave. Na tradição: soltar o medo e a culpa', 'Tono puro, medio grave. En la tradición: soltar el miedo y la culpa']],
+  'midia/frequencias/f417.ogg': [[0.55, 0.10, 0.25, 0.10], ['Pure tone, mid. Traditionally: undoing what is stuck, change', 'Tom puro, médio. Na tradição: desfazer o que trava, mudança', 'Tono puro, medio. En la tradición: deshacer lo que traba, cambio']],
+  'midia/frequencias/f432.ogg': [[0.55, 0.05, 0.25, 0.15], ['The note A tuned a little lower (432 instead of 440); many find it softer', 'A nota lá afinada um pouco mais grave (432 em vez de 440); muita gente acha mais suave', 'La nota la afinada un poco más grave (432 en vez de 440); a mucha gente le parece más suave']],
+  'midia/frequencias/f528.ogg': [[0.25, 0.05, 0.55, 0.15], ['Pure tone, mid. Traditionally: the “love frequency”, transformation', 'Tom puro, médio. Na tradição: a “frequência do amor”, transformação', 'Tono puro, medio. En la tradición: la «frecuencia del amor», transformación']],
+  'midia/frequencias/f639.ogg': [[0.55, 0.20, 0.20, 0.05], ['Pure tone, mid-high. Traditionally: harmony and relationships', 'Tom puro, médio-agudo. Na tradição: harmonia e relações', 'Tono puro, medio agudo. En la tradición: armonía y relaciones']],
+  'midia/frequencias/f741.ogg': [[0.15, 0.65, 0.15, 0.05], ['Pure tone, high. Traditionally: clarity and expression', 'Tom puro, agudo. Na tradição: clareza e expressão', 'Tono puro, agudo. En la tradición: claridad y expresión']],
+  'midia/frequencias/f852.ogg': [[0.15, 0.65, 0.15, 0.05], ['Pure tone, high. Traditionally: intuition', 'Tom puro, agudo. Na tradição: intuição', 'Tono puro, agudo. En la tradición: intuición']],
+  'midia/frequencias/f963.ogg': [[0.15, 0.65, 0.15, 0.05], ['Pure tone, the highest. Traditionally: spiritual connection', 'Tom puro, o mais agudo. Na tradição: conexão espiritual', 'Tono puro, el más agudo. En la tradición: conexión espiritual']],
   'midia/binaural/alfa.ogg': [[0.60, 0.20, 0.15, 0.05], ['Pulse of 10 per second, linked to awake calm. Headphones.', 'Pulso de 10 por segundo, ligado à calma acordada. Use fones.', 'Pulso de 10 por segundo, ligado a la calma despierta. Usa auriculares.']],
   'midia/binaural/beta.ogg': [[0.05, 0.85, 0.05, 0.05], ['Faster pulse (16 per second), for attention. Headphones.', 'Pulso mais rápido (16 por segundo), para atenção. Use fones.', 'Pulso más rápido (16 por segundo), para la atención. Usa auriculares.']],
   'midia/binaural/gama.ogg': [[0.05, 0.85, 0.05, 0.05], ['Fast pulse (40 per second), used for concentration. Headphones.', 'Pulso rápido (40 por segundo), usado para concentração. Use fones.', 'Pulso rápido (40 por segundo), usado para concentrarse. Usa auriculares.']],
@@ -147,6 +200,13 @@ function listaDoEstilo(v) {
 /* versão 8D: o som gira devagar em volta de você (com fones). Só no que vai para o Android. */
 const tem8D = v => /^midia\/(musicas|sons)\/\w+\.ogg$/.test(v || '');
 const com8D = v => (prefs().oitoD && temMidia() && tem8D(v)) ? v.replace('midia/', 'midia/8d/') : v;
+/* o nome que vai ao Android: um tom vai como receita ("tom:esq:dir:nível:harmônico"), o resto como arquivo */
+const nativo = v => {
+  const t = TONS[v];
+  if (!t) return com8D(v);
+  const nivel = Math.pow(10, (t[2] + 0.691) / 20);      /* pico de um seno que dá esses LUFS nos dois ouvidos */
+  return `tom:${t[0]}:${t[1]}:${nivel.toFixed(5)}:${t[3]}`;
+};
 /* gravações só existem no app instalado; no navegador ficam os sons feitos em código */
 const temMidia = () => !!(Nat.on && window.__fnMidia !== false);
 const listaSons = () => FUNDOS.filter(f => f.c !== 'reserva' && (temMidia() || !f.v.startsWith('midia/'))).map(f => [f.v, tr(f.n)]);

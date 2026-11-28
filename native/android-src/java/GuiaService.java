@@ -62,11 +62,12 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private final java.util.ArrayList<Camada> camadas = new java.util.ArrayList<>();
     private long ultimaMistura = 0;
 
-    /** One background layer: a sound that repeats, or a list of songs that follow each other. */
+    /** One background layer: a sound that repeats, a list of songs that follow each other, or a tone made here. */
     private static final class Camada {
         String[] lista = new String[0];
         int faixa = 0;
         MediaPlayer atual, proximo;    // playing now / the next one, while they cross
+        Tom tom;                       // a binaural beat or a frequency, made on the phone (no file, no joint)
         long cruzIni = 0, cruzMs = 5000;
         float alvo = 1f, vol = 1f;     // this layer's volume (from the page) and where it is now
         boolean saindo = false;        // fading out, to be removed
@@ -544,6 +545,15 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
 
     private void iniciarCamada(Camada c) {
         int n = c.lista.length;
+        if (n > 0 && Tom.eh(c.lista[0])) {
+            Tom t = Tom.de(c.lista[0]);
+            if (t == null) return;
+            t.volume(volAtual * c.vol);
+            t.tocar();
+            c.tom = t;
+            Log.i(ForNowPlugin.TAG, "som " + c.lista[0] + " (1/1)");
+            return;
+        }
         for (int tent = 0; tent < n; tent++) {
             int k = (c.faixa + tent) % n;
             MediaPlayer mp = abrirFaixa(c.lista[k]);
@@ -654,7 +664,8 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
             float meta = c.saindo ? 0f : c.alvo, pc = 0.13f * dt;
             if (Math.abs(meta - c.vol) <= pc) c.vol = meta;
             else c.vol += meta > c.vol ? pc : -pc;
-            if (c.saindo && c.vol <= 0f) { soltar(c.atual); soltar(c.proximo); it.remove(); continue; }
+            if (c.saindo && c.vol <= 0f) { soltar(c.atual); soltar(c.proximo); if (c.tom != null) c.tom.soltar(); it.remove(); continue; }
+            if (c.tom != null) { c.tom.volume(volAtual * c.vol); continue; }
             if (c.atual == null) continue;
             if (c.proximo == null) {
                 try {
@@ -682,19 +693,23 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private void apagarAmbiente(final long ms) {
         final java.util.ArrayList<MediaPlayer> mps = new java.util.ArrayList<>();
         final java.util.ArrayList<Float> vs = new java.util.ArrayList<>();
+        final java.util.ArrayList<Tom> tons = new java.util.ArrayList<>();
+        final java.util.ArrayList<Float> vts = new java.util.ArrayList<>();
         for (Camada c : camadas) {
             if (c.proximo != null) terminarCruzamento(c);
             if (c.atual != null) { mps.add(c.atual); vs.add(volAtual * c.vol); }
+            if (c.tom != null) { tons.add(c.tom); vts.add(volAtual * c.vol); }
         }
         camadas.clear();
-        if (mps.isEmpty()) return;
+        if (mps.isEmpty() && tons.isEmpty()) return;
         final long t0 = System.currentTimeMillis();
         handler.post(new Runnable() {
             @Override public void run() {
                 float f = 1f - Math.min(1f, (System.currentTimeMillis() - t0) / (float) ms);
                 for (int i = 0; i < mps.size(); i++) { try { mps.get(i).setVolume(vs.get(i) * f, vs.get(i) * f); } catch (Exception ignored) { } }
+                for (int i = 0; i < tons.size(); i++) tons.get(i).volume(vts.get(i) * f);
                 if (f > 0f) handler.postDelayed(this, 80);
-                else for (MediaPlayer mp : mps) soltar(mp);
+                else { for (MediaPlayer mp : mps) soltar(mp); for (Tom t : tons) t.soltar(); }
             }
         });
     }
@@ -702,6 +717,7 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private void pausarAmbiente() {
         for (Camada c : camadas) {
             if (c.proximo != null) terminarCruzamento(c);
+            if (c.tom != null) c.tom.pausar();
             try { if (c.atual != null && c.atual.isPlaying()) c.atual.pause(); } catch (Exception ignored) { }
         }
     }
@@ -709,13 +725,14 @@ public class GuiaService extends Service implements AudioManager.OnAudioFocusCha
     private void retomarAmbiente() {
         ultimaMistura = 0;
         for (Camada c : camadas) {
+            if (c.tom != null) { c.tom.tocar(); continue; }
             if (c.atual == null && !c.saindo) { iniciarCamada(c); continue; }
             try { if (c.atual != null && !c.atual.isPlaying()) c.atual.start(); } catch (Exception ignored) { }
         }
     }
 
     private void pararAmbiente() {
-        for (Camada c : camadas) { soltar(c.atual); soltar(c.proximo); }
+        for (Camada c : camadas) { soltar(c.atual); soltar(c.proximo); if (c.tom != null) c.tom.soltar(); }
         camadas.clear();
     }
 

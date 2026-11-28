@@ -300,6 +300,21 @@ async function main() {
   check('music: no layer failed to open', !/W ForNow.*som midia/.test(lcu), (lcu.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
   await cabe('music with a sound underneath');
   screen('15b-music-rain-underneath');
+
+  // ---- a frequency underneath: a tone made on the phone, steady through pause and resume
+  limparLog();
+  await click(A('extraEscolher'), 800);
+  await click('#folha ' + A('extraSom', '[data-v="midia/frequencias/f528.ogg"]'), 3000);
+  await click(A('sPausar'), 1500);
+  await click(A('sContinuar'), 2500);
+  let lct = logcat();
+  const stT = await ev(`Nat.call('guiaState')`);
+  check('music: 528 Hz plays underneath as a tone made on the phone', /som tom:528:528:/.test(lct) && /mix 2 camadas/.test(lct) && stT && stT.running && !stT.pausadoEm,
+    (lct.match(/(som|mix|tom) [^\n]+/g) || []).slice(0, 8));
+  check('the tone made no error on the phone (start, pause, resume)', !/W ForNow.*tom/.test(lct) && !/AudioTrack.*(error|fail)/i.test(lct.split('\n').filter(l => /ForNow|fn-tom/.test(l)).join('\n')),
+    (lct.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
+  await cabe('music with a frequency underneath');
+  screen('15c-music-528-underneath');
   await click(A('sSair'), 800);
   await ev(`setPref('musica.fundo', null)`);
   await click(A('musDormir'), 2500);
@@ -337,7 +352,7 @@ async function main() {
   await click(A('mixCamada', '[data-v="midia/binaural/delta.ogg"]'), 3000);
   let lcx = logcat();
   const stX = await ev(`Nat.call('guiaState')`);
-  check('mix: a song, rain and a binaural tone play together on the phone', /som midia\/musicas\/R03\.ogg/.test(lcx) && /som midia\/sons\/N01\.ogg/.test(lcx) && /som midia\/binaural\/delta\.ogg/.test(lcx) && /mix 3 camadas/.test(lcx) && stX && stX.running,
+  check('mix: a song, rain and a binaural tone play together on the phone', /som midia\/musicas\/R03\.ogg/.test(lcx) && /som midia\/sons\/N01\.ogg/.test(lcx) && /som tom:149:151:/.test(lcx) && /mix 3 camadas/.test(lcx) && stX && stX.running,
     (lcx.match(/(som|mix) [^\n]+/g) || []).slice(0, 8));
   check('mix: no layer failed to open', !/W ForNow.*som midia/.test(lcx), (lcx.match(/W ForNow[^\n]+/g) || []).slice(0, 4), false);
   await cabe('mixer');

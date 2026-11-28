@@ -300,7 +300,7 @@ async def main():
         check('music starts with four purposes to choose from', await page.locator(A('musUso')).count() == 4)
         await tap(A('musUso', '[data-v="acalmar"]'), 300)
         nomes = [x.split('\n')[0].strip().replace('\xa0', ' ') for x in await page.locator(A('musTocar')).all_inner_texts()]
-        check('choosing "soothe" lists only what is made for it', nomes == ['Chopin: Nocturne Op. 9 No. 1', 'Chopin: Nocturne Op. 62 No. 2', 'Strings, adagio', 'Sea', 'Binaural theta, 6 Hz'], nomes)
+        check('choosing "soothe" lists only what is made for it', nomes == ['Chopin: Nocturne Op. 9 No. 1', 'Chopin: Nocturne Op. 62 No. 2', 'Strings, adagio', 'Sea', 'Binaural theta, 6 Hz', 'Binaural Schumann, 7.83 Hz', '396 Hz', '528 Hz'], nomes)
         await page.screenshot(path=OUT + '/26-musicas.png', full_page=True)
         await tap(A('musTocar', '[data-v="M03"]'), 400)
         g = achar(await calls(), 'guiaStart')[-1][2]
@@ -384,7 +384,8 @@ async def main():
         sono = (await page.locator('section').first.inner_text()).replace('\xa0', ' ')
         check('each sound and song says why (real rain and Satie, under Sleep)', 'Summer rain' in sono and 'Real summer rain, heavy drops on a terrace' in sono and 'Satie: Gymnopédie No. 1' in sono and 'Binaural delta, 2 Hz' in sono, sono[:300])
         grupos = [x.strip() for x in await page.locator('section .secao h2').all_inner_texts()]
-        check('inside a purpose, songs, real nature and tones are apart', grupos[:3] == ['Music', 'Nature, recorded live', 'Noise and binaural tones'], grupos)
+        check('inside a purpose, songs, real nature, tones and frequencies are apart', grupos[:4] == ['Music', 'Nature, recorded live', 'Noise and binaural tones', 'Frequencies'], grupos)
+        check('the frequencies say what tradition uses them for, and that it is tradition', '174 Hz' in sono and 'Traditionally: safety and relief' in sono and 'not from studies' in sono, sono[-400:])
         await page.screenshot(path=OUT + '/32-musicas-por-uso.png', full_page=True)
 
         # ---- create my mix: a song with sounds underneath, listen while building, the app decides what it is for
@@ -397,7 +398,7 @@ async def main():
         await tap(A('mixCamada', '[data-v="midia/sons/N01.ogg"]'), 300)
         await tap(A('mixCamada', '[data-v="midia/binaural/delta.ogg"]'), 400)
         u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
-        check('adding sounds underneath changes it live, nothing restarts', len(achar(await calls(), 'guiaStart')) == antes + 1 and [c['sons'][0] for c in u['camadas']] == ['midia/musicas/R03.ogg', 'midia/sons/N01.ogg', 'midia/binaural/delta.ogg'], u['camadas'])
+        check('adding sounds underneath changes it live, nothing restarts (a binaural goes as a tone recipe)', len(achar(await calls(), 'guiaStart')) == antes + 1 and [c['sons'][0] for c in u['camadas']] == ['midia/musicas/R03.ogg', 'midia/sons/N01.ogg', 'tom:149:151:0.04311:0.1'], u['camadas'])
         await page.evaluate("(() => { const el = document.querySelector('[data-in=\"mixVol\"][data-v=\"midia/sons/N01.ogg\"]'); el.value = 25; el.dispatchEvent(new Event('input', { bubbles: true })); })()")
         await page.wait_for_timeout(400)
         u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
@@ -421,11 +422,11 @@ async def main():
         mid = mixes[0]['id']
         await tap(A('musTocar', f'[data-v="mix:{mid}"]'), 400)
         g = achar(await calls(), 'guiaStart')[-1][2]
-        check('playing the mix sends its layers', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/sons/N01.ogg', 'midia/binaural/delta.ogg', 'midia/musicas/R06.ogg'] and (await page.locator('#mus-nome').inner_text()).strip() == 'Noturno com chuva', g.get('camadas'))
+        check('playing the mix sends its layers', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/sons/N01.ogg', 'tom:149:151:0.04311:0.1', 'midia/musicas/R06.ogg'] and (await page.locator('#mus-nome').inner_text()).strip() == 'Noturno com chuva', g.get('camadas'))
         await tap(A('sSair'), 300)
         await page.evaluate("(() => { setPref('som.cochilo', 'mix:" + mid + "'); setPref('oitoD', true); Coch.min = 120; Coch.iniciarSessao('proprio', Date.now() + 120 * 60000); })()")
         g = achar(await calls(), 'guiaStart')[-1][2]
-        check('a mix works as the nap sound; 8D goes to sounds and songs, never to binaural', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/8d/sons/N01.ogg', 'midia/binaural/delta.ogg', 'midia/8d/musicas/R06.ogg'], g.get('camadas'))
+        check('a mix works as the nap sound; 8D goes to sounds and songs, never to binaural', [c['sons'][0] for c in g.get('camadas', [])] == ['midia/8d/sons/N01.ogg', 'tom:149:151:0.04311:0.1', 'midia/8d/musicas/R06.ogg'], g.get('camadas'))
         await page.evaluate("(() => { if (Sessao.ativa) Sessao.encerrar('saiu'); setPref('oitoD', false); S.tela = 'musica'; render(); })()")
         await tap(A('mixEditar', f'[data-id="{mid}"]'), 300)
         check('a saved mix can be edited (and plays while editing)', await page.evaluate("S.tela") == 'mix' and await page.evaluate("Mix.ouvindo()"))
@@ -456,6 +457,57 @@ async def main():
         check('the next song starts with the same sound underneath, at the same volume', [(c['sons'][0], c['vol']) for c in g.get('camadas', [])] == [('midia/musicas/R03.ogg', 1), ('midia/sons/N06.ogg', 0.2)], g.get('camadas'))
         await tap(A('sSair'), 300)
         await page.evaluate("(() => { setPref('musica.fundo', null); S.tela = 'inicio'; render(); })()")
+
+        # ---- the 12 frequencies: under a song, alone, in a mix; tones go to Android as recipes
+        await page.evaluate("(() => { S.tela = 'musica'; S.musUso = 'dormir'; render(); })()")
+        await tap(A('musTocar', '[data-v="R08"]'), 400)
+        await tap(A('extraEscolher'), 300)
+        chips = [x.strip().replace('\xa0', ' ') for x in await page.locator('#folha .secao').last.locator(A('extraSom')).all_inner_texts()]
+        check('the sound-underneath sheet has the 12 frequencies, grouped by what they are for', chips == ['417 Hz', '432 Hz', '639 Hz', '40 Hz', '741 Hz', '852 Hz', '963 Hz', '7.83 Hz', '396 Hz', '528 Hz', '174 Hz', '285 Hz'], chips)
+        rotulos = [x.strip() for x in await page.locator('#folha .freqs .rotulo-uso').all_inner_texts()]
+        check('each group of frequencies says what it is for', rotulos == ['To relax', 'To focus', 'To soothe', 'To sleep'], rotulos)
+        nota = (await page.locator('#folha .secao').last.inner_text()).replace('\xa0', ' ')
+        check('the sheet says a tone can sound out of tune under some songs', 'out of tune' in nota, nota[:200])
+        await page.evaluate("document.querySelectorAll('#folha, #folha *').forEach(el => { if (el.scrollHeight > el.clientHeight + 4) el.scrollTop = el.scrollHeight; })")
+        await page.wait_for_timeout(150)
+        await page.screenshot(path=OUT + '/36-frequencias-folha.png')
+        await tap('#folha ' + A('extraSom', '[data-v="midia/frequencias/f528.ogg"]'), 400)
+        u = achar(await calls(), 'guiaUpdate', lambda o: 'camadas' in o)[-1][2]
+        tom = u['camadas'][1]['sons'][0]
+        check('528 Hz goes under the song as a steady tone made on the phone', u['camadas'][0]['sons'][0] == 'midia/musicas/R08.ogg' and tom.startswith('tom:528:528:') and tom.endswith(':0'), u['camadas'])
+        check('a frequency starts lower than other sounds underneath', 0.25 <= u['camadas'][1]['vol'] <= 0.4, u['camadas'])
+        extra = (await page.locator('.extra').inner_text()).replace('\xa0', ' ')
+        check('the player says what the frequency underneath is for', '528 Hz' in extra and 'love frequency' in extra, extra)
+        nivel = float(tom.split(':')[3])
+        check('the tone level is quiet and never clips (peak about -29 dBFS)', 0.03 < nivel < 0.05, nivel)
+        await page.screenshot(path=OUT + '/37-tocador-528.png')
+        await tap(A('sSair'), 300)
+        await page.evaluate("setPref('musica.fundo', null)")
+        # alone, with 8D on: a tone never goes 8D
+        await page.evaluate("(() => { setPref('oitoD', true); S.tela = 'musica'; S.musUso = 'dormir'; render(); })()")
+        await tap(A('musTocar', '[data-v="midia/frequencias/f174.ogg"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        check('174 Hz plays alone, as a tone recipe even with 8D on', g['som'].startswith('tom:174:174:') and (await page.locator('#mus-nome').inner_text()).strip().replace('\xa0', ' ') == '174 Hz', g.get('som'))
+        baixo, alto = float(g['som'].split(':')[3]), float(nivel)
+        check('the deep 174 Hz gets more level than 528 Hz, so both sound about as loud', baixo > alto * 1.5, (baixo, alto))
+        await tap(A('sSair'), 300)
+        await page.evaluate("setPref('oitoD', false)")
+        # a quick listen while choosing goes to Android as a tone too
+        await page.evaluate("(() => { S.tela = 'inicio'; render(); folhaSons('paz', 'silencio'); })()")
+        await tap('#folha ' + A('escolherSom', '[data-v="midia/frequencias/f396.ogg"]'), 300)
+        check('choosing 396 Hz plays a short sample of the tone', bool(achar(await calls(), 'previa', lambda o: o.get('nome', '').startswith('tom:396:396:'))))
+        await page.evaluate("(() => { fecharFolha(); setPref('som.paz', 'midia/sons/N01.ogg'); })()")
+        # the Schumann resonance is a binaural beat of 7.83 per second
+        await page.evaluate("(() => { Mix.novo(); S.tela = 'mix'; render(); })()")
+        freqs = await page.locator('.secao', has_text='Frequencies').locator(A('mixCamada')).count()
+        check('the mixer has the 12 frequencies too', freqs == 12, freqs)
+        await tap('.secao:has-text("Frequencies") ' + A('mixCamada', '[data-v="midia/binaural/schumann.ogg"]'), 400)
+        g = achar(await calls(), 'guiaStart')[-1][2]
+        e, d = [float(x) for x in g['camadas'][0]['sons'][0].split(':')[1:3]]
+        check('7.83 Hz is a binaural beat: each ear its own tone, 7.83 Hz apart', abs((d - e) - 7.83) < 0.001 and g['camadas'][0]['vol'] == 0.35, g['camadas'])
+        uso = await page.locator('#mix-uso').inner_text()
+        check('a mix with just 7.83 Hz is for soothing', 'This mix is for: Soothe' in uso, uso)
+        await page.evaluate("(() => { Mix.pararDeOuvir && Mix.pararDeOuvir(); Mix.edit = null; S.tela = 'inicio'; render(); })()")
 
         # ---- a phone set to Portuguese is offered the app in Portuguese, once, in Portuguese
         await page.evaluate("(() => { Object.defineProperty(navigator, 'languages', { configurable: true, get: () => ['pt-BR', 'en'] }); LS.set('idiomaSugerido', false); S.tela = 'inicio'; render(); })()")

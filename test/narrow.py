@@ -89,6 +89,8 @@ async def main():
             await page.evaluate('Sessao.ativa && Sessao.sair()')
             await ver('music-rain-under', "(() => { Mus.tocar('R08', false); Guia.setExtra('midia/sons/N06.ogg', 0.3); render(); })()", 400)
             await ver('music-under-sheet', 'folhaExtra()', 300)
+            await page.evaluate("(() => { fecharFolha(); Guia.setExtra('midia/frequencias/f528.ogg', 0.3); render(); })()")
+            await ver('music-528-under', None)
             await page.evaluate("(() => { fecharFolha(); Sessao.ativa && Sessao.sair(); setPref('musica.fundo', null); })()")
             await ver('sound-sheet', "folhaSons('paz', 'midia/sons/N01.ogg')", 300)
             await page.evaluate('fecharFolha(); Sessao.ativa && Sessao.sair()')

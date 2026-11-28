@@ -509,7 +509,7 @@ function viewRespSessao(g) {
 /* ----- músicas e sono ----- */
 /* uma linha da lista: ícone, nome e para quê; um mix tem o lápis para editar */
 function linhaFundo(x) {
-  const ic = x.mix ? icone('mix') : x.musica ? icone('musica') : x.c === 'binaural' ? icone('binaural') : x.c === 'ruido' ? icone('ruido') : icone('natureza');
+  const ic = x.mix ? icone('mix') : x.musica ? icone('musica') : x.c === 'binaural' ? icone('binaural') : x.c === 'frequencia' ? icone('onda') : x.c === 'ruido' ? icone('ruido') : icone('natureza');
   const det = x.mix ? `${t('my_mix')}: ${Mix.descricao(x.mix)}` : porQue(x.v);
   const tocar = `<button class="linha-item" data-a="musTocar" data-v="${esc(x.musica || x.v)}">${ic}<span class="txt"><span class="t">${esc(x.nome)}</span><span class="d">${esc(det)}</span></span></button>`;
   return x.mix ? `<div class="linha-mix">${tocar}<button class="icone editar" data-a="mixEditar" data-id="${esc(x.mix.id)}" aria-label="${esc(t('edit_x', { s: x.nome }))}">${icone('lapis')}</button></div>` : tocar;
@@ -521,6 +521,7 @@ function viewMusica() {
     ['music_songs', lista.filter(x => x.musica)],
     ['music_nature', lista.filter(x => x.c === 'natureza')],
     ['music_tones', lista.filter(x => x.c === 'ruido' || x.c === 'binaural')],
+    ['music_freqs', lista.filter(x => x.c === 'frequencia'), 'freq_det'],
     ['my_mixes', lista.filter(x => x.mix)],
   ].filter(([, l]) => l.length);
   const tile = u => `<button class="uso-tile uso-${u}" data-a="musUso" data-v="${u}" aria-pressed="${uso === u}">${icone('uso_' + u)}<span class="t">${esc(tr(USO_NOME[u]))}</span></button>`;
@@ -529,7 +530,7 @@ function viewMusica() {
     <p class="pergunta-uso">${esc(t('music_what_for'))}</p>
     <div class="usos">${USOS.map(tile).join('')}</div>
     <p class="sub centro uso-det">${esc(tr(USO_DET[uso]))}</p>
-    ${grupos.map(([k, l]) => `<div class="secao"><h2>${esc(t(k))}</h2><div class="lista-inicio">${l.map(linhaFundo).join('')}</div></div>`).join('')}
+    ${grupos.map(([k, l, d]) => `<div class="secao"><h2>${esc(t(k))}</h2>${d ? `<p class="pequeno">${esc(t(d))}</p>` : ''}<div class="lista-inicio">${l.map(linhaFundo).join('')}</div></div>`).join('')}
     ${temMidia() ? `<button class="linha-item criar-mix" data-a="mixNovo">${icone('mix')}<span class="txt"><span class="t">${esc(t('mix_create'))}</span><span class="d">${esc(t('mix_create_det'))}</span></span></button>` : ''}
     <div class="secao ajustes-musica"><h2>${esc(t('music_settings'))}</h2>
       <div class="item"><div class="txt">${esc(t('plays_for'))}</div></div>
@@ -561,6 +562,7 @@ function viewMix() {
     <div class="secao"><h2>${esc(t('music_noise'))}</h2><div class="grupo">${ruidos.map(f => chipMix(f.v, tr(f.n))).join('')}</div></div>
     <div class="secao"><h2>${esc(t('music_binaural'))}</h2><p class="pequeno">${esc(t('binaural_det'))}</p>
       <div class="grupo">${binaurais.map(f => chipMix(f.v, tr(f.n))).join('')}</div></div>
+    ${temMidia() ? `<div class="secao freqs"><h2>${esc(t('music_freqs'))}</h2><p class="pequeno">${esc(t('freq_det'))}</p>${freqPorUso(chipMix)}</div>` : ''}
     <div class="secao"><h2>${esc(t('mix_volumes'))}</h2>${e.camadas.length ? e.camadas.map(vol).join('') : `<p class="pequeno">${esc(t('mix_empty'))}</p>`}</div>
     ${temMidia() ? `<div class="secao">${linha8D()}</div>` : ''}
     <div class="cartao mix-uso" id="mix-uso">${mixUsoHtml()}</div>
@@ -606,10 +608,16 @@ function viewMusSessao(g) {
 function blocoExtra(g) {
   const x = g.extra;
   return `<div class="extra">
-    <button class="extra-escolha" data-a="extraEscolher">${icone(x && x.v.startsWith('midia/binaural/') ? 'binaural' : 'natureza')}<span class="txt"><span class="d">${esc(t('bg_under'))}</span><span class="t">${esc(x ? nomeSom(x.v) : t('bg_none'))}</span></span><span aria-hidden="true">›</span></button>
+    <button class="extra-escolha" data-a="extraEscolher">${icone(x && x.v.startsWith('midia/binaural/') ? 'binaural' : x && x.v.startsWith('midia/frequencias/') ? 'onda' : 'natureza')}<span class="txt"><span class="d">${esc(t('bg_under'))}</span><span class="t">${esc(x ? nomeSom(x.v) : t('bg_none'))}</span></span><span aria-hidden="true">›</span></button>
     ${x ? `<input type="range" min="5" max="100" step="5" value="${Math.round(x.vol * 100)}" data-in="extraVol" aria-label="${esc(t('volume_of', { s: nomeSom(x.v) }))}">` : ''}
     ${x && x.v.startsWith('midia/binaural/') ? `<p class="pequeno centro">${esc(t('binaural_phones'))}</p>` : ''}
+    ${x && x.v.startsWith('midia/frequencias/') ? `<p class="pequeno centro">${esc(porQue(x.v))}</p>` : ''}
   </div>`;
+}
+/* as 12 frequências, separadas pelo que cada uma costuma fazer (do grave ao agudo em cada uso) */
+function freqPorUso(chip) {
+  return USOS.map(u => [u, FREQUENCIAS.filter(([v]) => usoDe(v) === u)]).filter(([, l]) => l.length)
+    .map(([u, l]) => `<p class="rotulo-uso">${esc(tr(USO_TITULO[u]))}</p><div class="grupo">${l.map(([v, n]) => chip(v, tr(n))).join('')}</div>`).join('');
 }
 function folhaExtra() {
   const g = Guia.g, atual = g && g.extra ? g.extra.v : 'silencio';
@@ -620,6 +628,7 @@ function folhaExtra() {
     <div class="secao"><h2>${esc(t('mix_nature'))}</h2><div class="grupo">${de('natureza').map(f => chip(f.v, tr(f.n))).join('')}</div></div>
     <div class="secao"><h2>${esc(t('music_noise'))}</h2><div class="grupo">${de('ruido').map(f => chip(f.v, tr(f.n))).join('')}</div></div>
     <div class="secao"><h2>${esc(t('music_binaural'))}</h2><p class="pequeno">${esc(t('binaural_det'))}</p><div class="grupo">${de('binaural').map(f => chip(f.v, tr(f.n))).join('')}</div></div>
+    <div class="secao freqs"><h2>${esc(t('music_freqs'))}</h2><p class="pequeno">${esc(t('freq_det'))} ${esc(t('freq_under'))}</p>${freqPorUso(chip)}</div>
     <button class="btn discreto" data-a="fecharFolha">${esc(t('back_word'))}</button>`);
 }
 function atualizarMusica() {
@@ -639,6 +648,7 @@ const ICONES = {
   uso_dormir: '<path d="M19.2 14.6A7.6 7.6 0 1 1 9.4 4.8a6.1 6.1 0 0 0 9.8 9.8z"/>',
   binaural: '<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/>',
   ruido: '<path d="M3 12h2l1.5-4 2 8 2-10 2 12 2-9 2 6 1.5-3H21"/>',
+  onda: '<path d="M2 12c1.7-4.7 3.3-7 5-7s3.3 2.3 5 7 3.3 7 5 7 3.3-2.3 5-7"/>',
   natureza: '<path d="M3 15c2.2-2 4.4-2 6.6 0s4.4 2 6.6 0 3.3-1.5 4.8-.6"/><path d="M3 10c2.2-2 4.4-2 6.6 0s4.4 2 6.6 0 3.3-1.5 4.8-.6"/>',
   mix: '<path d="M6 4v16M12 4v16M18 4v16"/><circle cx="6" cy="14" r="2" fill="currentColor"/><circle cx="12" cy="8" r="2" fill="currentColor"/><circle cx="18" cy="12" r="2" fill="currentColor"/>',
   lapis: '<path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14 7l3 3"/>',

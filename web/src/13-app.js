@@ -55,7 +55,7 @@ const ACT = {
   extraEscolher: () => folhaExtra(),
   extraSom: el => {
     const v = el.dataset.v, g = Guia.g;
-    const vol = (g && g.extra && g.extra.vol) || (prefs().musica.fundo && prefs().musica.fundo.vol) || (v.startsWith('midia/binaural/') ? 0.3 : 0.45);
+    const vol = (g && g.extra && g.extra.vol) || (prefs().musica.fundo && prefs().musica.fundo.vol) || (v.startsWith('midia/binaural/') || v.startsWith('midia/frequencias/') ? 0.3 : 0.45);
     Guia.setExtra(v, vol);
     setPref('musica.fundo', v === 'silencio' ? null : { v, vol });
     fecharFolha();

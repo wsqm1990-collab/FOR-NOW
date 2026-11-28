@@ -54,7 +54,7 @@ const Mix = {
       /* uma música de cada vez (duas músicas juntas desafinam); o resto vai por baixo */
       if (musica) e.camadas = e.camadas.filter(c => !c.v.startsWith('midia/musicas/'));
       if (e.camadas.length >= 5) e.camadas.splice(e.camadas.findIndex(c => !c.v.startsWith('midia/musicas/')), 1);
-      e.camadas.push({ v, vol: musica ? 0.85 : v.startsWith('midia/binaural/') ? 0.35 : 0.5 });
+      e.camadas.push({ v, vol: musica ? 0.85 : v.startsWith('midia/binaural/') ? 0.35 : v.startsWith('midia/frequencias/') ? 0.3 : 0.5 });
     }
     this.ouvir();
   },

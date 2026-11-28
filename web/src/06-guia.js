@@ -29,11 +29,11 @@ const Guia = {
     if (cfg.camadas) g.som = 'mix:';
     if (Nat.on) {
       const plano = {
-        id: g.id, ini: g.ini, voz: g.voz, som: com8D(g.som), volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
+        id: g.id, ini: g.ini, voz: g.voz, som: nativo(g.som), volume: g.volume, fimFade: g.fimFadeMs, rate: prefs().velocidade, lang: TTS_LANG[LANG],
         labels: { title: 'For Now', text: t('n_text'), paused: t('paused'), pause: t('pause'), resume: t('resume'), end: t('end'), channel: t('n_channel') },
         passos: passos.map((x, i) => ({ t: x[0], s: dur[i] / 1000, a: clipe(x[0]), v: x[2] || 0 })),
       };
-      if (g.sons) plano.sons = g.sons.map(com8D);
+      if (g.sons) plano.sons = g.sons.map(nativo);
       if (g.camadas || g.extra) plano.camadas = this.camadasDe(g);
       if (cfg.volSom != null) plano.volSom = cfg.volSom;
       Nat.safe('guiaStart', plano);
@@ -112,20 +112,20 @@ const Guia = {
     this.salvar();
   },
   /* lista de músicas: a próxima agora, com uma transição curta */
-  /* as camadas como vão ao Android (na versão 8D, se ligada) */
-  camadasPlano(camadas) { return Mix.plano(camadas).map(c => ({ sons: c.sons.map(com8D), vol: c.vol })); },
+  /* as camadas como vão ao Android (na versão 8D, se ligada; os tons como receita) */
+  camadasPlano(camadas) { return Mix.plano(camadas).map(c => ({ sons: c.sons.map(nativo), vol: c.vol })); },
   /* tudo o que toca ao fundo, como camadas: o mix (ou o som / a lista) e o som extra por baixo */
   camadasDe(g) {
     const base = g.camadas ? this.camadasPlano(g.camadas)
-      : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(com8D), vol: 1 }];
-    if (g.extra && g.extra.v && g.extra.v !== 'silencio') base.push({ sons: [com8D(g.extra.v)], vol: Math.round(g.extra.vol * 100) / 100 });
+      : g.som === 'silencio' ? [] : [{ sons: (g.sons || [g.som]).map(nativo), vol: 1 }];
+    if (g.extra && g.extra.v && g.extra.v !== 'silencio') base.push({ sons: [nativo(g.extra.v)], vol: Math.round(g.extra.vol * 100) / 100 });
     return base;
   },
   /* manda ao Android o fundo atual: o que muda entra e sai devagar, sem cortar */
   enviarSons() {
     const g = this.g;
     if (!g || !Nat.on) return;
-    this.sync({ som: com8D(g.som), camadas: this.camadasDe(g) });
+    this.sync({ som: nativo(g.som), camadas: this.camadasDe(g) });
   },
   /* o som extra por baixo da música, e o volume dele */
   setExtra(v, vol) {

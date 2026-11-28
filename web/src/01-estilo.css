@@ -188,6 +188,10 @@ label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem;
 .uso-det { margin-top: -0.2rem; }
 .ajustes-musica .grupo { margin-bottom: 0.4rem; }
 
+/* frequências: um rótulo pequeno para cada uso, com os tons dele embaixo */
+.rotulo-uso { font-size: 0.92rem; font-weight: 600; color: var(--muted); margin: 0.7rem 0 0.35rem; }
+.freqs .grupo + .rotulo-uso { margin-top: 0.9rem; }
+
 /* som por baixo da música, no tocador */
 .extra { display: flex; flex-direction: column; gap: 0.3rem; margin: 0.6rem 0 0.2rem; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: 1.2rem; background: var(--surface); }
 .extra-escolha { display: flex; align-items: center; gap: 0.8rem; width: 100%; background: none; border: 0; padding: 0.2rem 0; text-align: left; color: var(--fg); cursor: pointer; min-height: 3rem; }

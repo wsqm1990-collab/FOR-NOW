@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-"""Binaural tones and colored noise for the app, made in code (they are by nature pure tones and
-noise), clean and seamless:
+"""Colored noise for the app, made in code (noise is by nature synthetic), clean and seamless:
+brown (deep), pink (balanced), white (bright, softened above 12 kHz); each ear its own.
+The noise is shaped in one piece, so the 60 s loop has no joint at all.
 
-  binaural: a slightly different tone in each ear; the difference is heard as a slow beat.
-            delta 2 Hz, theta 6 Hz, alpha 10 Hz, beta 16 Hz, gamma 40 Hz. Headphones needed.
-  noise:    brown (deep), pink (balanced), white (bright, softened above 12 kHz); each ear its own.
-
-Every tone completes a whole number of cycles in the 60 s loop and the noise is shaped in one
-piece, so the loop has no joint at all. Opus at a high bitrate keeps each ear exactly as made.
-Usage: python3 tools/binaural.py        (writes native/midia/binaural and native/midia/ruidos)
+The binaural beats and the pure-tone frequencies are not files: the phone makes them sample by
+sample (native/android-src/java/Tom.java, recipes in TONS, web/src/05-conteudo.js), because a
+recorded tone that repeats wobbles for a moment at each joint.
+Usage: python3 tools/binaural.py        (writes native/midia/ruidos)
 """
 import os
 import sys
@@ -25,29 +23,6 @@ T = np.arange(N) / SR
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 rng = np.random.default_rng(1127)
 
-BINAURAL = {           # name: (carrier Hz, beat Hz)
-    'delta': (150.0, 2.0),
-    'teta': (160.0, 6.0),
-    'alfa': (200.0, 10.0),
-    'beta': (220.0, 16.0),
-    'gama': (300.0, 40.0),
-}
-
-
-def q(f):
-    return round(f * L) / L
-
-
-def tom(f):
-    return np.sin(2 * np.pi * f * T) + 0.1 * np.sin(2 * np.pi * 2 * f * T + 0.4)
-
-
-def binaural(portadora, batida):
-    esq, dir_ = q(portadora - batida / 2), q(portadora + batida / 2)
-    x = np.stack([tom(esq), tom(dir_)], axis=1)
-    return x, esq, dir_
-
-
 def ruido(inclinacao_db_oitava, corte_alto=None):
     out = []
     f = np.fft.rfftfreq(N, 1 / SR)
@@ -63,15 +38,6 @@ def ruido(inclinacao_db_oitava, corte_alto=None):
 
 
 def main():
-    for nome, (port, bat) in BINAURAL.items():
-        x, e, d = binaural(port, bat)
-        y, _ = M.nivelar(x, -28.0)
-        destino = os.path.join(RAIZ, 'native', 'midia', 'binaural', nome + '.ogg')
-        M.gravar(y, destino, 96, vbr='constrained')     # each ear stays exact (other ear leaks below -55 dB)
-        z = M.ler(destino)
-        pico = [np.fft.rfftfreq(N, 1 / SR)[np.argmax(np.abs(np.fft.rfft(z[:N, c])))] for c in range(2)]
-        print(f'binaural {nome}: left {e:.3f} Hz, right {d:.3f} Hz; decoded peaks {pico[0]:.2f} / {pico[1]:.2f} Hz '
-              f'(beat {pico[1] - pico[0]:.2f} Hz), {os.path.getsize(destino) // 1024} KB')
     for nome, incl, corte in [('marrom', -6.0, None), ('rosa', -3.0, None), ('branco', 0.0, 12000.0)]:
         y, _ = M.nivelar(ruido(incl, corte), -27.0)
         destino = os.path.join(RAIZ, 'native', 'midia', 'ruidos', nome + '.ogg')
